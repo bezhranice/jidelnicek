@@ -951,6 +951,56 @@ function makeDb(client, uid) {
   return api;
 }
 
+/* Claude v appce: volá serverovou funkci „claude“ v Supabase (klíč je jen tam). */
+async function imageToB64(file) {
+  const bmp = await createImageBitmap(file);
+  const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.85));
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  let bin = ""; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+  return { data: btoa(bin), media_type: "image/jpeg" };
+}
+function parseJsonLoose(t) {
+  try { return JSON.parse(t); } catch (e) { /* zkusíme dál */ }
+  const m = t.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (m) { try { return JSON.parse(m[1]); } catch (e) { /* dál */ } }
+  const starts = ["{", "["].map(ch => t.indexOf(ch)).filter(i => i >= 0);
+  const s = starts.length ? Math.min(...starts) : -1, e = Math.max(t.lastIndexOf("}"), t.lastIndexOf("]"));
+  if (s >= 0 && e > s) { try { return JSON.parse(t.slice(s, e + 1)); } catch (err) { /* dál */ } }
+  throw { code: "invalid_json", text: t };
+}
+function makeSample() {
+  const ERR = { refused: "refused", rate_limited: "rate_limited", daily_limit: "daily_limit", not_signed_in: "session_expired", no_key: "no_key", bad_key: "no_key", image_too_large: "image_rejected", bad_request: "upstream_error", empty: "empty_completion" };
+  async function call(prompt, opts = {}) {
+    const { data } = await sb.auth.getSession();
+    const session = data && data.session;
+    if (!session) throw { code: "session_expired" };
+    let image = null;
+    if (opts.images) {
+      const f = opts.images instanceof Blob ? opts.images : opts.images[0];
+      try { image = await imageToB64(f); } catch (e) { throw { code: "image_rejected" }; }
+    }
+    let res;
+    try {
+      res = await fetch(SB_URL + "/functions/v1/claude", {
+        method: "POST", signal: opts.signal,
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + session.access_token, apikey: SB_KEY },
+        body: JSON.stringify({ prompt, image }),
+      });
+    } catch (e) { throw { code: e && e.name === "AbortError" ? "cancelled" : "offline" }; }
+    const j = await res.json().catch(() => ({}));
+    if (j.error || !res.ok) throw { code: ERR[j.error] || "upstream_error" };
+    return { text: j.text, truncated: !!j.truncated };
+  }
+  const sample = (p, o) => call(p, o);
+  sample.json = async (p, o) => parseJsonLoose((await call(p + "\n\nOdpověz jen samotným JSON, bez dalšího textu.", o)).text);
+  sample.limits = async () => ({ maxPromptBytes: 200000, images: { maxCount: 1, maxInputBytes: 20000000, mediaTypes: ["image/jpeg", "image/png", "image/webp"] } });
+  return sample;
+}
+
 function authError(e) {
   const m = String(e?.message || e || "").toLowerCase();
   if (m.includes("invalid login")) return "Špatný e-mail nebo heslo.";
@@ -1028,6 +1078,7 @@ function start(session) {
   document.querySelector(".tabbar").hidden = false;
   const db = makeDb(sb, S.uid);
   S.db = db; S.ready = true;
+  S.sample = makeSample(); S.sampleImages = true;
   switchTab("dnes");
   setStatus("saving", "Načítám");
   fetch("recepty.json", { cache: "no-cache" }).then(r => r.json()).then(list => {
@@ -1833,7 +1884,11 @@ function aiError(e) {
   if (c === "images_unavailable") return "Tady fotky poslat nejde.";
   if (c === "invalid_json") return "Odpověď se nepovedla přečíst. Zkus to znovu.";
   if (c === "refused") return "Na tohle Claude neodpoví. Zkus to napsat jinak.";
-  if (c === "session_expired") return "Přihlas se znovu na claude.ai.";
+  if (c === "session_expired") return "Přihlas se znovu.";
+  if (c === "daily_limit") return "Na dnešek je limit dotazů vyčerpaný. Zítra zase.";
+  if (c === "no_key") return "Claude ještě není propojený. Chybí klíč v Supabase.";
+  if (c === "offline") return "Není internet. Claude potřebuje připojení.";
+  if (c === "empty_completion") return "Claude nic neodpověděl. Zkus to napsat jinak.";
   return "Něco se pokazilo. Zkus to znovu.";
 }
 function profileForAi() {
