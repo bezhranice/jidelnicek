@@ -1908,13 +1908,22 @@ function renderAiSheet(p) {
   const title = mode === "venku" ? "Jsem venku" : mode === "doma" ? "Recept z toho, co mám" : "Vymysli mi recept";
   const placeholder = mode === "venku" ? "Kde jsi? Např. McDonald's na nádraží" : mode === "doma" ? "Chceš něco upřesnit? Např. rychlé, do krabičky…" : "Na co máš chuť? Např. fit verze smaženého sýra";
   let out = "";
-  if (a.busy) out = `<div class="ai-out"><span class="thinking">Claude přemýšlí…</span><p class="hint">Trvá to obvykle 10–40 vteřin.</p><button class="btn sm" data-a="ai-stop">Zastavit</button></div>`;
+  if (a.busy) out = `<div class="ai-out"><span class="thinking">${mode === "venku" ? "Claude přemýšlí…" : "Claude vymýšlí 3 nové recepty…"}</span><p class="hint">Trvá to obvykle 20–60 vteřin.</p><button class="btn sm" data-a="ai-stop">Zastavit</button></div>`;
   else if (a.err) out = `<p class="est">${esc(a.err)}</p>`;
-  else if (a.result && mode !== "venku") {
-    const r = a.result;
-    out = `<div class="ai-out"><span class="label">Návrh od Clauda</span><h3 class="h2">${esc(r.nazev)}</h3>${recipeBody(r, r.porce, false)}
-      ${a.dropped?.length ? `<p class="hint">Vynechal jsem suroviny, které neznám: ${esc(a.dropped.join(", "))}.</p>` : ""}
-      <button class="btn black block" data-a="ai-save">Uložit do receptů</button><button class="btn block" data-a="ai-go">Zkusit jiný návrh</button></div>`;
+  else if (a.results?.length && mode !== "venku") {
+    out = `<div class="stack"><span class="label">Nové návrhy od Clauda</span>
+      ${a.results.map((x, i) => {
+        const r = x.r, m = recipeMacros(r, 1);
+        return `<section class="card">
+          <h3 class="h2">${esc(r.nazev)}</h3>
+          <p class="hint">${esc(r.popis)}</p>
+          <div class="meta"><span>${fmt(r.cas)} min</span><span><b>${fmt(m.kcal)} kcal</b>/porce</span><span>B ${fmt(m.b)} g</span>${r.mealprep ? `<span>do krabičky</span>` : ""}</div>
+          ${x.open ? recipeBody(r, r.porce, false) + (x.dropped?.length ? `<p class="hint">Vynechal jsem suroviny, které neznám: ${esc(x.dropped.join(", "))}.</p>` : "") : ""}
+          <div class="row" style="justify-content:flex-start">${x.saved ? `<span class="label">Uloženo v receptech</span>` : `<button class="btn black sm" data-a="ai-save" data-i="${i}">Uložit</button>`}<button class="btn ghost sm" data-a="ai-toggle" data-i="${i}">${x.open ? "Skrýt recept" : "Celý recept"}</button></div>
+        </section>`;
+      }).join("")}
+      <button class="btn redb block" data-a="ai-more">3 další návrhy</button>
+      <p class="hint">Každé vymýšlení stojí asi 3–5 Kč.</p></div>`;
   } else if (a.result && mode === "venku") {
     out = `<div class="stack">${a.result.map((x, i) => `<section class="card"><h3 class="h2">${esc(x.nazev)}</h3><p class="hint" style="color:var(--ink)">${esc(x.proc || "")}</p><p class="small" style="margin:0;font-weight:700">≈ ${fmt(x.kcal)} kcal · B ${fmt(x.b)} g · T ${fmt(x.t)} g · S ${fmt(x.s)} g</p><button class="btn black sm" data-a="ai-venku-log" data-i="${i}">Zapsat do deníku</button></section>`).join("")}
       <p class="hint">Hodnoty jsou odhad. Podniky mají přesné údaje na svých webech.</p></div>`;
@@ -1952,7 +1961,7 @@ async function runAi() {
   const a = S.ai; if (!a || a.busy || !S.sample) return;
   a.q = $("#ai-q")?.value.trim() || "";
   if (a.mode !== "doma" && !a.q) { toast(a.mode === "venku" ? "Napiš, kde jsi." : "Napiš, na co máš chuť."); return; }
-  a.busy = true; a.err = ""; a.result = null; a.ctl = new AbortController();
+  a.busy = true; a.err = ""; a.result = null; a.results = null; a.ctl = new AbortController();
   renderSheet();
   const g = goalFor(S.date), left = Math.round(g.kcal - sum(S.day?.polozky || []).kcal);
   try {
@@ -1970,20 +1979,29 @@ Odpověz jen JSON polem: [{"nazev": "...", "proc": "jedna věta česky", "kcal":
       const wish = a.mode === "doma"
         ? `Použij hlavně tyhle suroviny, které má doma: ${[...S.doma].map(domaLabel).join(", ")}. Chybět smí nejvýš 1–2 drobnosti. ${a.q ? "Přání: " + a.q : ""}`
         : `Přání: ${a.q}. Pokud jde o oblíbené „nezdravé“ jídlo, udělej jeho fit verzi, která chutná podobně.`;
-      const prompt = `Jsi kuchař a výživový poradce. Navrhni JEDEN recept.
+      let seenBefore = [];
+      try { seenBefore = JSON.parse(localStorage.getItem("kj-ai-seen") || "[]"); } catch (e) { seenBefore = []; }
+      const known = [...new Set([...Object.values(S.recipes).map(r => r.nazev), ...seenBefore, ...(a.seen || [])])];
+      const prompt = `Jsi kreativní kuchař a výživový poradce. Vymysli TŘI ÚPLNĚ NOVÉ recepty, každý jiný.
 ${profileForAi()}
 ${wish}
+Ať se ty tři navzájem výrazně liší: jiná hlavní bílkovina nebo příloha a jiná kuchyně nebo technika. Jeden ať je rychlý (do 20 minut), jeden ať se hodí do krabičky na 3 dny a třetí ať je něco, co by ji mile překvapilo.
+NESMÍŠ navrhnout nic z tohoto seznamu ani nic velmi podobného. Tyhle recepty už má nebo je už viděla:
+- ${known.join("\n- ")}
 Pravidla: jednoduchý postup, nejvýš 45 minut, hodně bílkovin. Hlavní jídlo kolem 450–600 kcal na porci, snídaně a svačina 250–400 kcal. Piš česky, krátce, jednoduše.
 Suroviny ber POUZE z tohoto seznamu a používej přesně jejich id (formát „id: název“). Gramy uváděj za celý recept (pro všechny porce). Sůl, pepř, koření, ocet a vodu zapiš jako {"nazev": "...", "bez": true, "kolik": ""}.
 SEZNAM:
 ${foodList}
 
-Odpověz jen JSON objektem:
+Odpověz jen JSON polem se třemi objekty, každý v tomhle tvaru:
 {"nazev": "...", "popis": "1–2 věty", "kategorie": "snidane" | "hlavni" | "svacina", "cas": minuty, "porce": číslo, "mealprep": true/false, "vydrzi": dny v lednici (0 když se nehodí do krabičky), "vybaveni": ["trouba"...], "fitVerze": "název původního jídla nebo prázdný řetězec", "suroviny": [{"id": "vejce", "g": 100, "kolik": "2 ks"}, {"nazev": "sůl, pepř", "bez": true, "kolik": ""}], "postup": ["krok 1", "krok 2"], "tip": "jedna věta"}`;
       const res = await S.sample.json(prompt, { signal: a.ctl.signal, cache: false });
-      const clean = cleanRecipe(res);
-      if (!clean) throw { code: "invalid_json" };
-      a.result = clean.r; a.dropped = clean.dropped;
+      const list = (Array.isArray(res) ? res : Array.isArray(res?.recepty) ? res.recepty : [res]).map(cleanRecipe).filter(Boolean)
+        .filter(c => !known.some(k => norm(k) === norm(c.r.nazev)));
+      if (!list.length) throw { code: "invalid_json" };
+      a.results = list.slice(0, 3).map(c => ({ r: c.r, dropped: c.dropped, open: false, saved: false }));
+      a.seen = [...(a.seen || []), ...a.results.map(x => x.r.nazev)];
+      try { localStorage.setItem("kj-ai-seen", JSON.stringify([...seenBefore, ...a.results.map(x => x.r.nazev)].slice(-60))); } catch (e) { /* nevadí */ }
     }
   } catch (e) { a.err = aiError(e); if (e?.code === "cancelled") a.err = ""; }
   a.busy = false;
@@ -2123,13 +2141,16 @@ const actions = {
   "ai-chip": b => { const t = $("#ai-q"); if (t) { t.value = b.dataset.v; S.ai.q = b.dataset.v; } },
   "ai-go": () => runAi(),
   "ai-stop": () => S.ai?.ctl?.abort(),
-  "ai-save": () => {
-    const r = S.ai?.result; if (!r) return;
-    const id = "ai-" + slug(r.nazev).slice(0, 40) + "-" + rid().slice(0, 4);
+  "ai-save": b => {
+    const x = S.ai?.results?.[+b.dataset.i]; if (!x || x.saved) return;
+    const r = x.r, id = "ai-" + slug(r.nazev).slice(0, 40) + "-" + rid().slice(0, 4);
     S.recipes = { ...S.recipes, [id]: { ...r, id } };
     queueWrite(() => S.db.doc("recepty/" + id).set(r));
-    closeSheet(); refresh(); toast("Recept uložen mezi recepty.");
+    x.saved = true; renderSheet(); refresh(); toast("Uloženo mezi recepty.");
   },
+  "ai-toggle": b => { const x = S.ai?.results?.[+b.dataset.i]; if (!x) return; x.open = !x.open; const body = $(".sheet-body"), top = body?.scrollTop; renderSheet(); const nb = $(".sheet-body"); if (nb) nb.scrollTop = top; },
+  "ai-more": () => runAi(),
+
   "ai-venku-log": b => { const x = S.ai?.result?.[+b.dataset.i]; if (!x) return; S.ai = null; openSheet({ view: "quick", meal: guessMeal(), fromAi: true, quick: { nazev: x.nazev, kcal: Math.round(x.kcal), b: Math.round(x.b), t: Math.round(x.t), s: Math.round(x.s) }, note: "Odhad od Clauda. Když znáš přesná čísla, uprav je." }); },
   "rec-mode": b => { S.recMode = b.dataset.v; switchTab("recepty"); },
   "doma-toggle": b => { const id = b.dataset.id; if (S.doma.has(id)) S.doma.delete(id); else S.doma.add(id); renderDomaPick(); renderDomaList(); saveDoma(); },
