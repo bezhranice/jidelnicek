@@ -1,0 +1,1459 @@
+[
+ {
+  "nazev": "Boloňské těstoviny s libovým hovězím",
+  "kategorie": "hlavni",
+  "cas": 40,
+  "porce": 3,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Hustá rajčatová omáčka s masem a mrkví. Do krabičky ideální, druhý den chutná ještě líp.",
+  "postup": [
+   "Cibuli, mrkev a česnek nakrájej nadrobno nebo rozmixuj v robotu.",
+   "Na oleji 5 minut opékej cibuli s mrkví, přidej maso a opékej, dokud nezhnědne.",
+   "Přidej česnek a protlak, minutu opékej, pak vlij passatu a koření.",
+   "Duš pod pokličkou 20 minut, občas zamíchej.",
+   "Mezitím uvař těstoviny podle návodu na obalu.",
+   "Rozděl do 3 krabiček a posyp parmazánem."
+  ],
+  "tip": "Zeleninu nasekanou v robotu v omáčce vůbec neucítíš.",
+  "suroviny": [
+   {
+    "id": "mlete-hovezi-libove-cca-5-tuku",
+    "nazev": "Mleté hovězí libové (cca 5 % tuku)",
+    "g": 400,
+    "kolik": ""
+   },
+   {
+    "id": "testoviny-celozrnne-suche",
+    "nazev": "Těstoviny celozrnné (suché)",
+    "g": 210,
+    "kolik": ""
+   },
+   {
+    "id": "passata",
+    "nazev": "Passata",
+    "g": 500,
+    "kolik": "1 sklenice"
+   },
+   {
+    "id": "rajcatovy-protlak",
+    "nazev": "Rajčatový protlak",
+    "g": 40,
+    "kolik": "2 lžíce"
+   },
+   {
+    "id": "cibule",
+    "nazev": "Cibule",
+    "g": 100,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "mrkev",
+    "nazev": "Mrkev",
+    "g": 100,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "cesnek",
+    "nazev": "Česnek",
+    "g": 8,
+    "kolik": "2 stroužky"
+   },
+   {
+    "id": "olivovy-olej",
+    "nazev": "Olivový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   },
+   {
+    "id": "parmazan",
+    "nazev": "Parmazán",
+    "g": 15,
+    "kolik": "na posypání"
+   },
+   {
+    "nazev": "sůl, pepř, oregano, bazalka",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "bolonske-testoviny"
+ },
+ {
+  "nazev": "Lehčí carbonara se šunkou a hráškem",
+  "kategorie": "hlavni",
+  "cas": 20,
+  "porce": 2,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "carbonara",
+  "popis": "Krémové těstoviny za 20 minut. Místo slaniny šunka, místo smetany hlavně vejce.",
+  "postup": [
+   "Uvař těstoviny a 3 minuty před koncem k nim přisyp hrášek.",
+   "Vejce rozšlehej se smetanou, parmazánem a pepřem.",
+   "Na pánvi krátce opeč šunku nakrájenou na proužky.",
+   "Sceď těstoviny, odlij si trochu vody z vaření a dej je k šunce.",
+   "Stáhni pánev z plotny, vmíchej vaječnou směs a přilij trochu vody z těstovin, aby vznikla krémová omáčka."
+  ],
+  "tip": "Pánev musí být mimo plotnu, jinak se z vajec udělají míchaná vejce.",
+  "suroviny": [
+   {
+    "id": "testoviny-suche",
+    "nazev": "Těstoviny (suché)",
+    "g": 160,
+    "kolik": ""
+   },
+   {
+    "id": "sunka-nejvyssi-jakosti",
+    "nazev": "Šunka nejvyšší jakosti",
+    "g": 120,
+    "kolik": ""
+   },
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 100,
+    "kolik": "2 ks"
+   },
+   {
+    "id": "parmazan",
+    "nazev": "Parmazán",
+    "g": 20,
+    "kolik": ""
+   },
+   {
+    "id": "smetana-na-vareni-12",
+    "nazev": "Smetana na vaření 12 %",
+    "g": 50,
+    "kolik": "3 lžíce"
+   },
+   {
+    "id": "hrasek-mrazeny",
+    "nazev": "Hrášek mražený",
+    "g": 80,
+    "kolik": "hrst"
+   },
+   {
+    "nazev": "sůl, hodně pepře",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "carbonara-sunka"
+ },
+ {
+  "nazev": "Chilli con carne s rýží",
+  "kategorie": "hlavni",
+  "cas": 45,
+  "porce": 3,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "sporák",
+   "rýžovar"
+  ],
+  "fitVerze": "",
+  "popis": "Hovězí s fazolemi a kukuřicí. Sytí, dobře se ohřívá a pálivost si nastavíš sama.",
+  "postup": [
+   "Rýži dej do rýžovaru.",
+   "Na oleji osmahni nakrájenou cibuli a papriku, přidej maso a opékej, dokud nezhnědne.",
+   "Přidej česnek, koření a protlak a minutu opékej.",
+   "Vlij drcená rajčata a duš 15 minut.",
+   "Přidej okapané fazole a kukuřici a duš dalších 10 minut.",
+   "Rozděl s rýží do 3 krabiček."
+  ],
+  "tip": "Místo červených fazolí můžeš dát tvoje bílé fazole v tomatě. Bude to trochu sladší.",
+  "suroviny": [
+   {
+    "id": "mlete-hovezi-libove-cca-5-tuku",
+    "nazev": "Mleté hovězí libové (cca 5 % tuku)",
+    "g": 350,
+    "kolik": ""
+   },
+   {
+    "id": "cervene-fazole-okapane",
+    "nazev": "Červené fazole (okapané)",
+    "g": 240,
+    "kolik": "1 plechovka"
+   },
+   {
+    "id": "drcena-rajcata-konzerva",
+    "nazev": "Drcená rajčata (konzerva)",
+    "g": 400,
+    "kolik": "1 plechovka"
+   },
+   {
+    "id": "rajcatovy-protlak",
+    "nazev": "Rajčatový protlak",
+    "g": 40,
+    "kolik": "2 lžíce"
+   },
+   {
+    "id": "cibule",
+    "nazev": "Cibule",
+    "g": 100,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "paprika-cervena",
+    "nazev": "Paprika červená",
+    "g": 150,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "kukurice-sladka-okapana",
+    "nazev": "Kukuřice sladká (okapaná)",
+    "g": 140,
+    "kolik": "1 malá plechovka"
+   },
+   {
+    "id": "cesnek",
+    "nazev": "Česnek",
+    "g": 8,
+    "kolik": "2 stroužky"
+   },
+   {
+    "id": "repkovy-olej",
+    "nazev": "Řepkový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   },
+   {
+    "id": "ryze-jasminova-sucha",
+    "nazev": "Rýže jasmínová (suchá)",
+    "g": 150,
+    "kolik": "1 hrnek"
+   },
+   {
+    "nazev": "kmín mletý, sladká paprika, chilli, sůl",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "chilli-con-carne"
+ },
+ {
+  "nazev": "Fazole v tomatě s vejci a toastem",
+  "kategorie": "snidane",
+  "cas": 10,
+  "porce": 1,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Anglická snídaně z tvých oblíbených fazolí. Hodí se i jako rychlá večeře.",
+  "postup": [
+   "Fazole ohřej v kastrůlku nebo v mikrovlnce.",
+   "Vejce usmaž na kapce oleje nebo na suché nepřilnavé pánvi.",
+   "Toasty opeč a na jeden dej plátek sýra.",
+   "Naservíruj fazole, vejce a toasty."
+  ],
+  "tip": "Druhou půlku fazolí přendej do krabičky, v lednici vydrží 3 dny.",
+  "suroviny": [
+   {
+    "id": "bile-fazole-v-tomate",
+    "nazev": "Bílé fazole v tomatě",
+    "g": 200,
+    "kolik": "půl plechovky"
+   },
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 100,
+    "kolik": "2 ks"
+   },
+   {
+    "id": "toastovy-chleb-celozrnny",
+    "nazev": "Toastový chléb celozrnný",
+    "g": 50,
+    "kolik": "2 plátky"
+   },
+   {
+    "id": "eidam-30",
+    "nazev": "Eidam 30 %",
+    "g": 20,
+    "kolik": "1 plátek"
+   },
+   {
+    "nazev": "sůl, pepř",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "fazole-vejce-toast"
+ },
+ {
+  "nazev": "Burger z libového hovězího s hranolky z airfryeru",
+  "kategorie": "hlavni",
+  "cas": 35,
+  "porce": 2,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "airfryer"
+  ],
+  "fitVerze": "burger a hranolky",
+  "popis": "Celé burgerové menu doma. Libové maso a hranolky skoro bez oleje.",
+  "postup": [
+   "Brambory nakrájej na hranolky, nech je 10 minut ve studené vodě a pořádně osuš.",
+   "Promíchej je s olejem, solí a paprikou a peč v airfryeru na 200 °C asi 18 minut. V půlce s košem zatřes.",
+   "Maso osol, opepři, přidej česnek a rukama krátce promíchej. Moc ho nehněť, jinak bude tuhé. Vytvaruj 2 placky.",
+   "Placky peč v airfryeru na 200 °C 8–10 minut, v půlce otoč. Na konci na ně dej sýr a nech ho minutu rozpustit.",
+   "Bulky krátce opeč a slož burger: kečup, salát, maso se sýrem, rajče, hořčice."
+  ],
+  "tip": "Placky si můžeš udělat dopředu a nechat je syrové v lednici, drží pak líp tvar.",
+  "suroviny": [
+   {
+    "id": "mlete-hovezi-libove-cca-5-tuku",
+    "nazev": "Mleté hovězí libové (cca 5 % tuku)",
+    "g": 250,
+    "kolik": ""
+   },
+   {
+    "id": "hamburgerova-bulka-celozrnna",
+    "nazev": "Hamburgerová bulka celozrnná",
+    "g": 130,
+    "kolik": "2 ks"
+   },
+   {
+    "id": "eidam-30",
+    "nazev": "Eidam 30 %",
+    "g": 40,
+    "kolik": "2 plátky"
+   },
+   {
+    "id": "ledovy-salat",
+    "nazev": "Ledový salát",
+    "g": 30,
+    "kolik": "2 listy"
+   },
+   {
+    "id": "rajce",
+    "nazev": "Rajče",
+    "g": 80,
+    "kolik": ""
+   },
+   {
+    "id": "kecup-bez-pridaneho-cukru",
+    "nazev": "Kečup bez přidaného cukru",
+    "g": 30,
+    "kolik": "2 lžíce"
+   },
+   {
+    "id": "horcice-plnotucna",
+    "nazev": "Hořčice plnotučná",
+    "g": 10,
+    "kolik": "1 lžička"
+   },
+   {
+    "id": "brambory-syrove",
+    "nazev": "Brambory (syrové)",
+    "g": 400,
+    "kolik": "3–4 větší"
+   },
+   {
+    "id": "olivovy-olej",
+    "nazev": "Olivový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   },
+   {
+    "nazev": "sůl, pepř, sladká paprika, česnek v prášku",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": {
+   "nazev": "Canada Beef: Air Fryer Burgers & Fries",
+   "url": "https://canadianfoodfocus.org/recipes/air-fryer-quarter-pound-beef-burgers-fries/"
+  },
+  "id": "fit-burger-hranolky"
+ },
+ {
+  "nazev": "Pizza se skyrovým těstem",
+  "kategorie": "hlavni",
+  "cas": 35,
+  "porce": 2,
+  "mealprep": true,
+  "vydrzi": 2,
+  "vybaveni": [
+   "trouba"
+  ],
+  "fitVerze": "pizza",
+  "popis": "Pravá pizza s těstem bez kynutí. Skyr v těstě vůbec není cítit, jen přidá bílkoviny a těsto je měkké.",
+  "postup": [
+   "Troubu předehřej na 220 °C.",
+   "Mouku smíchej s kypřicím práškem a solí, přidej skyr a zpracuj hladké těsto. Když se lepí, přisyp mouku.",
+   "Těsto rozválej na papíře na pečení na tenkou placku.",
+   "Natři passatou s oreganem, poklaď šunkou, zeleninou a mozzarellou.",
+   "Peč 12–15 minut, dokud nejsou okraje zlaté."
+  ],
+  "tip": "Druhou polovinu si dej druhý den. Ohřátá v airfryeru (3 min, 180 °C) je zase křupavá.",
+  "suroviny": [
+   {
+    "id": "hladka-mouka",
+    "nazev": "Hladká mouka",
+    "g": 150,
+    "kolik": ""
+   },
+   {
+    "id": "skyr-bily-do-testa-a-omacek",
+    "nazev": "Skyr bílý (do těsta a omáček)",
+    "g": 150,
+    "kolik": "1 kelímek"
+   },
+   {
+    "nazev": "kypřicí prášek do pečiva, sůl",
+    "bez": true,
+    "kolik": "1 lžička + špetka"
+   },
+   {
+    "id": "passata",
+    "nazev": "Passata",
+    "g": 80,
+    "kolik": ""
+   },
+   {
+    "id": "mozzarella-light",
+    "nazev": "Mozzarella light",
+    "g": 125,
+    "kolik": "1 kulička"
+   },
+   {
+    "id": "sunka-nejvyssi-jakosti",
+    "nazev": "Šunka nejvyšší jakosti",
+    "g": 90,
+    "kolik": ""
+   },
+   {
+    "id": "zampiony",
+    "nazev": "Žampiony",
+    "g": 60,
+    "kolik": ""
+   },
+   {
+    "id": "paprika-cervena",
+    "nazev": "Paprika červená",
+    "g": 60,
+    "kolik": ""
+   },
+   {
+    "nazev": "oregano",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "fit-pizza-skyr"
+ },
+ {
+  "nazev": "Zapečený toast se šunkou a mozzarellou",
+  "kategorie": "snidane",
+  "cas": 10,
+  "porce": 1,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "zapékač toastů"
+  ],
+  "fitVerze": "zapečené toasty",
+  "popis": "Tvoje oblíbené toasty, jen s celozrnným chlebem, šunkou s vysokým podílem masa a lehčí mozzarellou.",
+  "postup": [
+   "Mozzarellu nakrájej na tenké plátky, rajče na kolečka.",
+   "Jeden plátek toastu potři kečupem, dej šunku, rajče, mozzarellu a oregano.",
+   "Přiklop druhým plátkem a zapékej v zapékači 4–5 minut dozlatova."
+  ],
+  "tip": "Mozzarellu dobře osuš papírovou utěrkou, jinak toast zvlhne.",
+  "suroviny": [
+   {
+    "id": "toastovy-chleb-celozrnny",
+    "nazev": "Toastový chléb celozrnný",
+    "g": 50,
+    "kolik": "2 plátky"
+   },
+   {
+    "id": "sunka-nejvyssi-jakosti",
+    "nazev": "Šunka nejvyšší jakosti",
+    "g": 45,
+    "kolik": "3 plátky"
+   },
+   {
+    "id": "mozzarella-light",
+    "nazev": "Mozzarella light",
+    "g": 60,
+    "kolik": "půl kuličky"
+   },
+   {
+    "id": "kecup-bez-pridaneho-cukru",
+    "nazev": "Kečup bez přidaného cukru",
+    "g": 15,
+    "kolik": "1 lžíce"
+   },
+   {
+    "id": "rajce",
+    "nazev": "Rajče",
+    "g": 60,
+    "kolik": "půlka"
+   },
+   {
+    "nazev": "oregano",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "fit-zapeceny-toast"
+ },
+ {
+  "nazev": "Kachní prsa s červeným zelím a knedlíkem",
+  "kategorie": "hlavni",
+  "cas": 40,
+  "porce": 2,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "sporák",
+   "trouba"
+  ],
+  "fitVerze": "pečená kachna",
+  "popis": "Kachna bez hodin pečení: prsa opečená na pánvi, kůži dáš stranou. Hodně chuti za polovinu kalorií pečené kachny.",
+  "postup": [
+   "Zelí nakrouhej, cibuli nakrájej, jablko nastrouhej.",
+   "Na oleji osmahni cibuli, přidej zelí, jablko, kmín, sůl a trochu vody a duš 25 minut. Na konci dochuť octem a medem.",
+   "Kachní prsa osol a opepři. Na suché pánvi je opékej 4 minuty z každé strany.",
+   "Nech je 5 minut odpočinout pod alobalem a nakrájej na plátky. Uvnitř mají zůstat růžová.",
+   "Knedlík ohřej v páře nebo v mikrovlnce a podávej se zelím."
+  ],
+  "tip": "Prsa kupuj i s kůží a odřízni ji až po opečení. Maso zůstane šťavnatější. Kůži pak nejez.",
+  "suroviny": [
+   {
+    "id": "kachni-prsa-bez-kuze-syrova",
+    "nazev": "Kachní prsa bez kůže (syrová)",
+    "g": 300,
+    "kolik": "2 menší prsa (kůži odřízni)"
+   },
+   {
+    "id": "cervene-zeli",
+    "nazev": "Červené zelí",
+    "g": 400,
+    "kolik": "čtvrtka hlávky"
+   },
+   {
+    "id": "jablko",
+    "nazev": "Jablko",
+    "g": 100,
+    "kolik": "1 menší"
+   },
+   {
+    "id": "cibule",
+    "nazev": "Cibule",
+    "g": 50,
+    "kolik": "půlka"
+   },
+   {
+    "id": "repkovy-olej",
+    "nazev": "Řepkový olej",
+    "g": 5,
+    "kolik": "lžička"
+   },
+   {
+    "id": "med",
+    "nazev": "Med",
+    "g": 8,
+    "kolik": "1 lžička"
+   },
+   {
+    "id": "bramborovy-knedlik",
+    "nazev": "Bramborový knedlík",
+    "g": 240,
+    "kolik": "6 plátků"
+   },
+   {
+    "nazev": "kmín, ocet, sůl, pepř",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": {
+   "nazev": "Forbes: Kachní hostina do půl hodiny",
+   "url": "https://forbes.cz/martin-do-pul-hodiny-kachni-hostina-pro-vytizene-kuchare/"
+  },
+  "id": "kachni-prsa-zeli"
+ },
+ {
+  "nazev": "Kuřecí quesadilla z panini grilu",
+  "kategorie": "hlavni",
+  "cas": 15,
+  "porce": 1,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "panini gril"
+  ],
+  "fitVerze": "",
+  "popis": "Rychlovka ze zbytku kuřete z mealprepu. Křupavá tortilla, hodně bílkovin.",
+  "postup": [
+   "Kuře natrhej nebo nakrájej a promíchej s BBQ omáčkou.",
+   "Na polovinu tortilly dej kuře, kukuřici, papriku a sýr a přeložte ji napůl.",
+   "Griluj v panini grilu 4–5 minut, dokud se sýr nerozteče.",
+   "Nakrájej na trojúhelníky."
+  ],
+  "tip": "Funguje i s mletým masem nebo zbytkem chilli.",
+  "suroviny": [
+   {
+    "id": "tortilla-celozrnna",
+    "nazev": "Tortilla celozrnná",
+    "g": 60,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "kureci-prsa-upecena",
+    "nazev": "Kuřecí prsa (upečená)",
+    "g": 100,
+    "kolik": "zbytek z mealprepu"
+   },
+   {
+    "id": "mozzarella-light",
+    "nazev": "Mozzarella light",
+    "g": 40,
+    "kolik": "třetina kuličky"
+   },
+   {
+    "id": "kukurice-sladka-okapana",
+    "nazev": "Kukuřice sladká (okapaná)",
+    "g": 30,
+    "kolik": "2 lžíce"
+   },
+   {
+    "id": "paprika-cervena",
+    "nazev": "Paprika červená",
+    "g": 40,
+    "kolik": "čtvrtka"
+   },
+   {
+    "id": "bbq-omacka",
+    "nazev": "BBQ omáčka",
+    "g": 15,
+    "kolik": "1 lžíce"
+   },
+   {
+    "nazev": "sladká paprika, kmín",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "kureci-quesadilla"
+ },
+ {
+  "nazev": "Kuře se zeleninou a rýží na sladko-pálivo",
+  "kategorie": "hlavni",
+  "cas": 40,
+  "porce": 3,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "rýžovar",
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Klasický mealprep na 3 dny. Rýže se dělá sama v rýžovaru, kuře se zeleninou na jedné pánvi.",
+  "postup": [
+   "Rýži propláchni a dej do rýžovaru.",
+   "Kuře nakrájej na kousky, zeleninu na menší kusy, česnek nadrobno.",
+   "Na oleji opeč kuře dozlatova (asi 6 minut) a dej stranou.",
+   "Na stejné pánvi 5 minut opékej mrkev, brokolici a papriku s trochou vody, ať zůstanou křupavé.",
+   "Vrať kuře, přidej česnek, sójovou a sweet chilli omáčku a minutu prohřej.",
+   "Rozděl s rýží do 3 krabiček."
+  ],
+  "tip": "Brokolici nech spíš na skus. Při ohřívání ještě změkne.",
+  "suroviny": [
+   {
+    "id": "kureci-prsa-syrova",
+    "nazev": "Kuřecí prsa (syrová)",
+    "g": 450,
+    "kolik": "2–3 prsa"
+   },
+   {
+    "id": "ryze-jasminova-sucha",
+    "nazev": "Rýže jasmínová (suchá)",
+    "g": 180,
+    "kolik": "něco přes hrnek"
+   },
+   {
+    "id": "brokolice",
+    "nazev": "Brokolice",
+    "g": 300,
+    "kolik": "1 menší"
+   },
+   {
+    "id": "paprika-cervena",
+    "nazev": "Paprika červená",
+    "g": 150,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "mrkev",
+    "nazev": "Mrkev",
+    "g": 100,
+    "kolik": "1 větší"
+   },
+   {
+    "id": "sojova-omacka",
+    "nazev": "Sójová omáčka",
+    "g": 30,
+    "kolik": "2 lžíce"
+   },
+   {
+    "id": "sweet-chilli-omacka",
+    "nazev": "Sweet chilli omáčka",
+    "g": 45,
+    "kolik": "3 lžíce"
+   },
+   {
+    "id": "repkovy-olej",
+    "nazev": "Řepkový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   },
+   {
+    "id": "cesnek",
+    "nazev": "Česnek",
+    "g": 8,
+    "kolik": "2 stroužky"
+   }
+  ],
+  "zdroj": {
+   "nazev": "Healthy Fitness Meals: Chicken and Rice Meal Prep",
+   "url": "https://healthyfitnessmeals.com/wprm_print/chicken-rice-meal-prep"
+  },
+  "id": "kureci-ryze-sweet-chilli"
+ },
+ {
+  "nazev": "Kuřecí stehna s bramborami a zeleninou na plechu",
+  "kategorie": "hlavni",
+  "cas": 50,
+  "porce": 3,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "trouba"
+  ],
+  "fitVerze": "",
+  "popis": "Všechno na jeden plech a do trouby. Aktivní práce je asi 15 minut, zbytek se peče samo.",
+  "postup": [
+   "Troubu předehřej na 200 °C.",
+   "Brambory nakrájej na měsíčky, zeleninu na větší kusy, cibuli na čtvrtky.",
+   "Všechno promíchej s olejem a kořením a rozlož na plech s papírem.",
+   "Kuřecí stehna okořeň a polož navrch.",
+   "Peč 40–45 minut, v půlce brambory promíchej. Hotové je, když jsou brambory měkké a kuře zlaté."
+  ],
+  "tip": "Stehna zůstanou po ohřátí šťavnatější než prsa, proto se na mealprep hodí líp.",
+  "suroviny": [
+   {
+    "id": "kureci-stehna-bez-kosti-syrova",
+    "nazev": "Kuřecí stehna bez kosti (syrová)",
+    "g": 450,
+    "kolik": ""
+   },
+   {
+    "id": "brambory-syrove",
+    "nazev": "Brambory (syrové)",
+    "g": 600,
+    "kolik": ""
+   },
+   {
+    "id": "cuketa",
+    "nazev": "Cuketa",
+    "g": 250,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "paprika-cervena",
+    "nazev": "Paprika červená",
+    "g": 150,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "cibule",
+    "nazev": "Cibule",
+    "g": 100,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "olivovy-olej",
+    "nazev": "Olivový olej",
+    "g": 15,
+    "kolik": "lžíce"
+   },
+   {
+    "nazev": "sůl, pepř, sladká paprika, česnek v prášku, rozmarýn",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "kureci-stehna-plech"
+ },
+ {
+  "nazev": "Křupavé kuřecí stripsy s hranolky z airfryeru",
+  "kategorie": "hlavni",
+  "cas": 35,
+  "porce": 2,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "airfryer"
+  ],
+  "fitVerze": "nugetky a hranolky",
+  "popis": "Domácí fast food: obalované kuře bez smažení a k tomu hranolky. Skoro 60 g bílkovin v porci.",
+  "postup": [
+   "Brambory nakrájej na hranolky, nech 10 minut ve vodě a osuš.",
+   "Kuře nakrájej na proužky a osol.",
+   "Vejce rozšlehej. Strouhanku smíchej s parmazánem, paprikou a česnekem.",
+   "Proužky obal ve vejci a pak ve strouhance.",
+   "Hranolky s olejem peč v airfryeru na 200 °C asi 18 minut a pak je dej stranou.",
+   "Stripsy peč na 190 °C 10–12 minut, v půlce otoč. Podávej s kečupem a nakrájenou okurkou."
+  ],
+  "tip": "Stripsy pokapej sprejem s olejem nebo jen kapkou oleje, budou zlatější.",
+  "suroviny": [
+   {
+    "id": "kureci-prsa-syrova",
+    "nazev": "Kuřecí prsa (syrová)",
+    "g": 400,
+    "kolik": "2 prsa"
+   },
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 50,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "strouhanka",
+    "nazev": "Strouhanka",
+    "g": 50,
+    "kolik": ""
+   },
+   {
+    "id": "parmazan",
+    "nazev": "Parmazán",
+    "g": 10,
+    "kolik": ""
+   },
+   {
+    "id": "brambory-syrove",
+    "nazev": "Brambory (syrové)",
+    "g": 400,
+    "kolik": ""
+   },
+   {
+    "id": "olivovy-olej",
+    "nazev": "Olivový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   },
+   {
+    "id": "kecup-bez-pridaneho-cukru",
+    "nazev": "Kečup bez přidaného cukru",
+    "g": 30,
+    "kolik": "na namáčení"
+   },
+   {
+    "id": "okurka-salatova",
+    "nazev": "Okurka salátová",
+    "g": 200,
+    "kolik": "půlka"
+   },
+   {
+    "nazev": "sůl, sladká paprika, česnek v prášku",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "kureci-stripsy-airfryer"
+ },
+ {
+  "nazev": "Kuřecí wrap se zeleninou",
+  "kategorie": "hlavni",
+  "cas": 20,
+  "porce": 2,
+  "mealprep": true,
+  "vydrzi": 2,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Studený oběd do krabičky nebo do práce. Kuře se dá opéct dopředu a zabalit ráno za 3 minuty.",
+  "postup": [
+   "Kuře nakrájej na nudličky, okořeň a opeč na pánvi bez tuku nebo s kapkou oleje asi 6 minut.",
+   "Zeleninu nakrájej na proužky.",
+   "Tortillu potři majonézou, dej salát, sýr, kuře, rajče, okurku a kukuřici.",
+   "Spodek přehni nahoru, boky dovnitř a zaroluj. Zabal do alobalu nebo papíru."
+  ],
+  "tip": "Na dva dny dopředu skladuj kuře a zeleninu zvlášť a zabal až ráno, jinak tortilla zvlhne.",
+  "suroviny": [
+   {
+    "id": "kureci-prsa-syrova",
+    "nazev": "Kuřecí prsa (syrová)",
+    "g": 250,
+    "kolik": "1 větší prso"
+   },
+   {
+    "id": "tortilla-celozrnna",
+    "nazev": "Tortilla celozrnná",
+    "g": 120,
+    "kolik": "2 ks"
+   },
+   {
+    "id": "ledovy-salat",
+    "nazev": "Ledový salát",
+    "g": 60,
+    "kolik": "pár listů"
+   },
+   {
+    "id": "rajce",
+    "nazev": "Rajče",
+    "g": 120,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "okurka-salatova",
+    "nazev": "Okurka salátová",
+    "g": 100,
+    "kolik": "kus"
+   },
+   {
+    "id": "kukurice-sladka-okapana",
+    "nazev": "Kukuřice sladká (okapaná)",
+    "g": 60,
+    "kolik": "3 lžíce"
+   },
+   {
+    "id": "eidam-30",
+    "nazev": "Eidam 30 %",
+    "g": 40,
+    "kolik": "2 plátky"
+   },
+   {
+    "id": "majoneza-light",
+    "nazev": "Majonéza light",
+    "g": 30,
+    "kolik": "2 lžíce"
+   },
+   {
+    "nazev": "sůl, pepř, sladká paprika",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "kureci-wrap"
+ },
+ {
+  "nazev": "Míchaná vejce na toastu s rajčaty",
+  "kategorie": "snidane",
+  "cas": 10,
+  "porce": 1,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Rychlá teplá snídaně ze 3 vajec. Hodně sytí a do oběda vydrží.",
+  "postup": [
+   "Vejce rozšlehej se solí a pepřem, toasty dej opéct.",
+   "Na pánvi rozpusť máslo na mírném ohni a vlij vejce.",
+   "Pomalu míchej stěrkou 2–3 minuty a stáhni z plotny, dokud jsou ještě lesklá. Dojdou si sama.",
+   "Dej na toasty, posyp cibulkou a k tomu nakrájené rajče."
+  ],
+  "tip": "Na mírném ohni jsou vejce krémová, ne gumová.",
+  "suroviny": [
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 150,
+    "kolik": "3 ks"
+   },
+   {
+    "id": "toastovy-chleb-celozrnny",
+    "nazev": "Toastový chléb celozrnný",
+    "g": 50,
+    "kolik": "2 plátky"
+   },
+   {
+    "id": "maslo",
+    "nazev": "Máslo",
+    "g": 5,
+    "kolik": "na pánev"
+   },
+   {
+    "id": "rajce",
+    "nazev": "Rajče",
+    "g": 120,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "jarni-cibulka",
+    "nazev": "Jarní cibulka",
+    "g": 10,
+    "kolik": "kousek"
+   },
+   {
+    "nazev": "sůl, pepř",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "michana-vejce-toast"
+ },
+ {
+  "nazev": "Pizza z tortilly v airfryeru",
+  "kategorie": "hlavni",
+  "cas": 15,
+  "porce": 1,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "airfryer"
+  ],
+  "fitVerze": "pizza",
+  "popis": "Křupavá pizza za 15 minut, když se ti nechce vařit. Asi polovina kalorií pizzy z restaurace.",
+  "postup": [
+   "Protlak rozmíchej s lžící vody, oreganem a česnekem a natři na tortillu.",
+   "Poklaď šunkou, žampiony na plátky a natrhanou mozzarellou.",
+   "Peč v airfryeru na 180 °C 6–8 minut, dokud se sýr nerozteče a okraje nezkřupavějí.",
+   "Nahoru dej rukolu."
+  ],
+  "tip": "Když se tortilla v airfryeru zvedá, přitiskni ji kovovou mřížkou nebo ji dej na papír na pečení.",
+  "suroviny": [
+   {
+    "id": "tortilla-celozrnna",
+    "nazev": "Tortilla celozrnná",
+    "g": 60,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "rajcatovy-protlak",
+    "nazev": "Rajčatový protlak",
+    "g": 30,
+    "kolik": "1,5 lžíce"
+   },
+   {
+    "id": "mozzarella-light",
+    "nazev": "Mozzarella light",
+    "g": 60,
+    "kolik": "půl kuličky"
+   },
+   {
+    "id": "sunka-nejvyssi-jakosti",
+    "nazev": "Šunka nejvyšší jakosti",
+    "g": 45,
+    "kolik": "3 plátky"
+   },
+   {
+    "id": "zampiony",
+    "nazev": "Žampiony",
+    "g": 40,
+    "kolik": "2–3 ks"
+   },
+   {
+    "id": "rukola",
+    "nazev": "Rukola",
+    "g": 10,
+    "kolik": "hrstička"
+   },
+   {
+    "nazev": "oregano, česnek v prášku",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "pizza-z-tortilly"
+ },
+ {
+  "nazev": "Kuřecí řízek z airfryeru s bramborovou kaší",
+  "kategorie": "hlavni",
+  "cas": 35,
+  "porce": 2,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "airfryer",
+   "sporák"
+  ],
+  "fitVerze": "řízek",
+  "popis": "Řízek s kaší jako od babičky, jen bez smažení v oleji. Křupavý z airfryeru.",
+  "postup": [
+   "Brambory oloupej, nakrájej a vař v osolené vodě asi 20 minut doměkka.",
+   "Kuřecí prsa rozklep na tenké plátky a osol.",
+   "Obal je v mouce, rozšlehaném vejci a strouhance.",
+   "Peč v airfryeru na 190 °C 10–12 minut, v půlce otoč. Pokapej kapkou oleje, budou zlatější.",
+   "Brambory sceď, přidej teplé mléko a máslo a rozmačkej na kaši.",
+   "K tomu okurkový salát s octem, solí a pepřem."
+  ],
+  "tip": "Řízky klidně obal večer předem a dej do lednice, druhý den je jen upečeš.",
+  "suroviny": [
+   {
+    "id": "kureci-prsa-syrova",
+    "nazev": "Kuřecí prsa (syrová)",
+    "g": 300,
+    "kolik": "2 menší prsa"
+   },
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 50,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "hladka-mouka",
+    "nazev": "Hladká mouka",
+    "g": 15,
+    "kolik": "1 lžíce"
+   },
+   {
+    "id": "strouhanka",
+    "nazev": "Strouhanka",
+    "g": 50,
+    "kolik": ""
+   },
+   {
+    "id": "brambory-syrove",
+    "nazev": "Brambory (syrové)",
+    "g": 500,
+    "kolik": ""
+   },
+   {
+    "id": "mleko-polotucne-1-5",
+    "nazev": "Mléko polotučné 1,5 %",
+    "g": 100,
+    "kolik": ""
+   },
+   {
+    "id": "maslo",
+    "nazev": "Máslo",
+    "g": 10,
+    "kolik": "kousek"
+   },
+   {
+    "id": "okurka-salatova",
+    "nazev": "Okurka salátová",
+    "g": 150,
+    "kolik": "na salát"
+   },
+   {
+    "nazev": "sůl, pepř, kapka octa do salátu",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "rizek-airfryer-kase"
+ },
+ {
+  "nazev": "Smažená rýže s vejcem a šunkou",
+  "kategorie": "hlavni",
+  "cas": 15,
+  "porce": 2,
+  "mealprep": false,
+  "vydrzi": 0,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Rychlovka z rýže, která zbyde z rýžovaru. Studená rýže z lednice je na ni nejlepší.",
+  "postup": [
+   "Mrkev nakrájej na kostičky, šunku na proužky, cibulku na kolečka.",
+   "Na oleji 3 minuty opékej mrkev s hráškem.",
+   "Odsuň zeleninu na kraj, rozbij do pánve vejce a míchej, dokud se nesrazí.",
+   "Přidej rýži a šunku a za stálého míchání smaž 4–5 minut.",
+   "Zalij sójovou omáčkou a posyp cibulkou."
+  ],
+  "tip": "Čerstvě uvařená rýže se slepí, proto dej přednost té ze včerejška.",
+  "suroviny": [
+   {
+    "id": "ryze-jasminova-uvarena",
+    "nazev": "Rýže jasmínová (uvařená)",
+    "g": 400,
+    "kolik": "zbytek z rýžovaru"
+   },
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 150,
+    "kolik": "3 ks"
+   },
+   {
+    "id": "sunka-nejvyssi-jakosti",
+    "nazev": "Šunka nejvyšší jakosti",
+    "g": 150,
+    "kolik": ""
+   },
+   {
+    "id": "hrasek-mrazeny",
+    "nazev": "Hrášek mražený",
+    "g": 100,
+    "kolik": "hrst"
+   },
+   {
+    "id": "mrkev",
+    "nazev": "Mrkev",
+    "g": 80,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "jarni-cibulka",
+    "nazev": "Jarní cibulka",
+    "g": 20,
+    "kolik": "2 stonky"
+   },
+   {
+    "id": "sojova-omacka",
+    "nazev": "Sójová omáčka",
+    "g": 30,
+    "kolik": "2 lžíce"
+   },
+   {
+    "id": "repkovy-olej",
+    "nazev": "Řepkový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   }
+  ],
+  "zdroj": null,
+  "id": "smazena-ryze-sunka"
+ },
+ {
+  "nazev": "Těstoviny s kuřetem, rajčaty a mozzarellou",
+  "kategorie": "hlavni",
+  "cas": 30,
+  "porce": 3,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Obyčejné těstoviny, které chutnají jako z italské restaurace. Jedna pánev a jeden hrnec.",
+  "postup": [
+   "Dej vařit těstoviny podle obalu.",
+   "Kuře nakrájej na kousky, osol a na oleji opeč dozlatova.",
+   "Přidej česnek a půlená rajčátka a 3 minuty opékej, ať pustí šťávu.",
+   "Vlij passatu a koření a 5 minut povař.",
+   "Vmíchej uvařené těstoviny a natrhanou mozzarellu a nech ji rozpustit."
+  ],
+  "tip": "Do krabičky dej těstoviny radši trochu tvrdší, při ohřívání ještě změknou.",
+  "suroviny": [
+   {
+    "id": "kureci-prsa-syrova",
+    "nazev": "Kuřecí prsa (syrová)",
+    "g": 400,
+    "kolik": "2 prsa"
+   },
+   {
+    "id": "testoviny-suche",
+    "nazev": "Těstoviny (suché)",
+    "g": 210,
+    "kolik": ""
+   },
+   {
+    "id": "cherry-rajcata",
+    "nazev": "Cherry rajčata",
+    "g": 250,
+    "kolik": "1 vanička"
+   },
+   {
+    "id": "passata",
+    "nazev": "Passata",
+    "g": 250,
+    "kolik": "půl sklenice"
+   },
+   {
+    "id": "mozzarella-light",
+    "nazev": "Mozzarella light",
+    "g": 125,
+    "kolik": "1 kulička"
+   },
+   {
+    "id": "cesnek",
+    "nazev": "Česnek",
+    "g": 8,
+    "kolik": "2 stroužky"
+   },
+   {
+    "id": "olivovy-olej",
+    "nazev": "Olivový olej",
+    "g": 10,
+    "kolik": "necelá lžíce"
+   },
+   {
+    "nazev": "sůl, pepř, bazalka, oregano",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "testoviny-kure-rajcata"
+ },
+ {
+  "nazev": "Vaječné muffiny se šunkou a sýrem",
+  "kategorie": "snidane",
+  "cas": 30,
+  "porce": 4,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "trouba"
+  ],
+  "fitVerze": "",
+  "popis": "Slaná snídaně do zásoby: 3 muffiny ráno ohřeješ za půl minuty. Hodně bílkovin, nic sladkého.",
+  "postup": [
+   "Troubu předehřej na 180 °C. Formu na 12 muffinů vytři kapkou oleje nebo do ní dej papírové košíčky.",
+   "Šunku, papriku a cibulku nakrájej nadrobno, sýr nastrouhej.",
+   "Vejce rozšlehej s mlékem, solí a pepřem.",
+   "Do každého důlku dej trochu šunky, zeleniny a sýra a zalij vajíčkem asi do ¾.",
+   "Peč 20–22 minut, dokud nejsou muffiny uprostřed pevné.",
+   "Vychladlé dej do krabičky. Ráno ohřej 30 s v mikrovlnce nebo 3 minuty v airfryeru na 160 °C."
+  ],
+  "tip": "Porce = 3 muffiny. Když máš větší hlad, přidej k tomu 1 plátek toastu.",
+  "suroviny": [
+   {
+    "id": "vejce",
+    "nazev": "Vejce",
+    "g": 500,
+    "kolik": "10 ks"
+   },
+   {
+    "id": "sunka-nejvyssi-jakosti",
+    "nazev": "Šunka nejvyšší jakosti",
+    "g": 150,
+    "kolik": ""
+   },
+   {
+    "id": "eidam-30",
+    "nazev": "Eidam 30 %",
+    "g": 80,
+    "kolik": ""
+   },
+   {
+    "id": "paprika-cervena",
+    "nazev": "Paprika červená",
+    "g": 150,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "jarni-cibulka",
+    "nazev": "Jarní cibulka",
+    "g": 30,
+    "kolik": "2 stonky"
+   },
+   {
+    "id": "mleko-polotucne-1-5",
+    "nazev": "Mléko polotučné 1,5 %",
+    "g": 50,
+    "kolik": "pár lžic"
+   },
+   {
+    "nazev": "sůl, pepř, kapka oleje na formu",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": {
+   "nazev": "Rohlík Chef: vaječné muffiny se špenátem a sýrem",
+   "url": "https://www.rohlik.cz/chef/25416-vajecne-muffiny-se-spenatem-a-syrem"
+  },
+  "id": "vajecne-muffiny"
+ },
+ {
+  "nazev": "Zapečené brambory s mletým masem a sýrem",
+  "kategorie": "hlavni",
+  "cas": 50,
+  "porce": 3,
+  "mealprep": true,
+  "vydrzi": 3,
+  "vybaveni": [
+   "trouba",
+   "sporák"
+  ],
+  "fitVerze": "",
+  "popis": "Jednoduchá zapékaná mísa na 3 dny. Brambory, masová omáčka a nahoře rozteklý sýr.",
+  "postup": [
+   "Brambory nakrájej na tenká kolečka a 8 minut předvař v osolené vodě.",
+   "Na oleji osmahni cibuli, přidej maso a opékej, dokud nezhnědne.",
+   "Přidej česnek, koření a passatu a 5 minut povař.",
+   "Do zapékací mísy dej vrstvu brambor, masovou směs a zbytek brambor.",
+   "Navrch natrhej mozzarellu a peč na 200 °C 25 minut."
+  ],
+  "tip": "Mísu rovnou rozděl do 3 krabiček. Ohřátá v troubě nebo airfryeru je lepší než z mikrovlnky.",
+  "suroviny": [
+   {
+    "id": "brambory-syrove",
+    "nazev": "Brambory (syrové)",
+    "g": 600,
+    "kolik": ""
+   },
+   {
+    "id": "mlete-hovezi-libove-cca-5-tuku",
+    "nazev": "Mleté hovězí libové (cca 5 % tuku)",
+    "g": 400,
+    "kolik": ""
+   },
+   {
+    "id": "cibule",
+    "nazev": "Cibule",
+    "g": 100,
+    "kolik": "1 ks"
+   },
+   {
+    "id": "passata",
+    "nazev": "Passata",
+    "g": 250,
+    "kolik": "půl sklenice"
+   },
+   {
+    "id": "mozzarella-light",
+    "nazev": "Mozzarella light",
+    "g": 125,
+    "kolik": "1 kulička"
+   },
+   {
+    "id": "cesnek",
+    "nazev": "Česnek",
+    "g": 8,
+    "kolik": "2 stroužky"
+   },
+   {
+    "id": "repkovy-olej",
+    "nazev": "Řepkový olej",
+    "g": 5,
+    "kolik": "lžička"
+   },
+   {
+    "nazev": "sůl, pepř, sladká paprika, majoránka",
+    "bez": true,
+    "kolik": ""
+   }
+  ],
+  "zdroj": null,
+  "id": "zapecene-brambory-maso"
+ }
+]
