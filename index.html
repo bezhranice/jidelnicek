@@ -276,6 +276,21 @@ details summary { color: var(--muted); }
 .per100 { margin: 0; font-size: .84rem; color: var(--muted); }
 .confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--red-soft); border: 1px solid rgba(224, 36, 43, .35); border-radius: 4px; padding: 12px 14px; }
 .confirm p { margin: 0; flex: 1 1 160px; font-weight: 600; }
+.rozpis-wrap { overflow-x: auto; }
+.rozpis { width: 100%; border-collapse: collapse; font-size: .78rem; font-variant-numeric: tabular-nums; }
+.rozpis th { text-align: right; font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 3px; border-bottom: 1px solid var(--edge); white-space: nowrap; }
+.rozpis th:first-child, .rozpis td:first-child { text-align: left; padding-left: 0; }
+.rozpis td { text-align: right; padding: 7px 3px; border-bottom: 1px solid var(--edge); white-space: nowrap; }
+.rozpis td:first-child { white-space: normal; min-width: 84px; }
+.rozpis tfoot td { font-weight: 800; border-bottom: 0; color: var(--ink); }
+.rozpis .p { color: var(--red-hi); }
+details.rz summary { cursor: pointer; font-weight: 700; color: var(--ink-2); padding: 4px 0; }
+.bing { display: grid; grid-template-columns: 1fr 92px 66px 34px; gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid var(--edge); }
+.bing:first-child { border-top: 0; }
+.bing .nm { min-width: 0; overflow-wrap: anywhere; font-weight: 500; }
+.bing .kc { text-align: right; font-weight: 700; font-size: .86rem; white-space: nowrap; }
+.bing .input { min-height: 40px; padding: 8px 34px 8px 10px; }
+.bing .x { width: 34px; height: 34px; border: 1px solid var(--edge); background: var(--glass); color: var(--muted); border-radius: 3px; }
 .ai-out { border: 1px solid var(--edge); background: var(--glass); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .thinking { font-family: var(--f-head); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; color: var(--red-hi); font-size: 1.5rem; }
 .est { border-radius: 4px; padding: 11px 14px; background: var(--red-soft); color: var(--ink-2); font-size: .9rem; margin: 0; }
@@ -1859,6 +1874,7 @@ function shellRecepty() {
   return `
     <h1 class="title">Recepty</h1>
     ${seg}
+    <button class="btn black block" data-a="b-new">+ Můj recept</button>
     ${ai}
     <input class="input" id="rec-q" type="search" placeholder="Hledat recept nebo surovinu…" autocomplete="off">
     <div class="stack" style="gap:8px" id="rec-filters"></div>
@@ -1878,7 +1894,7 @@ function recCard(r, extra = "") {
     <h3>${esc(r.nazev)}</h3>
     <div class="meta"><span>${fmt(r.cas)} min</span><span><b>${fmt(m.kcal)} kcal</b>/porce</span><span>B ${fmt(m.b)} g</span>${h ? `<span class="stars" aria-label="${h} z 5">${stars(h)}</span>` : ""}</div>
     ${extra}
-    <div class="badges"><span class="badge">${KAT[r.kategorie] || ""}</span>${r.mealprep ? `<span class="badge fill">krabička${r.vydrzi ? ` · ${r.vydrzi} ${plural(r.vydrzi, "den", "dny", "dní")}` : ""}</span>` : ""}${r.fitVerze ? `<span class="badge redf">fit ${esc(r.fitVerze)}</span>` : ""}${r.ai ? `<span class="badge">od Clauda</span>` : ""}</div>
+    <div class="badges"><span class="badge">${KAT[r.kategorie] || ""}</span>${r.mealprep ? `<span class="badge fill">krabička${r.vydrzi ? ` · ${r.vydrzi} ${plural(r.vydrzi, "den", "dny", "dní")}` : ""}</span>` : ""}${r.fitVerze ? `<span class="badge redf">fit ${esc(r.fitVerze)}</span>` : ""}${r.ai ? `<span class="badge">od Clauda</span>` : ""}${r.vlastni ? `<span class="badge redf">můj</span>` : ""}</div>
   </button>`;
 }
 function renderRecList() {
@@ -2135,7 +2151,10 @@ function renderPotList() {
 }
 
 /* ---------- panel zespodu ---------- */
-function openSheet(state) { S.sheet = state; $("#sheet").hidden = false; document.body.classList.add("locked"); renderSheet(); }
+function openSheet(state) {
+  const prevB = S.sheet?.builder;
+  if (prevB && state.returnTo && !state.returnTo.builder) state.returnTo.builder = prevB;
+  S.sheet = state; $("#sheet").hidden = false; document.body.classList.add("locked"); renderSheet(); }
 function closeSheet() { stopScanner(); if (S.ai?.ctl) S.ai.ctl.abort(); S.ai = null; S.sheet = null; $("#sheet").hidden = true; document.body.classList.remove("locked"); }
 const mealPick = sel => `<div class="pick" role="group" aria-label="Jídlo">${MEALS.map(m => `<button data-a="s-meal" data-meal="${m.id}" aria-pressed="${m.id === sel}">${m.label}</button>`).join("")}</div>`;
 function submitLabel() {
@@ -2151,10 +2170,11 @@ function head(title, back) {
 function renderSheet() {
   const sh = S.sheet; if (!sh) return;
   const p = $("#sheet-panel");
+  if (sh.view === "builder") renderBuilderSheet(p);
   if (sh.view === "search") {
-    p.innerHTML = head("Přidat jídlo") + `<div class="sheet-body">
-      ${mealPick(sh.meal)}
-      <div class="seg" role="group" aria-label="Způsob zápisu"><button data-a="s-view" data-v="search" aria-pressed="true">Hledat</button><button data-a="s-view" data-v="quick" aria-pressed="false">Rychlý zápis</button>${S.sampleImages ? `<button data-a="photo" data-kind="jidlo" data-meal="${sh.meal}" aria-pressed="false">Vyfotit</button>` : ""}</div>
+    p.innerHTML = head(sh.builder ? "Přidat surovinu" : "Přidat jídlo", sh.builder ? "b-back" : null) + `<div class="sheet-body">
+      ${sh.builder ? "" : `${mealPick(sh.meal)}
+      <div class="seg" role="group" aria-label="Způsob zápisu"><button data-a="s-view" data-v="search" aria-pressed="true">Hledat</button><button data-a="s-view" data-v="quick" aria-pressed="false">Rychlý zápis</button>${S.sampleImages ? `<button data-a="photo" data-kind="jidlo" data-meal="${sh.meal}" aria-pressed="false">Vyfotit</button>` : ""}</div>`}
       <div class="row" style="flex-wrap:nowrap"><input class="input" id="s-q" type="search" placeholder="Např. Horalky, anglický rohlík, Big Mac…" autocomplete="off" value="${esc(sh.q || "")}">${typeof barcodeLookup === "function" ? `<button class="btn" data-a="scan-open" aria-label="Skenovat čárový kód">Kód</button>` : ""}</div>
       <div id="s-results" class="stack"></div>
       <div id="s-online" class="stack"></div></div>`;
@@ -2267,6 +2287,23 @@ function renderPreview() {
   box.innerHTML = previewGrid(m);
 }
 const previewGrid = m => `<div class="preview"><div><b>${fmt(m.kcal)}</b><span>kcal</span></div><div><b class="red">${fmt(m.b, 1)}</b><span>bílk.</span></div><div><b>${fmt(m.t, 1)}</b><span>tuky</span></div><div><b>${fmt(m.s, 1)}</b><span>sach.</span></div></div>`;
+function ingMacros(x) {
+  if (!x || x.bez || !x.id || !(x.g > 0)) return { kcal: 0, b: 0, t: 0, s: 0 };
+  const f = foodById(x.id); return f ? macroFor(f, x.g) : { kcal: 0, b: 0, t: 0, s: 0 };
+}
+function rozpisTable(sur, porce) {
+  porce = Math.max(1, porce || 1);
+  const rows = (sur || []).filter(x => !x.bez && x.id && x.g > 0);
+  if (!rows.length) return `<p class="hint">Zatím žádné suroviny.</p>`;
+  const tot = { kcal: 0, b: 0, t: 0, s: 0, g: 0 };
+  const tr = rows.map(x => {
+    const m = ingMacros(x), k = 1 / porce;
+    tot.kcal += m.kcal * k; tot.b += m.b * k; tot.t += m.t * k; tot.s += m.s * k; tot.g += x.g * k;
+    return `<tr><td>${esc(x.nazev)}</td><td>${fmt(x.g * k)} g</td><td>${fmt(m.kcal * k)}</td><td class="p">${fmt(m.b * k, 1)}</td><td>${fmt(m.t * k, 1)}</td><td>${fmt(m.s * k, 1)}</td></tr>`;
+  }).join("");
+  return `<div class="rozpis-wrap"><table class="rozpis"><thead><tr><th>Surovina</th><th>g</th><th>kcal</th><th>B</th><th>T</th><th>S</th></tr></thead><tbody>${tr}</tbody>
+    <tfoot><tr><td>1 porce celkem</td><td>${fmt(tot.g)} g</td><td>${fmt(tot.kcal)}</td><td class="p">${fmt(tot.b, 1)}</td><td>${fmt(tot.t, 1)}</td><td>${fmt(tot.s, 1)}</td></tr></tfoot></table></div>`;
+}
 function recipeBody(r, porce, stepper = true) {
   const k = porce / r.porce;
   return `<p style="margin:0">${esc(r.popis || "")}</p>
@@ -2275,7 +2312,8 @@ function recipeBody(r, porce, stepper = true) {
     <div class="stack"><div class="row"><h3 class="h2">Suroviny</h3>
       ${stepper ? `<div class="stepper" aria-label="Počet porcí"><button data-a="rec-porce" data-k="-1" aria-label="Méně porcí">−</button><span>${porce} ${plural(porce, "porce", "porce", "porcí")}</span><button data-a="rec-porce" data-k="1" aria-label="Víc porcí">+</button></div>` : `<span class="small" style="font-weight:800">${porce} ${plural(porce, "porce", "porce", "porcí")}</span>`}</div>
       <ul class="ing">${(r.suroviny || []).map(x => `<li><span>${esc(x.nazev)}</span><span class="amt">${x.bez ? "" : `${fmt(x.g * k)} g`}${x.kolik && k === 1 ? `<small>${esc(x.kolik)}</small>` : ""}</span></li>`).join("")}</ul></div>
-    <div class="stack"><h3 class="h2">Postup</h3><ol class="steps">${(r.postup || []).map(s => `<li>${esc(s)}</li>`).join("")}</ol></div>
+    <details class="rz"><summary>Rozpis surovin a živin na 1 porci</summary>${rozpisTable(r.suroviny, r.porce)}</details>
+    ${(r.postup || []).length ? `<div class="stack"><h3 class="h2">Postup</h3><ol class="steps">${(r.postup || []).map(s => `<li>${esc(s)}</li>`).join("")}</ol></div>` : ""}
     ${r.tip ? `<div class="tipbox"><b>Tip:</b> ${esc(r.tip)}</div>` : ""}
     ${r.zdroj?.url ? `<p class="src">Inspirace: <a href="${esc(r.zdroj.url)}" target="_blank" rel="noopener">${esc(r.zdroj.nazev)}</a>. Upraveno na tvoje makra.</p>` : ""}`;
 }
@@ -2290,15 +2328,93 @@ function renderRecipeSheet(p) {
       <p class="hint">Přidá 1 porci na ${dayTitle(d).toLowerCase()}${d === today() ? "" : ` (${dm(d)})`}.</p>
       ${mealPick(sh.meal)}
       <button class="btn black block" data-a="rec-log" id="s-submit">${submitLabel()}</button>
+      ${r.hotovaG ? `<p class="hint">Hotové jídlo váží ${fmt(r.hotovaG)} g, 1 porce je asi ${fmt(r.hotovaG / r.porce)} g. Nebo zapiš přesně, kolik jsi snědla:</p>
+      <div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="g" style="flex:1"><input class="input" id="rl-g" type="number" inputmode="decimal" placeholder="Snědla jsem gramů"></div><button class="btn" data-a="rec-log-g">Zapsat</button></div>
+      <div id="rl-prev"></div>` : ""}
     </section>
+    <button class="btn block" data-a="b-edit">Upravit recept</button>
     <section class="card">
       <h3 class="h2">Jak ti chutnalo?</h3>
       <div class="starpick" role="group" aria-label="Hodnocení">${[1, 2, 3, 4, 5].map(n => `<button data-a="rec-rate" data-n="${n}" aria-pressed="${(rt.hvezdy || 0) >= n}" aria-label="${n} z 5">★</button>`).join("")}</div>
       <p class="hint">${rt.uvareno ? `Uvařila jsi ${rt.uvareno}×${rt.naposledy ? `, naposledy ${dm(rt.naposledy)}` : ""}.` : "Ještě jsi nevařila."}</p>
       <button class="btn" data-a="rec-cooked">Uvařila jsem to</button>
     </section>
-    ${r.ai ? deleteBlock("rec-del", "Smazat recept") : ""}
+    ${r.ai || r.vlastni ? deleteBlock("rec-del", "Smazat recept") : ""}
   </div>`;
+}
+
+/* ---------- Můj recept: skládání vlastního receptu ---------- */
+function newBuilder(r) {
+  return {
+    id: r?.id || null, nazev: r?.nazev || "", kategorie: r?.kategorie || "hlavni",
+    porce: r?.porce || 4, hotovaG: r?.hotovaG || 0, mode: r?.hotovaG ? "vaha" : "porce",
+    suroviny: (r?.suroviny || []).map(x => ({ ...x })), postup: (r?.postup || []).join("\n"),
+    cas: r?.cas || 30, mealprep: r ? !!r.mealprep : true, orig: r || null,
+  };
+}
+function readBuilderFields() {
+  const b = S.sheet?.builder; if (!b || !$("#b-name")) return;
+  b.nazev = $("#b-name").value.trim(); b.postup = $("#b-postup").value; b.cas = Math.max(1, Math.round(num($("#b-cas").value)) || b.cas);
+  b.porce = Math.max(1, Math.round(num($("#b-porce").value)) || 1);
+  if ($("#b-hot")) b.hotovaG = Math.max(0, Math.round(num($("#b-hot").value)));
+  b.suroviny.forEach((x, i) => { const el = $("#b-g-" + i); if (el) x.g = Math.max(0, num(el.value)); });
+}
+function builderCalc() {
+  const b = S.sheet.builder;
+  const tot = b.suroviny.reduce((a, x) => { const m = ingMacros(x); return { kcal: a.kcal + m.kcal, b: a.b + m.b, t: a.t + m.t, s: a.s + m.s }; }, { kcal: 0, b: 0, t: 0, s: 0 });
+  const rawG = b.suroviny.reduce((a, x) => a + (x.bez ? 0 : x.g || 0), 0);
+  const por = Math.max(1, b.porce || 1);
+  const per = { kcal: tot.kcal / por, b: tot.b / por, t: tot.t / por, s: tot.s / por };
+  const hot = b.mode === "vaha" && b.hotovaG > 0;
+  return `<section class="card">
+      <span class="label">Celý recept</span>
+      ${previewGrid(tot)}
+      <p class="hint">Suroviny dohromady ${fmt(rawG)} g${hot ? `, hotové jídlo ${fmt(b.hotovaG)} g` : ""}.</p>
+    </section>
+    <section class="card">
+      <span class="label">1 porce z ${por}</span>
+      ${previewGrid(per)}
+      ${hot ? `<p class="hint">1 porce = asi <b>${fmt(b.hotovaG / por)} g</b> hotového jídla. Na 100 g hotového jídla: ${fmt(tot.kcal / b.hotovaG * 100)} kcal · B ${fmt(tot.b / b.hotovaG * 100, 1)} g.</p>` : ""}
+      ${rozpisTable(b.suroviny, por)}
+    </section>`;
+}
+function refreshBuilderCalc() {
+  const b = S.sheet?.builder; if (!b) return;
+  b.suroviny.forEach((x, i) => { const k = $("#b-k-" + i); if (k) k.textContent = fmt(ingMacros(x).kcal) + " kcal"; });
+  const box = $("#b-calc"); if (box) box.innerHTML = builderCalc();
+}
+function renderBuilderSheet(p) {
+  const b = S.sheet.builder;
+  const rows = b.suroviny.map((x, i) => x.bez ? "" : `<div class="bing"><span class="nm">${esc(x.nazev)}</span><div class="unit" data-u="g"><input class="input" id="b-g-${i}" type="number" inputmode="decimal" value="${x.g || ""}" aria-label="Gramy ${esc(x.nazev)}"></div><span class="kc" id="b-k-${i}">${fmt(ingMacros(x).kcal)} kcal</span><button class="x" data-a="b-del" data-i="${i}" aria-label="Odebrat ${esc(x.nazev)}">×</button></div>`).join("");
+  p.innerHTML = head(b.id ? "Upravit recept" : "Můj recept") + `<div class="sheet-body">
+    <div class="field"><label for="b-name">Název</label><input class="input" id="b-name" value="${esc(b.nazev)}" placeholder="Např. Moje kuřecí rizoto"></div>
+    <div class="pick" role="group" aria-label="Druh jídla">${[["snidane", "Snídaně"], ["hlavni", "Hlavní jídlo"], ["svacina", "Svačina"]].map(([k, l]) => `<button data-a="b-kat" data-v="${k}" aria-pressed="${b.kategorie === k}">${l}</button>`).join("")}<button data-a="b-prep" aria-pressed="${b.mealprep}">Do krabičky</button></div>
+    <section class="card">
+      <div class="row"><h3 class="h2">Suroviny</h3><span class="hint">gramy za celý hrnec</span></div>
+      <div>${rows || `<p class="hint">Přidej, co do jídla dáváš, a kolik toho je.</p>`}</div>
+      <button class="btn black block" data-a="b-add">+ Přidat surovinu</button>
+    </section>
+    <section class="card">
+      <h3 class="h2">Porce</h3>
+      <div class="seg" role="group" aria-label="Dělení"><button data-a="b-mode" data-v="porce" aria-pressed="${b.mode === "porce"}">Počet porcí</button><button data-a="b-mode" data-v="vaha" aria-pressed="${b.mode === "vaha"}">Podle váhy</button></div>
+      <div class="grid2">
+        <div class="field"><label for="b-porce">Kolik porcí z toho bude</label><input class="input" id="b-porce" type="number" inputmode="numeric" min="1" value="${b.porce}"></div>
+        ${b.mode === "vaha" ? `<div class="field"><label for="b-hot">Hotové jídlo váží</label><div class="unit" data-u="g"><input class="input" id="b-hot" type="number" inputmode="decimal" value="${b.hotovaG || ""}" placeholder="zvaž hrnec bez hrnce"></div></div>` : ""}
+      </div>
+      ${b.mode === "vaha" ? `<p class="hint">Zvaž hotové jídlo (bez nádoby). Do deníku pak můžeš zapsat přesně tolik gramů, kolik sníš.</p>` : ""}
+    </section>
+    <div id="b-calc" class="stack">${builderCalc()}</div>
+    <div class="grid2"><div class="field"><label for="b-cas">Příprava</label><div class="unit" data-u="min"><input class="input" id="b-cas" type="number" inputmode="numeric" value="${b.cas}"></div></div></div>
+    <div class="field"><label for="b-postup">Postup (nepovinné, každý krok na nový řádek)</label><textarea class="input" id="b-postup" rows="4">${esc(b.postup)}</textarea></div>
+    <button class="btn black block" data-a="b-save">Uložit recept</button>
+  </div>`;
+}
+function addToBuilder(st, f) {
+  st.builder.suroviny.push({ id: f.id, nazev: f.nazev, g: f.jednG && f.jednG >= 20 ? f.jednG : 100, kolik: "" });
+  st.view = "builder";
+}
+function pickedFood(st, f) {
+  if (st.builder) addToBuilder(st, f); else Object.assign(st, { view: "detail", food: f, g: f.jednG || 100 });
 }
 
 /* ---------- skener čárových kódů ---------- */
@@ -2330,11 +2446,11 @@ async function lookupCode(code) {
   if (code.length < 6) { toast("Kód má mít aspoň 8 číslic."); return; }
   const sh = S.sheet; if (!sh) return;
   const known = foods().find(f => f.kod === code);
-  if (known) { Object.assign(sh, { view: "detail", food: known, g: known.jednG || 100 }); renderSheet(); return; }
+  if (known) { pickedFood(sh, known); renderSheet(); return; }
   const m = $("#scan-msg"); if (m) m.innerHTML = `<span class="thinking">Hledám ${esc(code)}…</span>`;
   const res = await barcodeLookup(code);
   if (!S.sheet || S.sheet !== sh) return;
-  if (res.found) { const f = saveOffFood(res.item); Object.assign(sh, { view: "detail", food: f, g: f.jednG || 100 }); renderSheet(); toast("Nalezeno a uloženo do tvých potravin."); return; }
+  if (res.found) { const f = saveOffFood(res.item); pickedFood(sh, f); renderSheet(); toast("Nalezeno a uloženo do tvých potravin."); return; }
   sh.lookupMsg = `<p class="est">${res.error === "offline" ? "Není internet." : `Kód ${esc(code)} v databázi ${res.partial ? "nemá výživové hodnoty" : "není"}.`}</p>
     <div class="row" style="justify-content:flex-start">${S.sampleImages ? `<button class="btn redb sm" data-a="photo" data-kind="obal">Vyfotit obal</button>` : ""}<button class="btn sm" data-a="food-new-code" data-code="${esc(code)}" data-name="${esc(res.partial || "")}">Přidat ručně</button><button class="btn ghost sm" data-a="scan-again">Skenovat znovu</button></div>`;
   renderSheet();
@@ -2544,7 +2660,7 @@ function saveFood() {
   S.custom = { ...S.custom, [id]: food }; S.foodsCache = null;
   queueWrite(() => S.db.doc("potraviny/" + id).set(food));
   const back = S.sheet.returnTo;
-  if (back) openSheet({ ...back, view: "detail", food: foodById(id), g: food.jednG || 100 }); else closeSheet();
+  if (back) { const st = { ...back }; pickedFood(st, foodById(id)); openSheet(st); } else closeSheet();
   refresh(); toast("Potravina uložena.");
 }
 function removeFood(id) {
@@ -2557,10 +2673,46 @@ const actions = {
   "signup": () => doAuth("signup"),
   "logout": () => { sb.auth.signOut(); },
   "export": () => exportBackup(),
+  "b-new": () => { if (!S.ready) return; openSheet({ view: "builder", builder: newBuilder(null), meal: guessMeal() }); },
+  "b-edit": () => { const r = S.recipes[S.sheet?.recId]; if (!r) return; openSheet({ view: "builder", builder: newBuilder(r), meal: guessMeal() }); },
+  "b-add": () => { readBuilderFields(); Object.assign(S.sheet, { view: "search", q: "" }); renderSheet(); },
+  "b-back": () => { S.sheet.view = "builder"; renderSheet(); },
+  "b-del": b => { readBuilderFields(); S.sheet.builder.suroviny.splice(+b.dataset.i, 1); renderSheet(); },
+  "b-kat": b => { readBuilderFields(); S.sheet.builder.kategorie = b.dataset.v; renderSheet(); },
+  "b-prep": () => { readBuilderFields(); S.sheet.builder.mealprep = !S.sheet.builder.mealprep; renderSheet(); },
+  "b-mode": b => { readBuilderFields(); S.sheet.builder.mode = b.dataset.v; renderSheet(); },
+  "b-save": () => {
+    readBuilderFields();
+    const b = S.sheet.builder;
+    const sur = b.suroviny.filter(x => x.bez || x.g > 0);
+    if (!b.nazev) { toast("Napiš název receptu."); $("#b-name")?.focus(); return; }
+    if (!sur.some(x => !x.bez)) { toast("Přidej aspoň jednu surovinu s gramy."); return; }
+    if (b.mode === "vaha" && !(b.hotovaG > 0)) { toast("Napiš, kolik hotové jídlo váží, nebo přepni na počet porcí."); return; }
+    const o = b.orig || {};
+    const r = {
+      nazev: b.nazev.slice(0, 90), popis: o.popis || "Můj recept.", kategorie: b.kategorie, cas: b.cas, porce: b.porce,
+      mealprep: b.mealprep, vydrzi: b.mealprep ? (o.vydrzi || 3) : 0, vybaveni: o.vybaveni || [], fitVerze: o.fitVerze || "",
+      suroviny: sur.map(x => x.bez ? x : { id: x.id, nazev: x.nazev, g: Math.round(x.g * 10) / 10, kolik: x.kolik || "" }),
+      postup: b.postup.split("\n").map(s => s.trim()).filter(Boolean), tip: o.tip || "", zdroj: o.zdroj || null,
+      hotovaG: b.mode === "vaha" ? b.hotovaG : 0, vlastni: o.ai ? false : true, ai: !!o.ai,
+    };
+    const id = b.id || ("moje-" + slug(b.nazev).slice(0, 40) + "-" + rid().slice(0, 4));
+    S.recipes = { ...S.recipes, [id]: { ...r, id } };
+    queueWrite(() => S.db.doc("recepty/" + id).set(r));
+    openSheet({ view: "recipe", recId: id, porce: r.porce, meal: r.kategorie === "snidane" ? "snidane" : guessMeal() });
+    refresh(); toast("Recept uložen.");
+  },
+  "rec-log-g": () => {
+    const sh = S.sheet, r = S.recipes[sh.recId]; if (!r || !r.hotovaG) return;
+    const g = num($("#rl-g")?.value); if (!(g > 0)) { toast("Napiš, kolik gramů jsi snědla."); return; }
+    const m = recipeMacros(r, r.porce), k = g / r.hotovaG, d = sh.logDate || S.date;
+    appendToDay(d, [{ id: rid(), jidlo: sh.meal, receptId: r.id, nazev: r.nazev, g: r1(g), kcal: r1(m.kcal * k), b: r1(m.b * k), t: r1(m.t * k), s: r1(m.s * k) }]);
+    closeSheet(); toast(`Zapsáno ${fmt(g)} g ${MEAL[sh.meal].to}.`);
+  },
   "scan-open": () => { const sh = S.sheet; if (!sh) return; sh.lookupMsg = ""; sh.view = "scan"; renderSheet(); },
   "scan-again": () => { S.sheet.lookupMsg = ""; renderSheet(); },
   "scan-manual": () => { stopScanner(); lookupCode($("#scan-code")?.value); },
-  "pick-off": b => { const x = S.offResults?.[+b.dataset.i]; if (!x) return; const f = saveOffFood(x); Object.assign(S.sheet, { view: "detail", food: f, g: f.jednG || 100 }); renderSheet(); },
+  "pick-off": b => { const x = S.offResults?.[+b.dataset.i]; if (!x) return; const f = saveOffFood(x); pickedFood(S.sheet, f); renderSheet(); },
   "food-new-code": b => { const sh = S.sheet; openSheet({ view: "food", food: { nazev: b.dataset.name || "", kod: b.dataset.code }, returnTo: { view: "search", meal: sh?.meal || guessMeal(), q: "" } }); },
   "ai-estimate": async b => {
     const sh = S.sheet, q = (sh?.q || "").trim(); if (!q || !S.sample) return;
@@ -2605,7 +2757,7 @@ Odpověz jen JSON: {"nazev": "krátký český název", "kcal": číslo, "b": b�
   },
   "s-view": b => { S.sheet.view = b.dataset.v; renderSheet(); },
   "s-back": () => { S.sheet.view = "search"; S.sheet.food = null; renderSheet(); },
-  "pick-food": b => { const f = foodById(b.dataset.id); if (!f) return; Object.assign(S.sheet, { view: "detail", food: f, g: f.jednG || 100 }); renderSheet(); },
+  "pick-food": b => { const f = foodById(b.dataset.id); if (!f) return; pickedFood(S.sheet, f); renderSheet(); },
   "s-amount": b => { S.sheet.g = num(b.dataset.g); $("#s-g").value = S.sheet.g; renderPreview(); },
   "s-submit": submitDetail,
   "q-submit": submitQuick,
@@ -2730,6 +2882,9 @@ document.addEventListener("input", e => {
   if (id === "rec-q") renderRecList();
   if (id === "doma-q") { S.domaQ = e.target.value; renderDomaPick(); }
   if (id === "s-q") { S.sheet.q = e.target.value; renderResults(); }
+  if (id && /^b-g-\d+$/.test(id) && S.sheet?.builder) { const i = +id.slice(4); const x = S.sheet.builder.suroviny[i]; if (x) x.g = Math.max(0, num(e.target.value)); refreshBuilderCalc(); }
+  if ((id === "b-porce" || id === "b-hot") && S.sheet?.builder) { const b = S.sheet.builder; if (id === "b-porce") b.porce = Math.max(1, Math.round(num(e.target.value)) || 1); else b.hotovaG = Math.max(0, Math.round(num(e.target.value))); refreshBuilderCalc(); }
+  if (id === "rl-g" && S.sheet?.recId) { const r = S.recipes[S.sheet.recId], g = num(e.target.value), box = $("#rl-prev"); if (r && box) { const m = recipeMacros(r, r.porce), k = g / (r.hotovaG || 1); box.innerHTML = g > 0 ? previewGrid({ kcal: m.kcal * k, b: m.b * k, t: m.t * k, s: m.s * k }) : ""; } }
   if (id === "s-g") { S.sheet.g = num(e.target.value); renderPreview(); }
   if (id === "ai-q" && S.ai) S.ai.q = e.target.value;
   if (e.target.closest("#profil-form")) { S.profileDirty = true; renderEstimate(); }
