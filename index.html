@@ -2799,6 +2799,56 @@ const TR = (() => {
   const lsSet = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* bez úložiště */ } };
   const gl = (total, bw) => total > 0 && bw > 0 ? total * 100 / (610.32796 - 1045.59282 * Math.exp(-0.03048 * bw)) : 0;
 
+  /* ---------- notifikace (web push přes Supabase) ---------- */
+  const VAPID_PUBLIC = "BDfi3RmfRWhMjIZDWOPBpwA6LXIEWDGSHRBohkktUQraasJD_Zu5RVrdLiOzr0DxkD2IWzhLueiUY1ScgBxTpbg";
+  const pushOk = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  const pushOn = () => pushOk() && Notification.permission === "granted" && lsGet("tr-push-" + (S.uid || "x"), false) && typeof sb !== "undefined" && sb;
+  const nOpt = k => (st.cfg.notif || {})[k] !== false;
+  const b64u = s => { const p = "=".repeat((4 - s.length % 4) % 4), r = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(r, c => c.charCodeAt(0)); };
+  async function pushEnable() {
+    if (!pushOk()) { toast("Notifikace fungují jen v Lock In přidané na plochu iPhonu."); return; }
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== "granted") { toast("Notifikace nejsou povolené. Zapni je v Nastavení iPhonu → Lock In."); rerender(); return; }
+      const reg = await navigator.serviceWorker.ready;
+      const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64u(VAPID_PUBLIC) });
+      const j = sub.toJSON();
+      const r = await sb.from("push_sub").upsert({ endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth });
+      if (r.error) throw r.error;
+      lsSet("tr-push-" + S.uid, true); lsSet("tr-push-sig", null);
+      toast("Notifikace zapnuté."); scheduleRecurring(); rerender();
+    } catch (e) { console.error(e); toast("Notifikace se nepodařilo zapnout. Zkus to znovu s internetem."); }
+  }
+  async function pushDisable() {
+    try { const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription(); if (sub) { await sb.from("push_sub").delete().eq("endpoint", sub.endpoint); await sub.unsubscribe(); } } catch (e) { console.error(e); }
+    lsSet("tr-push-" + S.uid, false); toast("Notifikace vypnuté na tomhle zařízení."); rerender();
+  }
+  async function plan(tag, when, title, body) {
+    if (!pushOn()) return;
+    try {
+      await sb.from("push_plan").delete().eq("tag", tag).is("sent_at", null);
+      if (when && when > Date.now()) await sb.from("push_plan").insert({ tag, send_at: new Date(when).toISOString(), title, body, url: "./" });
+    } catch (e) { console.warn("plan", e); }
+  }
+  const at = (d, hm) => { const [h, m] = String(hm || "16:00").split(":").map(Number); const x = parseDs(d); x.setHours(h || 0, m || 0, 0, 0); return x.getTime(); };
+  function scheduleRecurring() {
+    if (!pushOn() || !st.wsLoaded) return;
+    const last = st.ws.length ? st.ws[st.ws.length - 1].datum : null, t = today();
+    // tréninkový den: nejbližší den z profilu Lock In (0 = pondělí), dnes jen pokud se ještě netrénovalo
+    let day = null;
+    const td = S.profile?.treninkoveDny || [];
+    if (nOpt("den") && td.length) for (let i = 0; i < 8 && !day; i++) { const d = addDays(t, i); if (td.includes(wdIndex(d)) && at(d, st.cfg.notif?.cas) > Date.now() && !(i === 0 && last === t)) day = d; }
+    const b = blockWeeks(), ph = b ? PH[b[0].ph][0] : "";
+    const sig = JSON.stringify([day, last, st.cfg.notif, ph, wkStart(t)]);
+    if (lsGet("tr-push-sig", null) === sig) return;
+    lsSet("tr-push-sig", sig);
+    plan("den", day && at(day, st.cfg.notif?.cas), day === t ? "Dnes je tréninkový den" : `${WD[wdIndex(day || t)]}: tréninkový den`, ph ? `Fáze ${ph}. ${PH[b[0].ph][1].split(":")[0]}.` : "Otevři Lock In a začni trénink.");
+    plan("pauza3", nOpt("neaktivita") && last ? at(addDays(last, 3), "18:00") : null, "3 dny bez tréninku", "Stačí krátký trénink. Série týdnů na tebe čeká.");
+    const sun = addDays(wkStart(t), 6);
+    plan("nedele", nOpt("nedele") ? at(sun, "19:00") : null, "Nedělní souhrn", "Podívej se, jak ti šel týden.");
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") scheduleRecurring(); });
+
   /* ---------- načtení ---------- */
   function theme() {
     const on = S.tab === "trenink", h = document.documentElement;
@@ -2823,7 +2873,7 @@ const TR = (() => {
     fetch("cviky.json", { cache: "no-cache" }).then(r => r.json()).then(l => { st.base = l; st.libLoaded = true; st.c = null; rerender(); }).catch(() => { st.libLoaded = true; });
     db.collection("trenink").onSnapshot(qs => {
       st.ws = qs.docs.map(d => ({ ...d.data(), id: d.id })).filter(w => w.datum).sort((a, b) => tsOf(a) - tsOf(b));
-      st.wsLoaded = true; st.c = null; rerender();
+      st.wsLoaded = true; st.c = null; rerender(); setTimeout(scheduleRecurring, 1500);
     });
     db.collection("trenink-cviky").onSnapshot(qs => { const m = {}; qs.docs.forEach(d => m[d.id] = { ...d.data(), id: d.id, vlastni: true }); st.custom = m; st.c = null; rerender(); });
     db.collection("trenink-sablony").onSnapshot(qs => { const m = {}; qs.docs.forEach(d => m[d.id] = { ...d.data(), id: d.id }); st.tpl = m; rerender(); });
@@ -3277,7 +3327,7 @@ const TR = (() => {
     await st.db.doc("trenink/" + id).set(doc);
     st.db.doc("denik/" + doc.datum).update({ datum: doc.datum, trenink: true });
     st.db.doc("trenink-aktivni/aktualni").delete();
-    st.active = null; lsSet(LSK(), null); st.rest = null; st.mode = "dnes";
+    st.active = null; lsSet(LSK(), null); st.rest = null; st.mode = "dnes"; plan("pauza", null); lsSet("tr-push-sig", null);
     openSheet({ type: "summary", id, doc, prs: [...new Set(prs)] });
     render();
   }
@@ -3570,6 +3620,19 @@ const TR = (() => {
         <p>Sedni si a vydýchej. Když to neodezní nebo jde o bolest na hrudi, volej <b>155</b>.</p></details>
     </section>`;
   }
+  function vNotif() {
+    const n = st.cfg.notif || {}, on = pushOn();
+    const status = !pushOk() ? "Na tomhle zařízení notifikace nejdou. Na iPhonu fungují jen v Lock In přidané na plochu (iOS 16.4 a novější)."
+      : Notification.permission === "denied" ? "Notifikace jsou zakázané. Povol je v Nastavení iPhonu → Notifikace → Lock In."
+      : on ? "Zapnuto na tomhle zařízení." : "Vypnuto na tomhle zařízení.";
+    const ch = (k, l) => `<label class="row" style="justify-content:flex-start;gap:10px"><input type="checkbox" data-t-ch="notif" data-k="${k}" ${n[k] !== false ? "checked" : ""}> ${l}</label>`;
+    return `<section class="card"><h2 class="h2">Notifikace</h2><p class="hint">${status}</p>
+      ${on ? `<div class="stack" style="gap:8px">${ch("pauza", "Konec pauzy mezi sériemi")}${ch("den", "Připomínka v tréninkový den")}${ch("neaktivita", "3 dny bez tréninku")}${ch("nedele", "Nedělní souhrn v 19:00")}</div>
+        <div class="field"><label for="tr-n-cas">Čas připomínky</label><input class="input" type="time" id="tr-n-cas" data-t-ch="notif-cas" value="${esc(n.cas || "16:00")}"></div>
+        <p class="hint">Tréninkové dny se berou z Lock In (Já → Tréninkové dny).</p>
+        <div class="row"><button class="btn" data-t="push-test">Poslat zkušební</button><button class="btn ghost" data-t="push-off">Vypnout</button></div>`
+      : pushOk() && Notification.permission !== "denied" ? `<button class="btn redb" data-t="push-on">Zapnout notifikace</button>` : ""}</section>`;
+  }
   function vSettings() {
     const c = st.cfg;
     const used = [...new Map(st.ws.flatMap(w => (w.cviky || []).filter(e => workSets(e).length).map(e => [e.id, e]))).values()].sort((a, b) => exName(a).localeCompare(exName(b), "cs"));
@@ -3583,6 +3646,7 @@ const TR = (() => {
       <div class="field"><label for="tr-s-po">Pauza doplňky</label><div class="unit" data-u="s"><input class="input" id="tr-s-po" inputmode="numeric" value="${esc(c.pauzaOstatni || 90)}"></div></div>
       <div class="field"><label for="tr-s-rir">Cílové RIR</label><input class="input" id="tr-s-rir" inputmode="numeric" value="${esc(c.rir ?? 2)}"></div></div>
       <button class="btn redb" data-t="save-cfg">Uložit</button></section>
+      ${vNotif()}
       <section class="card"><h2 class="h2">Import z Lyfty</h2><p class="hint">Vyber soubor <b>lyfta-import.json</b> (připravila ti ho Claude). Tréninky se nahrají do tvého účtu a objeví se i v telefonu. Opakovaný import nic nezdvojí.</p>
         <label class="btn" style="display:inline-flex;align-items:center;cursor:pointer;align-self:flex-start">Vybrat soubor<input type="file" accept="application/json,.json" data-t-ch="import" hidden></label></section>
       ${tpls.length ? `<section class="card"><h2 class="h2">Šablony</h2><div class="tr-list">${tpls.map(t => `<div class="row"><span>${esc(t.nazev)} <small class="hint">${(t.cviky || []).length} cviků</small></span><button class="btn sm ghost" data-t="tpl-del" data-id="${esc(t.id)}">Smazat</button></div>`).join("")}</div></section>` : ""}
@@ -3731,11 +3795,15 @@ const TR = (() => {
           if (s.pr) burst(`${exName(ex)}`, `${n1(w)} × ${r}`);
           const sec = MOVES[k[0]] && k !== "other" ? (+st.cfg.pauzaHlavni || 180) : (+st.cfg.pauzaOstatni || 90);
           st.rest = { end: Date.now() + sec * 1000, total: sec };
+          if (nOpt("pauza")) plan("pauza", st.rest.end, "Pauza je u konce", `Další série: ${exName(ex)}`);
         } else s.pr = false;
         persist(); render(); tick();
       },
-      "rest-plus": () => { if (st.rest) { st.rest.end += 30000; st.rest.total += 30; st.rest.buzzed = false; tick(); } },
-      "rest-stop": () => { st.rest = null; tick(); },
+      "rest-plus": () => { if (st.rest) { st.rest.end += 30000; st.rest.total += 30; st.rest.buzzed = false; tick(); if (nOpt("pauza")) plan("pauza", st.rest.end, "Pauza je u konce", "Další série čeká."); } },
+      "rest-stop": () => { st.rest = null; tick(); plan("pauza", null); },
+      "push-on": () => pushEnable(),
+      "push-off": () => pushDisable(),
+      "push-test": () => { if (!pushOn()) { toast("Nejdřív notifikace zapni."); return; } plan("test", Date.now() + 3000, "Lock In", "Notifikace fungují. Teď už jen trénovat."); toast("Zkušební notifikace přijde do minuty. Klidně zamkni telefon."); },
       "ex-menu": () => openSheet({ type: "ex-menu", e: +b.dataset.e }),
       "ex-move": () => { const i = +b.dataset.e, j = i + +b.dataset.d; [a.cviky[i], a.cviky[j]] = [a.cviky[j], a.cviky[i]]; persist(); closeSheet(); render(); },
       "ex-swap": () => openSheet({ type: "pick", q: "", swap: +b.dataset.e }),
@@ -3743,7 +3811,7 @@ const TR = (() => {
       finish: () => finish(),
       cancel: () => {
         if (!b.dataset.sure) { b.dataset.sure = "1"; b.textContent = "Opravdu? Klepni znovu"; return; }
-        st.db.doc("trenink-aktivni/aktualni").delete(); st.active = null; st.rest = null; lsSet(LSK(), null); st.mode = "dnes"; render();
+        st.db.doc("trenink-aktivni/aktualni").delete(); st.active = null; st.rest = null; lsSet(LSK(), null); st.mode = "dnes"; plan("pauza", null); render();
       },
       "w-open": () => openSheet({ type: "workout", id: b.dataset.id }),
       "w-edit": () => {
@@ -3779,6 +3847,13 @@ const TR = (() => {
   document.addEventListener("change", e => {
     const t = e.target; if (!t.dataset || !t.dataset.tCh) return;
     if (t.dataset.tCh === "import" && t.files?.[0]) importFile(t.files[0]);
+    if (t.dataset.tCh === "notif" || t.dataset.tCh === "notif-cas") {
+      const n = { ...(st.cfg.notif || {}) };
+      if (t.dataset.tCh === "notif") n[t.dataset.k] = t.checked; else n.cas = t.value || "16:00";
+      st.db.doc("trenink-nastaveni/profil").set({ ...st.cfg, notif: n });
+      if (t.dataset.k === "pauza" && !t.checked) plan("pauza", null);
+      lsSet("tr-push-sig", null); setTimeout(scheduleRecurring, 500);
+    }
     if (t.dataset.tCh === "map") { const m = { ...(st.cfg.mapping || {}), [t.dataset.id]: t.value }; st.db.doc("trenink-nastaveni/profil").set({ ...st.cfg, mapping: m }); }
   });
   function burst(title, val) {
