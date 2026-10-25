@@ -1155,6 +1155,380 @@ const FOOD_ROWS = [
 ];
 /* Rozšířená databáze: Anses. Ciqual 2025 (licence Etalab 2.0), názvy přeložené do češtiny.
    [název, kcal, bílkoviny, tuky, sacharidy, oddělení, kód Ciqual, [vláknina g, cukr g, sůl g, nasycené tuky g, zinek mg, hořčík mg, železo mg, vápník mg]] */
+/* Značky a řetězce z oficiálních zdrojů: McDonald's (mcdonalds.cz), KFC (tabulka 10/2026), Bageterie Boulevard (bageterie.com), nápoje podle etiket.
+   [název, kcal, bílkoviny, tuky, sacharidy, oddělení, jednotka, g v jednotce, {mikroživiny}, zdroj] */
+const BRAND_ROWS = [
+  ["McDonald's Jablečná taštička",285,2.9,15.0,35.0,"hotove","porce",80,{"cu":11.0,"sul":0.28,"nas":3.5,"vl":1.9},"mcdonalds.cz"],
+  ["McDonald's McFlurry Biscoff",202,3.7,6.0,32.0,"hotove","porce",158,{"cu":24.0,"sul":0.3,"nas":4.0,"vl":0.2},"mcdonalds.cz"],
+  ["McDonald's McFlurry KitKat",201,4.0,7.0,30.0,"hotove","porce",156,{"cu":26.0,"sul":0.2,"nas":4.0,"vl":0.5},"mcdonalds.cz"],
+  ["McDonald's McFlurry Lentilky",203,3.7,6.2,33.0,"hotove","porce",160,{"cu":31.0,"sul":0.2,"nas":4.0,"vl":0.2},"mcdonalds.cz"],
+  ["McDonald's McFlurry Popcorn Caramel",197,3.0,3.9,37.0,"hotove","porce",173,{"cu":29.0,"sul":0.2,"nas":2.6,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's McPops Citron",440,6.2,25.0,46.0,"hotove","porce",25,{"cu":22.0,"sul":0.8,"nas":13.0,"vl":1.3},"mcdonalds.cz"],
+  ["McDonald's McPops Dubai Style",491,7.6,30.0,46.0,"hotove","porce",25,{"cu":24.0,"sul":0.7,"nas":12.0,"vl":2.2},"mcdonalds.cz"],
+  ["McDonald's McPops Ovocná bomba",422,6.0,24.0,45.0,"hotove","porce",25,{"cu":21.0,"sul":0.7,"nas":11.0,"vl":1.5},"mcdonalds.cz"],
+  ["McDonald's McPops s nugátovou náplní",465,7.2,27.0,48.0,"hotove","porce",25,{"cu":23.0,"sul":0.55,"nas":11.0,"vl":1.7},"mcdonalds.cz"],
+  ["McDonald's McSundae čokoládové",185,4.0,5.0,30.0,"hotove","porce",151,{"cu":27.2,"sul":0.2,"nas":4.2,"vl":0.7},"mcdonalds.cz"],
+  ["McDonald's McSundae jahodové",153,3.0,3.0,29.0,"hotove","porce",150,{"cu":25.0,"sul":0.0,"nas":2.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's McSundae karamelové",187,3.0,4.0,34.0,"hotove","porce",154,{"cu":26.0,"sul":0.2,"nas":2.7,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's McSundae",137,3.4,3.5,23.0,"hotove","porce",110,{"cu":21.0,"sul":0.17,"nas":2.5,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Milk Shake s čokoládovou příchutí",118,3.4,2.3,21.0,"hotove","porce",173,{"cu":17.0,"sul":0.17,"nas":1.6,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's Milk Shake s jahodovou příchutí",117,3.0,2.1,21.0,"hotove","porce",174,{"cu":20.0,"sul":0.11,"nas":1.4,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Milk Shake s vanilkovou příchutí",115,3.0,2.1,21.0,"hotove","porce",173,{"cu":18.0,"sul":0.1,"nas":1.4,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Taštička s čokoládou a slaným karamelem",393,4.4,20.0,47.0,"hotove","porce",83,{"cu":24.0,"sul":0.6,"nas":6.5,"vl":2.4},"mcdonalds.cz"],
+  ["McDonald's Zmrzlina v kornoutku",165,4.2,4.2,28.0,"hotove","porce",85,{"cu":21.0,"sul":0.17,"nas":2.5,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's Grimace Shake",118,3.0,2.1,22.0,"hotove","porce",291,{"cu":21.0,"sul":0.1,"nas":1.5,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's McPops Bláznivá borůvka",405,6.0,24.0,41.0,"hotove","porce",25,{"cu":16.0,"sul":0.7,"nas":9.0,"vl":1.7},"mcdonalds.cz"],
+  ["McDonald's Chicken Nuggets",243,15.0,12.0,19.0,"hotove","porce",72,{"cu":0.7,"sul":1.1,"nas":1.4,"vl":0.8},"mcdonalds.cz"],
+  ["McDonald's Hranolky",289,4.0,14.0,36.0,"hotove","porce",80,{"cu":0.4,"sul":0.7,"nas":1.3,"vl":3.5},"mcdonalds.cz"],
+  ["McDonald's Hranolky střední (asi 114 g)",289,4.0,14.0,36.0,"hotove","porce",114,{"cu":0.4,"sul":0.7,"nas":1.3,"vl":3.5},"mcdonalds.cz"],
+  ["McDonald's Hranolky velké (asi 154 g)",289,4.0,14.0,36.0,"hotove","porce",154,{"cu":0.4,"sul":0.7,"nas":1.3,"vl":3.5},"mcdonalds.cz"],
+  ["McDonald's McMuffin Kids",188,11.0,5.5,23.0,"hotove","porce",94,{"cu":1.6,"sul":0.5,"nas":3.3,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Big Arch",275,15.0,18.0,13.0,"hotove","porce",360,{"cu":3.1,"sul":1.1,"nas":7.0,"vl":1.1},"mcdonalds.cz"],
+  ["McDonald's Big Mac",237,11.5,12.6,19.0,"hotove","porce",215,{"cu":4.0,"sul":1.02,"nas":4.6,"vl":1.5},"mcdonalds.cz"],
+  ["McDonald's Cheeseburger",253,13.0,11.0,25.0,"hotove","porce",121,{"cu":6.0,"sul":1.3,"nas":5.0,"vl":1.9},"mcdonalds.cz"],
+  ["McDonald's Double Big Tasty Bacon",256,14.0,17.0,12.0,"hotove","porce",383,{"cu":2.5,"sul":0.9,"nas":6.9,"vl":0.8},"mcdonalds.cz"],
+  ["McDonald's Double Cheeseburger",255,15.0,13.0,17.0,"hotove","porce",179,{"cu":4.4,"sul":1.3,"nas":6.7,"vl":1.4},"mcdonalds.cz"],
+  ["McDonald's Hamburger",243,12.0,8.9,27.0,"hotove","porce",106,{"cu":6.4,"sul":1.0,"nas":3.5,"vl":2.2},"mcdonalds.cz"],
+  ["McDonald's McRoyal Double",263,18.0,15.0,13.0,"hotove","porce",303,{"cu":3.3,"sul":1.0,"nas":7.2,"vl":1.0},"mcdonalds.cz"],
+  ["McDonald's McRoyal Jalapeño & Bacon",261,15.0,14.0,18.0,"hotove","porce",201,{"cu":4.7,"sul":1.3,"nas":6.5,"vl":1.3},"mcdonalds.cz"],
+  ["McDonald's McRoyal",261,15.0,14.0,18.0,"hotove","porce",192,{"cu":4.9,"sul":1.1,"nas":6.5,"vl":1.4},"mcdonalds.cz"],
+  ["McDonald's Single Big Tasty Bacon",244,11.0,15.0,15.0,"hotove","porce",283,{"cu":3.2,"sul":0.9,"nas":5.6,"vl":1.0},"mcdonalds.cz"],
+  ["McDonald's Tasty Cheese",272,13.0,15.0,21.0,"hotove","porce",121,{"cu":5.0,"sul":1.0,"nas":5.2,"vl":1.6},"mcdonalds.cz"],
+  ["McDonald's Triple Cheeseburger",276,17.0,16.0,15.0,"hotove","porce",205,{"cu":3.6,"sul":1.4,"nas":8.0,"vl":1.0},"mcdonalds.cz"],
+  ["McDonald's Chicken Junior",265,9.0,13.0,26.0,"hotove","porce",140,{"cu":5.0,"sul":1.0,"nas":2.8,"vl":1.9},"mcdonalds.cz"],
+  ["McDonald's Chicken McNuggets",240,15.0,11.0,19.0,"hotove","porce",109,{"cu":0.7,"sul":1.1,"nas":1.4,"vl":0.9},"mcdonalds.cz"],
+  ["McDonald's Chicken Strips",221,14.0,10.0,19.0,"hotove","porce",98,{"cu":0.1,"sul":0.95,"nas":1.1,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's Chickenburger",241,9.0,6.6,36.0,"hotove","porce",115,{"cu":9.0,"sul":1.1,"nas":1.1,"vl":2.3},"mcdonalds.cz"],
+  ["McDonald's Creamy BBQ Chicken McWrap",237,10.0,11.0,24.0,"hotove","porce",215,{"cu":2.0,"sul":1.0,"nas":2.5,"vl":1.4},"mcdonalds.cz"],
+  ["McDonald's Crispy Chicken salát",131,7.5,5.5,12.3,"hotove","porce",285,{"cu":3.9,"sul":0.7,"nas":1.8,"vl":1.5},"mcdonalds.cz"],
+  ["McDonald's Honey Mustard Chicken McWrap",236,9.0,12.0,23.0,"hotove","porce",230,{"cu":3.0,"sul":1.0,"nas":2.2,"vl":1.3},"mcdonalds.cz"],
+  ["McDonald's McChicken",232,11.0,9.1,24.0,"hotove","porce",184,{"cu":4.1,"sul":1.0,"nas":1.1,"vl":1.4},"mcdonalds.cz"],
+  ["McDonald's McCrispy Creamy BBQ Deluxe",277,14.0,13.0,26.0,"hotove","porce",210,{"cu":5.0,"sul":1.3,"nas":2.6,"vl":1.8},"mcdonalds.cz"],
+  ["McDonald's McCrispy Creamy BBQ",261,12.0,11.0,27.0,"hotove","porce",200,{"cu":5.0,"sul":1.0,"nas":1.3,"vl":2.0},"mcdonalds.cz"],
+  ["McDonald's Snack Wrap",236,10.0,9.0,28.0,"hotove","porce",100,{"cu":1.4,"sul":1.1,"nas":2.2,"vl":1.5},"mcdonalds.cz"],
+  ["McDonald's Banana bread s čokoládou",317,5.9,12.0,47.0,"hotove","porce",95,{"cu":29.0,"sul":0.8,"nas":2.0,"vl":1.0},"mcdonalds.cz"],
+  ["McDonald's Berry Skyr dort",247,5.0,18.0,15.0,"hotove","porce",120,{"cu":12.0,"sul":0.1,"nas":9.0,"vl":1.0},"mcdonalds.cz"],
+  ["McDonald's Cheesecake jahoda",239,3.6,13.0,27.0,"hotove","porce",121,{"cu":21.0,"sul":0.29,"nas":6.4,"vl":0.8},"mcdonalds.cz"],
+  ["McDonald's Cheesecake",255,6.6,12.7,28.0,"hotove","porce",179,{"cu":18.0,"sul":0.5,"nas":4.0,"vl":0.4},"mcdonalds.cz"],
+  ["McDonald's Čokoládová kostka",461,4.2,29.0,43.0,"hotove","porce",130,{"cu":34.0,"sul":0.5,"nas":9.0,"vl":2.2},"mcdonalds.cz"],
+  ["McDonald's Cookie Double Chocolate",521,5.8,27.0,63.0,"hotove","porce",72,{"cu":41.0,"sul":0.9,"nas":13.0,"vl":1.7},"mcdonalds.cz"],
+  ["McDonald's Cookie Triple Chocolate",515,5.6,26.0,62.0,"hotove","porce",72,{"cu":44.0,"sul":0.8,"nas":14.0,"vl":3.1},"mcdonalds.cz"],
+  ["McDonald's Croissant",443,7.4,27.0,42.0,"hotove","porce",58,{"cu":7.0,"sul":1.1,"nas":18.0,"vl":2.5},"mcdonalds.cz"],
+  ["McDonald's Flat White",37,1.9,2.0,2.8,"hotove","porce",232,{"cu":2.8,"sul":0.1,"nas":1.2,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Horká čokoláda",104,3.8,4.1,12.0,"hotove","porce",235,{"cu":10.0,"sul":0.14,"nas":2.4,"vl":1.5},"mcdonalds.cz"],
+  ["McDonald's Jablečný dort s karamelem",254,2.5,10.0,38.0,"hotove","porce",150,{"cu":22.0,"sul":0.13,"nas":5.0,"vl":1.0},"mcdonalds.cz"],
+  ["McDonald's Ledová čokoláda",119,2.5,4.5,17.0,"hotove","porce",400,{"cu":16.0,"sul":0.15,"nas":3.25,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's Ledová káva",33,1.0,2.5,1.5,"hotove","porce",394,{"cu":1.5,"sul":0.05,"nas":1.8,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's McCafé Frappé",288,5.0,12.0,41.0,"hotove","porce",86,{"cu":40.0,"sul":0.2,"nas":6.8,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Mini Míša řez",307,6.7,19.0,28.0,"hotove","porce",45,{"cu":21.0,"sul":0.4,"nas":9.0,"vl":1.1},"mcdonalds.cz"],
+  ["McDonald's Mrkvový dort",379,4.7,25.0,33.0,"hotove","porce",85,{"cu":20.0,"sul":1.1,"nas":5.5,"vl":0.9},"mcdonalds.cz"],
+  ["McDonald's Muffin se slaným karamelem a krémem",386,4.0,22.0,43.0,"hotove","porce",120,{"cu":28.0,"sul":0.5,"nas":4.3,"vl":4.0},"mcdonalds.cz"],
+  ["McDonald's Slaný karamel Cappuccino",56,2.0,2.1,10.0,"hotove","porce",170,{"cu":10.0,"sul":0.2,"nas":1.3,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Slaný karamel Latte",57,2.4,2.5,8.0,"hotove","porce",346,{"cu":8.0,"sul":0.2,"nas":1.5,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Srdíčko",395,5.0,23.0,42.0,"hotove","porce",15,{"cu":16.0,"sul":0.93,"nas":12.0,"vl":0.9},"mcdonalds.cz"],
+  ["McDonald's Toasted Marshmallow Latte",64,2.4,2.5,10.0,"hotove","porce",345,{"cu":8.0,"sul":0.1,"nas":1.5,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Americano s mlékem",16,0.8,0.9,1.2,"hotove","porce",200,{"cu":1.2,"sul":0.1,"nas":0.5,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Café Latte",25,1.7,1.0,2.3,"hotove","porce",300,{"cu":2.3,"sul":0.07,"nas":0.3,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Cappuccino",18,1.3,0.7,1.7,"hotove","porce",300,{"cu":1.7,"sul":0.07,"nas":0.3,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Coca-Cola",42,0,0,10.0,"hotove","porce",248,{"cu":10.0,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Fanta",38,0,0,10.0,"hotove","porce",253,{"cu":10.0,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Jablečný džus",43,0,0,11.0,"hotove","porce",247,{"cu":10.0,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Káva se zmrzlinou",50,1.3,1.3,8.3,"hotove","porce",302,{"cu":8.4,"sul":0.05,"nas":0.9,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Lipton Ice Tea Citron",18,0.5,0.5,4.7,"hotove","porce",250,{"cu":4.3,"sul":0.02,"nas":0.1,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's McFizz Mango",47,0,0,12.0,"hotove","porce",423,{"cu":12.0,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's McFizz Sakura",43,0,0,11.0,"hotove","porce",423,{"cu":11.0,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Pomerančový džus",38,0.7,0,8.6,"hotove","porce",247,{"cu":8.6,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Sprite",34,0,0,8.3,"hotove","porce",250,{"cu":8.3,"sul":0.0,"nas":0.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Toasted Marshmallow Cappuccino",66,2.0,2.1,13.0,"hotove","porce",171,{"cu":10.0,"sul":0.1,"nas":1.3,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Barbecue omáčka",157,0.6,1.1,36.0,"hotove","porce",30,{"cu":32.0,"sul":1.7,"nas":0.2,"vl":1.6},"mcdonalds.cz"],
+  ["McDonald's Caesar zálivka",251,3.5,22.0,7.3,"hotove","porce",41,{"cu":5.5,"sul":2.0,"nas":3.4,"vl":0.2},"mcdonalds.cz"],
+  ["McDonald's Česneková omáčka",301,0.7,30.0,6.0,"hotove","porce",25,{"cu":2.6,"sul":2.0,"nas":2.3,"vl":0.4},"mcdonalds.cz"],
+  ["McDonald's Habanero omáčka",324,1.5,31.0,10.0,"hotove","porce",40,{"cu":4.6,"sul":2.1,"nas":3.6,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Hellmann's tatarská omáčka",397,0.5,40.0,1.2,"hotove","porce",30,{"cu":4.6,"sul":1.5,"nas":2.1,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Hořčicová omáčka",196,2.8,11.0,23.0,"hotove","porce",28,{"cu":18.0,"sul":1.7,"nas":1.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Jogurtová zálivka",200,1.1,19.0,6.3,"hotove","porce",52,{"cu":4.0,"sul":1.5,"nas":1.7,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's Kari omáčka",135,0.8,1.1,30.0,"hotove","porce",29,{"cu":29.0,"sul":1.0,"nas":0.1,"vl":1.2},"mcdonalds.cz"],
+  ["McDonald's Kečup",124,1.4,0.2,27.0,"hotove","porce",11,{"cu":20.0,"sul":2.2,"nas":0.1,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Koktejlová zálivka",204,1.1,20.0,6.6,"hotove","porce",51,{"cu":4.4,"sul":1.5,"nas":1.6,"vl":0.4},"mcdonalds.cz"],
+  ["McDonald's Korean style BBQ omáčka",298,2.1,23.0,21.0,"hotove","porce",27,{"cu":17.0,"sul":1.5,"nas":1.9,"vl":0.6},"mcdonalds.cz"],
+  ["McDonald's Lemon Chilli",192,0.4,0,46.0,"hotove","porce",31,{"cu":44.0,"sul":3.55,"nas":0.0,"vl":1.3},"mcdonalds.cz"],
+  ["McDonald's Olivový olej",824,0,92.0,0,"hotove","porce",9,{"cu":0.0,"sul":0.0,"nas":14.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Omáčka se sýrem Dorblu",273,1.4,26.0,8.0,"hotove","porce",40,{"cu":3.5,"sul":2.0,"nas":3.0,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Pommes frites omáčka",189,0.6,15.1,12.0,"hotove","porce",11,{"cu":8.0,"sul":1.8,"nas":1.1,"vl":0.4},"mcdonalds.cz"],
+  ["McDonald's Sladkokyselá omáčka",142,0.3,0.9,33.0,"hotove","porce",30,{"cu":27.0,"sul":0.85,"nas":0.1,"vl":0.0},"mcdonalds.cz"],
+  ["McDonald's Sýrová zálivka",247,3.1,24.0,4.9,"hotove","porce",51,{"cu":3.5,"sul":2.2,"nas":4.1,"vl":0.3},"mcdonalds.cz"],
+  ["McDonald's Čedarová kolečka se slaninou a jalapeños",363,8.0,24.0,29.0,"hotove","porce",44,{"cu":4.0,"sul":2.1,"nas":13.0,"vl":0.9},"mcdonalds.cz"],
+  ["McDonald's Zahradní salát",53,1.4,0.3,10.2,"hotove","porce",104,{"cu":7.4,"sul":0.63,"nas":0.0,"vl":2.0},"mcdonalds.cz"],
+  ["McDonald's Croissant s kakaovou náplní",417,5.1,23.0,45.0,"hotove","porce",75,{"cu":20.0,"sul":0.8,"nas":12.0,"vl":3.0},"mcdonalds.cz"],
+  ["McDonald's Hash brown - bramborová placička",250,2.1,14.0,27.0,"hotove","porce",56,{"cu":0.5,"sul":1.2,"nas":1.4,"vl":2.1},"mcdonalds.cz"],
+  ["McDonald's Kuřecí McMuffin Fresh",230,10.0,10.0,24.0,"hotove","porce",161,{"cu":2.5,"sul":1.1,"nas":2.9,"vl":1.8},"mcdonalds.cz"],
+  ["McDonald's Lívance s Pribináčkem a polevou",275,7.0,14.0,30.0,"hotove","porce",130,{"cu":16.0,"sul":1.0,"nas":5.6,"vl":0.8},"mcdonalds.cz"],
+  ["McDonald's Máslový croissant",443,7.4,27.0,42.0,"hotove","porce",58,{"cu":7.0,"sul":1.1,"nas":18.0,"vl":2.5},"mcdonalds.cz"],
+  ["McDonald's McCountry Breakfast",264,11.0,17.0,17.0,"hotove","porce",199,{"cu":3.8,"sul":1.3,"nas":6.1,"vl":1.4},"mcdonalds.cz"],
+  ["McDonald's McMuffin Avocado s kuřecím",203,8.0,8.0,23.0,"hotove","porce",138,{"cu":1.3,"sul":1.0,"nas":1.4,"vl":3.4},"mcdonalds.cz"],
+  ["McDonald's McMuffin Avocado s vajíčkem",173,8.0,7.3,18.0,"hotove","porce",145,{"cu":1.6,"sul":0.7,"nas":1.7,"vl":3.0},"mcdonalds.cz"],
+  ["McDonald's McMuffin Avocado s vepřovým",217,8.0,12.0,19.0,"hotove","porce",126,{"cu":1.5,"sul":0.7,"nas":4.0,"vl":3.1},"mcdonalds.cz"],
+  ["McDonald's McMuffin Lučina",360,5.0,30.0,16.0,"hotove","porce",110,{"cu":2.0,"sul":1.0,"nas":20.0,"vl":1.6},"mcdonalds.cz"],
+  ["McDonald's McMuffin s vajíčkem a slaninou",235,12.0,11.0,20.0,"hotove","porce",136,{"cu":1.3,"sul":1.0,"nas":7.0,"vl":2.0},"mcdonalds.cz"],
+  ["McDonald's McMuffin s vajíčkem",225,11.0,10.0,21.0,"hotove","porce",120,{"cu":1.3,"sul":1.0,"nas":6.8,"vl":2.1},"mcdonalds.cz"],
+  ["McDonald's Míchaná vajíčka se šunkou a sýrem",170,12.0,8.2,11.0,"hotove","porce",228,{"cu":0.9,"sul":0.7,"nas":2.4,"vl":0.8},"mcdonalds.cz"],
+  ["McDonald's Nutella",530,6.7,30.0,57.0,"hotove","porce",30,{"cu":57.0,"sul":0.0,"nas":10.0,"vl":3.3},"mcdonalds.cz"],
+  ["McDonald's Pořádná snídaně",205,14.0,13.0,8.6,"hotove","porce",305,{"cu":0.7,"sul":0.87,"nas":4.6,"vl":0.7},"mcdonalds.cz"],
+  ["McDonald's Sýrový bagel fresh Lučina",221,8.7,7.5,29.0,"hotove","porce",165,{"cu":4.0,"sul":1.0,"nas":4.6,"vl":1.4},"mcdonalds.cz"],
+  ["McDonald's Toast se slaninou a sýrem",324,14.0,13.0,35.0,"hotove","porce",75,{"cu":7.0,"sul":2.0,"nas":7.0,"vl":2.2},"mcdonalds.cz"],
+  ["McDonald's Toast se šunkou a sýrem",279,14.0,11.0,30.0,"hotove","porce",93,{"cu":6.2,"sul":1.9,"nas":6.3,"vl":1.7},"mcdonalds.cz"],
+  ["McDonald's Toast se sýrem",307,13.0,12.0,35.0,"hotove","porce",80,{"cu":7.2,"sul":1.8,"nas":7.2,"vl":1.9},"mcdonalds.cz"],
+  ["McDonald's Vajíčkový bagel",208,12.0,8.0,22.0,"hotove","porce",185,{"cu":3.0,"sul":1.0,"nas":4.4,"vl":1.1},"mcdonalds.cz"],
+  ["McDonald's Vepřový bagel",296,12.0,11.0,25.0,"hotove","porce",181,{"cu":3.0,"sul":1.0,"nas":6.5,"vl":1.3},"mcdonalds.cz"],
+  ["McDonald's Vepřový McMuffin Fresh",233,10.0,13.0,18.0,"hotove","porce",149,{"cu":2.1,"sul":1.2,"nas":5.1,"vl":1.5},"mcdonalds.cz"],
+  ["McDonald's Vepřový McMuffin s vajíčkem",244,12.0,14.0,16.0,"hotove","porce",143,{"cu":1.1,"sul":1.0,"nas":8.0,"vl":1.6},"mcdonalds.cz"],
+  ["McDonald's Chicken Box s hranolkami a nápoji",120,4.5,4.4,15.0,"hotove","porce",1272,{"cu":6.0,"sul":0.3,"nas":0.5,"vl":0.6},"mcdonalds.cz"],
+  ["McDonald's Chicken Box s hranolkami",246,12.0,11.0,24.0,"hotove","porce",498,{"cu":1.0,"sul":0.84,"nas":1.3,"vl":1.4},"mcdonalds.cz"],
+  ["KFC Twister Classic",256,10.0,13.2,25.0,"hotove","porce",207,{"cu":1.5,"sul":1.15,"nas":0.9},"kfc.cz"],
+  ["KFC Twister Classic Grande",248,10.6,14.6,19.5,"hotove","porce",298,{"cu":1.0,"sul":1.9,"nas":2.1},"kfc.cz"],
+  ["KFC Twister Hawai",254,11.3,12.9,23.5,"hotove","porce",217,{"cu":4.4,"sul":2.2,"nas":3.0},"kfc.cz"],
+  ["KFC Twister Hawai Grande",249,11.2,12.9,22.4,"hotove","porce",318,{"cu":4.7,"sul":2.2,"nas":3.0},"kfc.cz"],
+  ["KFC Twister Kentucky Gold",255,10.4,13.6,23.6,"hotove","porce",212,{"cu":3.1,"sul":2.0,"nas":2.4},"kfc.cz"],
+  ["KFC Twister Kentucky Gold Grande",249,10.5,13.5,22.3,"hotove","porce",304,{"cu":3.1,"sul":2.0,"nas":2.3},"kfc.cz"],
+  ["KFC Twister BBQ bacon",209,10.0,8.0,23.0,"hotove","porce",230,{"cu":4.9,"sul":1.28,"nas":2.1},"kfc.cz"],
+  ["KFC Twister BBQ bacon Grande",229,10.5,12.4,18.9,"hotove","porce",356,{"cu":2.6,"sul":2.09,"nas":3.6},"kfc.cz"],
+  ["KFC Loaded Doritos Tex-Mex s kuřecím popcornem",325,10.0,17.8,32.7,"hotove","porce",305,{"cu":5.1,"sul":1.35,"nas":3.2},"kfc.cz"],
+  ["KFC Loaded Doritos Spicy s kuřecím popcornem",335,9.7,18.5,34.0,"hotove","porce",295,{"cu":3.2,"sul":1.27,"nas":3.2},"kfc.cz"],
+  ["KFC Kuřecí popcorn",313,17.2,18.3,20.5,"hotove","porce",90,{"cu":0.5,"sul":1.71,"nas":2.0},"kfc.cz"],
+  ["KFC Snack popcorn",313,17.2,18.3,20.5,"hotove","porce",180,{"cu":0.5,"sul":1.71,"nas":2.0},"kfc.cz"],
+  ["KFC Kentucky Gold hranolky s kuřecím popcornem",308,8.5,17.4,30.0,"hotove","porce",240,{"cu":2.8,"sul":1.2,"nas":2.4},"kfc.cz"],
+  ["KFC BBQ hranolky s kuřecím popcornem",271,8.6,12.6,31.0,"hotove","porce",232,{"cu":4.4,"sul":1.2,"nas":1.3},"kfc.cz"],
+  ["KFC California Dip",374,1.1,35.0,13.0,"hotove","porce",90,{"cu":11.0,"sul":1.5,"nas":2.5},"kfc.cz"],
+  ["KFC Tropical Shake malý 180 ml",152,2.9,3.2,27.8,"hotove","porce",190,{"cu":25.6,"sul":0.13,"nas":2.3},"kfc.cz"],
+  ["KFC Tropical Shake střední 300 ml",152,2.9,3.2,27.8,"hotove","porce",265,{"cu":25.6,"sul":0.13,"nas":2.3},"kfc.cz"],
+  ["KFC Tropical Shake velký 500 ml",152,2.9,3.2,27.8,"hotove","porce",430,{"cu":25.6,"sul":0.13,"nas":2.3},"kfc.cz"],
+  ["KFC Smoky Cheese Donuts 1 ks",355,16.1,19.6,28.4,"hotove","porce",26,{"cu":2.7,"sul":1.21,"nas":7.6},"kfc.cz"],
+  ["KFC Nožička (drumstick)",246,21.9,13.8,8.8,"hotove","porce",69,{"cu":0.5,"sul":2.05,"nas":2.6},"kfc.cz"],
+  ["KFC Prsa (breast)",236,26.9,11.0,7.3,"hotove","porce",100,{"cu":1.0,"sul":1.35,"nas":2.0},"kfc.cz"],
+  ["KFC Žebra (rib)",207,26.7,9.6,5.1,"hotove","porce",150,{"cu":0.5,"sul":1.25,"nas":1.7},"kfc.cz"],
+  ["KFC Stehno (thigh)",248,21.1,15.6,5.8,"hotove","porce",111,{"cu":0.4,"sul":1.45,"nas":3.6},"kfc.cz"],
+  ["KFC Křídlo (wing)",291,24.1,16.8,11.0,"hotove","porce",65,{"cu":0.5,"sul":1.7,"nas":3.1},"kfc.cz"],
+  ["KFC Grander řízek",271,17.3,15.6,15.6,"hotove","porce",100,{"cu":0.3,"sul":1.93,"nas":2.6},"kfc.cz"],
+  ["KFC Hot & Spicy Strips 1 ks",288,20.5,18.5,9.9,"hotove","porce",32,{"cu":0.4,"sul":4.15,"nas":3.3},"kfc.cz"],
+  ["KFC Hot Wings 1 ks",320,19.6,20.7,14.0,"hotove","porce",36,{"cu":0.5,"sul":2.43,"nas":3.8},"kfc.cz"],
+  ["KFC Hot & Spicy Bites standard",330,18.1,21.7,16.2,"hotove","porce",180,{"cu":0.3,"sul":1.78,"nas":3.1},"kfc.cz"],
+  ["KFC Hot & Spicy Bites grande",330,18.1,21.7,16.2,"hotove","porce",300,{"cu":0.3,"sul":1.78,"nas":3.3},"kfc.cz"],
+  ["KFC Grander Texas",252,12.2,12.8,20.3,"hotove","porce",300,{"cu":4.9,"sul":2.18,"nas":2.8},"kfc.cz"],
+  ["KFC Halloumi Twister",268,10.9,16.9,17.1,"hotove","porce",260,{"cu":2.1,"sul":1.78,"nas":7.4},"kfc.cz"],
+  ["KFC Qurrito",301,15.0,16.4,22.9,"hotove","porce",230,{"cu":4.6,"sul":1.62,"nas":6.2},"kfc.cz"],
+  ["KFC Qurrito grande",337,14.5,20.0,25.0,"hotove","porce",320,{"cu":4.9,"sul":1.58,"nas":6.3},"kfc.cz"],
+  ["KFC Zinger",262,14.6,13.0,21.3,"hotove","porce",170,{"cu":2.8,"sul":1.78,"nas":1.9},"kfc.cz"],
+  ["KFC Zinger Double",246,17.0,12.0,17.0,"hotove","porce",240,{"cu":2.1,"sul":1.88,"nas":2.1},"kfc.cz"],
+  ["KFC iTwist Classic",265,8.7,14.0,29.0,"hotove","porce",132,{"cu":0.8,"sul":1.2,"nas":1.5},"kfc.cz"],
+  ["KFC Kentucky Gold Grander",263,11.2,14.0,24.4,"hotove","porce",320,{"cu":4.4,"sul":1.56,"nas":2.6},"kfc.cz"],
+  ["KFC Kentucky Gold Wrapper",342,12.0,22.0,26.0,"hotove","porce",350,{"cu":4.5,"sul":2.1,"nas":4.4},"kfc.cz"],
+  ["KFC Cheeseburger",247,13.8,7.5,31.9,"hotove","porce",125,{"cu":7.0,"sul":2.08,"nas":2.2},"kfc.cz"],
+  ["KFC Twister se sýrem a slaninou",259,11.9,15.0,19.4,"hotove","porce",240,{"cu":0.4,"sul":1.38,"nas":3.8},"kfc.cz"],
+  ["KFC Sweet chilli dip",172,0.5,0.5,42.0,"hotove","porce",25,{"cu":33.0,"sul":0.8,"nas":0.1},"kfc.cz"],
+  ["KFC BBQ dip",102,1.3,0.5,24.0,"hotove","porce",25,{"cu":19.0,"sul":1.6,"nas":0.1},"kfc.cz"],
+  ["KFC Česnekový dip",432,2.4,43.0,7.7,"hotove","porce",25,{"cu":5.1,"sul":1.5,"nas":3.4},"kfc.cz"],
+  ["KFC Tatarská omáčka",439,0.5,45.0,8.5,"hotove","porce",20,{"cu":5.3,"sul":1.8,"nas":3.8},"kfc.cz"],
+  ["KFC Sýrový dip",198,3.3,13.0,17.0,"hotove","porce",25,{"cu":5.9,"sul":3.0,"nas":3.3},"kfc.cz"],
+  ["KFC Kečup",104,1.1,0.5,25.0,"hotove","porce",25,{"cu":21.0,"sul":1.2,"nas":0.1},"kfc.cz"],
+  ["KFC Bramborové lupínky malé",487,5.6,29.1,48.1,"hotove","porce",60,{"cu":0.5,"sul":0.5,"nas":6.8},"kfc.cz"],
+  ["KFC Bramborové lupínky velké",487,5.6,29.1,48.1,"hotove","porce",120,{"cu":0.5,"sul":0.5,"nas":6.8},"kfc.cz"],
+  ["KFC Cibulové kroužky",320,5.1,15.5,42.2,"hotove","porce",90,{"cu":4.6,"sul":0.7,"nas":6.3},"kfc.cz"],
+  ["KFC Hranolky běžná porce",252,3.6,10.0,37.0,"hotove","porce",80,{"cu":0.3,"sul":0.64,"nas":0.9},"kfc.cz"],
+  ["KFC Hranolky velká porce",252,3.6,10.0,37.0,"hotove","porce",115,{"cu":0.3,"sul":0.64,"nas":0.9},"kfc.cz"],
+  ["KFC Kyblík hranolků",252,3.6,10.0,37.0,"hotove","porce",240,{"cu":0.3,"sul":0.64,"nas":0.9},"kfc.cz"],
+  ["KFC Coleslaw salát",101,1.0,6.9,9.5,"hotove","porce",140,{"cu":7.3,"sul":0.38,"nas":0.6},"kfc.cz"],
+  ["KFC Kentucky Gold hranolky",305,4.0,17.0,32.0,"hotove","porce",155,{"cu":4.8,"sul":0.7,"nas":2.8},"kfc.cz"],
+  ["KFC Kukuřice s máslem",134,3.7,1.8,24.5,"hotove","porce",125,{"cu":2.4,"sul":0.25,"nas":0.7},"kfc.cz"],
+  ["KFC Brownie slaný karamel",423,4.6,25.7,42.9,"hotove","porce",84,{"cu":32.3,"sul":0.5,"nas":15.7},"kfc.cz"],
+  ["KFC Shake jahodový malý",130,2.8,2.8,24.0,"hotove","porce",180,{"cu":19.0,"sul":0.13,"nas":1.9},"kfc.cz"],
+  ["KFC Shake jahodový střední",130,2.8,2.8,24.0,"hotove","porce",270,{"cu":19.0,"sul":0.13,"nas":1.9},"kfc.cz"],
+  ["KFC Shake jahodový velký",130,2.8,2.8,24.0,"hotove","porce",410,{"cu":19.0,"sul":0.13,"nas":1.9},"kfc.cz"],
+  ["KFC Shake čokoládový malý",181,3.6,5.8,28.7,"hotove","porce",180,{"cu":19.2,"sul":0.15,"nas":4.2},"kfc.cz"],
+  ["KFC Shake čokoládový střední",181,3.6,5.8,28.7,"hotove","porce",265,{"cu":19.2,"sul":0.15,"nas":4.2},"kfc.cz"],
+  ["KFC Shake čokoládový velký",181,3.6,5.8,28.7,"hotove","porce",410,{"cu":19.2,"sul":0.15,"nas":4.2},"kfc.cz"],
+  ["KFC Shake karamelový malý",155,2.9,3.6,28.0,"hotove","porce",180,{"cu":25.0,"sul":0.15,"nas":2.6},"kfc.cz"],
+  ["KFC Shake karamelový střední",155,2.9,3.6,28.0,"hotove","porce",265,{"cu":25.0,"sul":0.15,"nas":2.6},"kfc.cz"],
+  ["KFC Shake karamelový velký",155,2.9,3.6,28.0,"hotove","porce",410,{"cu":25.0,"sul":0.15,"nas":2.6},"kfc.cz"],
+  ["KFC Shake arašídový malý",173,6.9,8.0,18.2,"hotove","porce",180,{"cu":16.7,"sul":0.19,"nas":3.2},"kfc.cz"],
+  ["KFC Shake arašídový střední",173,6.9,8.4,18.2,"hotove","porce",245,{"cu":16.7,"sul":0.19,"nas":3.2},"kfc.cz"],
+  ["KFC Shake arašídový velký",173,6.9,8.4,18.2,"hotove","porce",390,{"cu":16.7,"sul":0.19,"nas":3.2},"kfc.cz"],
+  ["KFC Shake vanilkový malý",120,3.1,3.5,20.0,"hotove","porce",180,{"cu":16.0,"sul":0.13,"nas":2.5},"kfc.cz"],
+  ["KFC Shake vanilkový střední",120,3.1,3.5,20.0,"hotove","porce",270,{"cu":16.0,"sul":0.13,"nas":2.5},"kfc.cz"],
+  ["KFC Shake vanilkový velký",120,3.1,3.5,20.0,"hotove","porce",400,{"cu":16.0,"sul":0.13,"nas":2.5},"kfc.cz"],
+  ["KFC Churros bez omáčky",330,6.6,13.0,45.0,"hotove","porce",40,{"cu":7.8,"sul":1.34,"nas":1.4},"kfc.cz"],
+  ["KFC Čokoládová omáčka k churros",324,3.7,11.0,51.0,"hotove","porce",30,{"cu":31.0,"sul":0.11,"nas":7.7},"kfc.cz"],
+  ["KFC Jahodová omáčka k churros",162,0.5,0,39.0,"hotove","porce",30,{"cu":32.0,"sul":0.04,"nas":0.0},"kfc.cz"],
+  ["KFC Karamelová omáčka k churros",329,2.4,6.1,66.0,"hotove","porce",30,{"cu":54.0,"sul":0.11,"nas":4.5},"kfc.cz"],
+  ["KFC Zmrzlina čokoládová s višní",211,2.6,8.4,30.0,"hotove","porce",101,{"cu":26.0,"sul":0.06,"nas":7.0},"kfc.cz"],
+  ["KFC Zmrzlina jahodová",204,2.6,8.2,30.0,"hotove","porce",101,{"cu":27.0,"sul":0.08,"nas":7.0},"kfc.cz"],
+  ["KFC Zmrzlina vanilková s karamelem",241,3.2,11.0,32.0,"hotove","porce",95,{"cu":27.0,"sul":0.17,"nas":7.4},"kfc.cz"],
+  ["KFC Cappuccino",29,1.5,1.6,2.2,"hotove","porce",180,{"cu":2.1,"sul":0.04,"nas":1.0},"kfc.cz"],
+  ["KFC Caffé Latte",37,1.9,2.0,2.8,"hotove","porce",280,{"cu":2.7,"sul":0.06,"nas":1.3},"kfc.cz"],
+  ["KFC Flat White",19,0.9,1.0,1.6,"hotove","porce",180,{"cu":1.3,"sul":0.03,"nas":0.6},"kfc.cz"],
+  ["KFC Malinovka",29,0,0,7.2,"hotove","porce",300,{"cu":7.2,"sul":0.0,"nas":0.0},"kfc.cz"],
+  ["KFC Pepsi",28,0,0,7.0,"hotove","porce",300,{"cu":7.0,"sul":0.01,"nas":0.0},"kfc.cz"],
+  ["KFC Mirinda",52,0,0,13.0,"hotove","porce",300,{"cu":13.0,"sul":0.01,"nas":0.0},"kfc.cz"],
+  ["KFC Lipton Ice Tea",19,0,0,4.5,"hotove","porce",300,{"cu":4.4,"sul":0.03,"nas":0.0},"kfc.cz"],
+  ["KFC Bubble Tea Mango střední",43,0,0,10.4,"hotove","porce",232,{"cu":9.6,"sul":0.01,"nas":0.0},"kfc.cz"],
+  ["KFC Snídaňové Qurrito s vejcem a slaninou",249,14.0,16.0,11.0,"hotove","porce",220,{"cu":0.0,"sul":0.6,"nas":6.7},"kfc.cz"],
+  ["KFC Snídaňový talíř",207,11.8,11.2,14.8,"hotove","porce",260,{"cu":0.4,"sul":0.8,"nas":2.1},"kfc.cz"],
+  ["KFC Snídaňová brioška",242,13.9,12.5,18.6,"hotove","porce",165,{"cu":2.2,"sul":1.3,"nas":2.9},"kfc.cz"],
+  ["KFC Avokádový toast",210,9.5,10.1,20.0,"hotove","porce",156,{"cu":1.5,"sul":1.1,"nas":3.0},"kfc.cz"],
+  ["KFC Toast se slaninou a sýrem",320,14.2,16.0,28.0,"hotove","porce",95,{"cu":2.3,"sul":2.47,"nas":7.7},"kfc.cz"],
+  ["KFC Toast s vejcem a sýrem",245,11.0,13.0,21.0,"hotove","porce",150,{"cu":1.3,"sul":0.76,"nas":3.9},"kfc.cz"],
+  ["KFC Double toast s vejcem, sýrem a slaninou",246,12.0,14.0,18.0,"hotove","porce",220,{"cu":1.2,"sul":0.77,"nas":4.3},"kfc.cz"],
+  ["KFC Bramborové Rösti",276,3.1,14.2,33.8,"hotove","porce",50,{"cu":0.3,"sul":1.28,"nas":1.8},"kfc.cz"],
+  ["Bageterie Boulevard bageta Chick Star by Calin",196,8.4,7.3,23.1,"hotove","porce",310,{"sul":1.27},"bageterie.com"],
+  ["Bageterie Boulevard wrap Chick Star by Calin",220,8.1,10.0,22.8,"hotove","porce",230,{"sul":1.22},"bageterie.com"],
+  ["Bageterie Boulevard snídaně Roastbeef a čedar",273,19.0,14.0,18.0,"hotove","porce",158,{"sul":2.0},"bageterie.com"],
+  ["Bageterie Boulevard Club sendvič",261,12.0,20.0,8.0,"hotove","porce",255,{"sul":0.55},"bageterie.com"],
+  ["Bageterie Boulevard snídaně Šunka a vejce",243,12.0,16.0,12.0,"hotove","porce",157,{"sul":0.78},"bageterie.com"],
+  ["Bageterie Boulevard Croissant pařížský",299,14.0,18.0,21.0,"hotove","porce",120,{"sul":1.0},"bageterie.com"],
+  ["Bageterie Boulevard snídaně Šunka a sýr",289,13.0,15.0,26.0,"hotove","porce",113,{"sul":1.0},"bageterie.com"],
+  ["Bageterie Boulevard Anglická omeleta",217,9.0,16.0,9.0,"hotove","porce",128,{"sul":0.96},"bageterie.com"],
+  ["Bageterie Boulevard Švýcarská omeleta",212,9.0,16.0,9.0,"hotove","porce",113,{"sul":1.0},"bageterie.com"],
+  ["Bageterie Boulevard Francouzská omeleta",212,9.0,16.0,9.0,"hotove","porce",137,{"sul":0.96},"bageterie.com"],
+  ["Bageterie Boulevard Snídaňová bageta",236,10.3,10.2,24.4,"hotove","porce",257,{"sul":0.87},"bageterie.com"],
+  ["Bageterie Boulevard Snídaňový wrap",247,12.0,16.0,12.0,"hotove","porce",157,{"sul":0.78},"bageterie.com"],
+  ["Bageterie Boulevard bageta Caesar",212,11.9,9.4,20.3,"hotove","porce",230,{"sul":0.86},"bageterie.com"],
+  ["Bageterie Boulevard bageta Caprese",207,8.6,10.2,20.3,"hotove","porce",240,{"sul":0.6},"bageterie.com"],
+  ["Bageterie Boulevard bageta Lososová",188,10.4,8.0,23.4,"hotove","porce",195,{"sul":0.59},"bageterie.com"],
+  ["Bageterie Boulevard bageta Tuňáková",198,10.1,8.4,20.4,"hotove","porce",225,{"sul":0.8},"bageterie.com"],
+  ["Bageterie Boulevard bageta Grilovaný roastbeef",219,12.9,8.9,23.2,"hotove","porce",225,{"sul":1.21},"bageterie.com"],
+  ["Bageterie Boulevard bageta Bruselská",275,11.4,14.6,24.4,"hotove","porce",220,{"sul":1.45},"bageterie.com"],
+  ["Bageterie Boulevard bageta Sladká žebra",230,11.9,8.7,25.6,"hotove","porce",252,{"sul":1.19},"bageterie.com"],
+  ["Bageterie Boulevard bageta Švýcarská",226,12.0,18.1,23.7,"hotove","porce",230,{"sul":1.19},"bageterie.com"],
+  ["Bageterie Boulevard wrap s kozím sýrem",175,10.0,7.0,17.0,"hotove","porce",210,{"sul":2.0},"bageterie.com"],
+  ["Bageterie Boulevard wrap Lososový",214,11.8,11.9,20.8,"hotove","porce",155,{"sul":0.48},"bageterie.com"],
+  ["Bageterie Boulevard wrap Caesar",239,12.4,12.9,17.6,"hotove","porce",190,{"sul":0.83},"bageterie.com"],
+  ["Bageterie Boulevard wrap Caprese",231,9.2,13.7,17.6,"hotove","porce",200,{"sul":0.52},"bageterie.com"],
+  ["Bageterie Boulevard wrap Tuňákový",204,11.3,11.4,17.2,"hotove","porce",185,{"sul":0.84},"bageterie.com"],
+  ["Bageterie Boulevard wrap Grilovaný roastbeef",231,14.4,9.5,20.2,"hotove","porce",185,{"sul":1.37},"bageterie.com"],
+  ["Bageterie Boulevard wrap Bruselský",317,12.8,19.4,22.3,"hotove","porce",180,{"sul":1.12},"bageterie.com"],
+  ["Bageterie Boulevard wrap Švýcarský",242,13.6,21.3,18.2,"hotove","porce",190,{"sul":1.44},"bageterie.com"],
+  ["Bageterie Boulevard wrap Sladká žebra",253,13.4,11.4,15.8,"hotove","porce",212,{"sul":1.41},"bageterie.com"],
+  ["Bageterie Boulevard salát Caesar",148,7.5,9.6,7.0,"hotove","porce",308,{"sul":0.66},"bageterie.com"],
+  ["Bageterie Boulevard salát s kozím sýrem",254,11.0,15.0,17.0,"hotove","porce",235,{"sul":1.0},"bageterie.com"],
+  ["Bageterie Boulevard Patatas s tatarkou",194,2.0,13.0,16.0,"hotove","porce",175,{"sul":0.5},"bageterie.com"],
+  ["Bageterie Boulevard rychlovka Sweet chilli",217,9.8,10.0,24.0,"hotove","porce",115,{"sul":0.71},"bageterie.com"],
+  ["Bageterie Boulevard rychlovka Pařížská",230,10.7,11.8,20.6,"hotove","porce",120,{"sul":1.15},"bageterie.com"],
+  ["Bageterie Boulevard rychlovka Šunková",185,10.4,7.4,18.9,"hotove","porce",122,{"sul":0.87},"bageterie.com"],
+  ["Bageterie Boulevard Patatas s kečupem",115,2.0,2.0,21.0,"hotove","porce",175,{"sul":0.0},"bageterie.com"],
+  ["Bageterie Boulevard Patatas s pepřovou omáčkou",158,2.0,14.0,17.0,"hotove","porce",175,{"sul":0.0},"bageterie.com"],
+  ["Bageterie Boulevard Patatas košík",156,2.0,8.0,18.0,"hotove","porce",350,{"sul":0.63},"bageterie.com"],
+  ["Bageterie Boulevard Cheddar fingers",377,17.0,22.0,26.0,"hotove","porce",100,{"sul":3.0},"bageterie.com"],
+  ["Bageterie Boulevard Cheese fingers",281,9.2,15.5,27.3,"hotove","porce",140,{"sul":1.45},"bageterie.com"],
+  ["Bageterie Boulevard polévka Tomatová",61,1.0,1.0,11.0,"hotove","porce",300,{"sul":0.91},"bageterie.com"],
+  ["Bageterie Boulevard polévka Batátová",63,1.0,3.0,7.0,"hotove","porce",300,{"sul":0.66},"bageterie.com"],
+  ["Bageterie Boulevard polévka Cibulačka",74,1.7,4.5,6.5,"hotove","porce",300,{"sul":0.95},"bageterie.com"],
+  ["Bageterie Boulevard polévka Čočková s kokosovým mlékem",35,0.9,2.2,2.8,"hotove","porce",300,{"sul":0.44},"bageterie.com"],
+  ["Bageterie Boulevard polévka Hrášková",83,2.0,4.0,9.0,"hotove","porce",300,{"sul":3.0},"bageterie.com"],
+  ["Bageterie Boulevard Zahradní salát malý",19,1.0,0.4,2.8,"hotove","porce",135,{"sul":0.04},"bageterie.com"],
+  ["Bageterie Boulevard Ice tea",20,0.1,0.1,4.6,"hotove","porce",400,{"sul":0.0},"bageterie.com"],
+  ["Bageterie Boulevard Máslový croissant",394,7.0,23.0,40.0,"hotove","",0,{"sul":1.0},"bageterie.com"],
+  ["Bageterie Boulevard Řecký jogurt s fíky",170,5.5,8.0,18.0,"hotove","porce",130,{"sul":0.22},"bageterie.com"],
+  ["Semtex Originál Explosive energy drink",50,0.5,0.5,12.0,"napoje","plechovka",500,{"cu":12.0,"sul":0.01,"nas":0.1},"etiketa (rohlik.cz)"],
+  ["Power Beast Classic",51,0,0,12.0,"napoje","plechovka",250,{"cu":12.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Big Shock Smart Energy Wild Cherry",21,0,0,5.0,"napoje","plechovka",500,{"cu":5.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Big Shock Smart Energy Mango & Lychee",34,0,0,8.1,"napoje","plechovka",500,{"cu":7.9,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Big Shock Smart Energy Pineapple & Passionfruit",26,0,0,6.0,"napoje","plechovka",500,{"cu":5.9,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Winter s příchutí pistácií a lesního ovoce",45,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Summer s příchutí sudachi a limetky",46,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Peach s příchutí bílé broskve",45,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull s příchutí třešně a sakury",45,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Pink Sugarfree lesní ovoce",2,0,0,0,"napoje","plechovka",250,{"cu":0.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Zero",2,0,0,2.0,"napoje","plechovka",250,{"cu":0.0,"sul":0.02,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["YEAHRBA Mate energy Maracuja perlivá",19,0.1,0,4.9,"napoje","plechovka",330,{"cu":4.9,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["YEAHRBA Mate energy Original perlivá",19,0.1,0,4.9,"napoje","plechovka",330,{"cu":4.9,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Extrem passion fruit",40,0.5,0.5,9.7,"napoje","plechovka",500,{"cu":9.7,"sul":0.01,"nas":0.1,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["GymBeam Moxy Power+ lesní ovoce",4,0.8,0,0,"napoje","plechovka",330,{"cu":0.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["GymBeam MOXY bcaa+ citrón limetka",6,1.2,0,0,"napoje","plechovka",330,{"cu":0.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Coffizz Kofeinová voda Citron a Máta",11,0,0,2.5,"napoje","plechovka",500,{"cu":2.5},"etiketa (rohlik.cz)"],
+  ["Coffizz Kofeinová voda Marakuja",19,0,0,4.5,"napoje","plechovka",500,{"cu":4.5},"etiketa (rohlik.cz)"],
+  ["Club Mate",20,0,0,5.0,"napoje","plechovka",330,{"cu":5.0,"sul":0.0,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Tiger Energy drink Aura Pink Candy",28,0,0,6.7,"napoje","plechovka",500,{"cu":6.7,"sul":0.13,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Tiger Energy drink Aura White Grapefruit",28,0,0,6.7,"napoje","plechovka",500,{"cu":6.7,"sul":0.13,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Extrem mandarin",38,0.5,0.5,9.2,"napoje","plechovka",500,{"cu":9.2,"sul":0.01,"nas":0.1,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Tiger Energy drink Zero",2,0,0,0,"napoje","plechovka",500,{"cu":0.0,"sul":0.17,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Tiger Energy drink Rasberry",41,0,0,10.0,"napoje","plechovka",500,{"cu":10.0,"sul":0.15,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Tiger Energy drink",46,0,0,11.0,"napoje","plechovka",500,{"cu":11.0,"sul":0.17,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Koka Mate BIO ledový čaj",18,0,0,4.4,"napoje","plechovka",330,{"cu":4.4,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Juiced Viking Berry",42,0,0,11.0,"napoje","plechovka",500,{"cu":9.8,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Lando Norris Zero Sugar",2,0,0,0.7,"napoje","plechovka",500,{"cu":0.0,"sul":0.14,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Ultra Peachy Keen",3,0,0,0.7,"napoje","plechovka",500,{"cu":0.0,"sul":0.16,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Ultra Strawberry Dreams Zero Sugar",2,0,0,0.8,"napoje","plechovka",500,{"cu":0.0,"sul":0.16,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Ultra Rosá Zero Sugar",3,0,0,1.4,"napoje","plechovka",500,{"cu":0.0,"sul":0.2,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Zero Sugar",3,0,0,1.0,"napoje","plechovka",500,{"cu":0.0,"sul":0.19,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Top Speed Zero Sugar",3,0,0,0.8,"napoje","plechovka",500,{"cu":0.0,"sul":0.16,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Ultra Fiesta Mango",3,0,0,1.3,"napoje","plechovka",500,{"cu":0.0,"sul":0.2,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Mango Loco",49,0,0,12.0,"napoje","plechovka",500,{"cu":12.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Ultra Zero Sugar",2,0,0,0.9,"napoje","plechovka",500,{"cu":0.0,"sul":0.2,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy The Doctor",70,0,0,17.0,"napoje","plechovka",500,{"cu":16.0,"sul":0.02,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy",47,0,0,12.0,"napoje","plechovka",500,{"cu":11.0,"sul":0.19},"etiketa (rohlik.cz)"],
+  ["Vilgain Energy & Focus Drink citron a limetka",3,0,0,0,"napoje","plechovka",330,{"cu":0.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Seicha Black Matcha",26,0,0,6.4,"napoje","plechovka",330,{"cu":5.9,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Seicha Matcha Yuzu a zázvor",26,0,0,6.4,"napoje","plechovka",330,{"cu":5.9,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Seicha Matcha Limeta",29,0,0,7.0,"napoje","plechovka",330,{"cu":6.9,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Seicha Matcha Grapefruit",29,0,0,7.0,"napoje","plechovka",330,{"cu":6.9,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Erebos Racket",32,0,0,8.3,"napoje","plechovka",250,{"cu":7.1,"sul":0.01,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Brite Natural focus energy - Citron a limeta",24,0,0,5.5,"napoje","plechovka",330,{"cu":5.2,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Brite Natural focus energy – Malina a máta",21,0,0,5.1,"napoje","plechovka",330,{"cu":4.7,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Erebos Original",32,0,0.0,8.0,"napoje","plechovka",250,{"cu":6.9,"sul":0.04,"nas":0.04,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Probrands BCAA Drink Maracuja",3,0.8,0,0,"napoje","plechovka",330,{"cu":0.0,"sul":0.12,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Mixit MixiTea Energy čaj ze 7 bylin",20,0.5,0,4.8,"napoje","plechovka",330,{"cu":4.8,"sul":0.01,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Guarana Mango brainer",44,0,0,10.7,"napoje","plechovka",500,{"cu":10.1,"sul":0.15,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Hacker Energy drink",19,0,0,4.5,"napoje","plechovka",500,{"cu":4.5,"sul":0.12,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Big Shock Energy Exotic juicy",49,0,0,12.2,"napoje","plechovka",500,{"cu":12.2,"sul":0.0,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Big Shock Gold",51,0,0,12.5,"napoje","plechovka",500,{"cu":12.5,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Ice s příchutí vanilky a ledové borůvky",45,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Green curuba a bezový květ",45,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Energy Drink Borůvka",46,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Energy drink bez cukru",3,0,0,0,"napoje","plechovka",250,{"cu":0.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Red Bull Energy Drink",46,0,0,11.0,"napoje","plechovka",250,{"cu":11.0,"sul":0.1,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Erebos Honey",43,0,0.0,10.8,"napoje","plechovka",250,{"cu":9.7,"sul":0.0,"nas":0.04,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Erebos Fresh",26,0,0.0,6.6,"napoje","plechovka",250,{"cu":5.5,"sul":0.04,"nas":0.04,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Big Shock Coffee no added sugar",49,2.7,2.4,3.8,"napoje","plechovka",250,{"cu":3.8,"sul":0.1,"nas":1.7,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Hell Ice Coffee Latte",56,2.6,0.8,9.6,"napoje","plechovka",250,{"cu":9.3,"sul":0.09,"nas":0.5,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Hell Ice Coffee Slaný karamel bez laktózy",52,2.4,0.7,8.8,"napoje","plechovka",250,{"cu":8.5,"sul":0.09,"nas":0.5,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Hell Ice Coffee Coconut",51,2.4,0.7,8.7,"napoje","plechovka",250,{"cu":8.4,"sul":0.09,"nas":0.5,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Hell Ice Coffee Pink Latte",58,2.6,0.8,10.0,"napoje","plechovka",250,{"cu":9.8,"sul":0.09,"nas":0.5,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Kofola Nulka – bez cukru",1,0,0,0,"napoje","lahev",330,{"cu":0.0,"sul":0.03,"nas":0.0},"etiketa (rohlik.cz)"],
+  ["Kofola Original",32,0.5,0.5,8.0,"napoje","",0,{"cu":8.0,"sul":0.05,"nas":0.1,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Coffizz Pomelo a limetka",1,0,0,0,"napoje","plechovka",500,{"cu":0.0,"sul":0.0,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Targa citrón",37,0.5,0.5,8.7,"napoje","plechovka",330,{"cu":8.7,"sul":0.1,"nas":0.1,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Cirkulka Kofola Original",32,0.5,0.5,8.0,"napoje","",0,{"cu":8.0,"sul":0.05,"nas":0.1,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Powerade Zero Mountain Blast",1,0,0,0,"napoje","plechovka",500,{"cu":0.0,"sul":0.13,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Isostar Hydrate & perform nápoj v prášku citron",374,0,0,88.0,"napoje","",0,{"cu":70.0,"sul":2.8,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Isostar Fast hydration isotonic sport drink citron",30,0,0,7.0,"napoje","plechovka",500,{"cu":5.6,"sul":0.13,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Gatorade Cool Blue",23,0,0,5.8,"napoje","plechovka",500,{"cu":3.9,"sul":0.13,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Gatorade Orange",24,0,0,5.9,"napoje","plechovka",500,{"cu":3.9,"sul":0.13},"etiketa (rohlik.cz)"],
+  ["Monster Energy Juiced Aussie Style Lemonade",29,0,0,6.9,"napoje","plechovka",500,{"cu":6.9,"sul":0.04,"nas":0.0,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Royal Crown Cola classic",45,0.5,0.5,11.0,"napoje","plechovka",330,{"cu":11.0,"sul":0.01,"nas":0.1,"vl":0.0},"etiketa (rohlik.cz)"],
+  ["Monster Energy Ultra White",2,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Paradise",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Violet",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Red",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Blue",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Gold",2,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Watermelon",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Citron",2,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Black",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Energy Ultra Sunrise",2,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Juiced Pacific Punch",46,0,0,11,"napoje","plechovka",500,{"cu":11},"evropská etiketa (Open Food Facts)"],
+  ["Monster Juiced Pipeline Punch",39,0,0,9,"napoje","plechovka",500,{"cu":9},"evropská etiketa (Open Food Facts)"],
+  ["Monster Juiced Khaotic",34,0,0,7.8,"napoje","plechovka",500,{"cu":7.8},"evropská etiketa (Open Food Facts)"],
+  ["Monster Juiced Bad Apple",36,0,0,8.4,"napoje","plechovka",500,{"cu":8.4},"evropská etiketa (Open Food Facts)"],
+  ["Monster Juiced Aussie Lemonade",42,0,0,9.7,"napoje","plechovka",500,{"cu":9.7},"evropská etiketa (Open Food Facts)"],
+  ["Monster Juiced Ripper",37,0,0,8.4,"napoje","plechovka",500,{"cu":8.4},"evropská etiketa (Open Food Facts)"],
+  ["Monster Reserve Watermelon",25,0,0,5.9,"napoje","plechovka",500,{"cu":5.9},"evropská etiketa (Open Food Facts)"],
+  ["Monster Reserve White Pineapple",27,0,0,6,"napoje","plechovka",500,{"cu":6},"evropská etiketa (Open Food Facts)"],
+  ["Monster Rehab Peach Tea",10,0,0,2.1,"napoje","plechovka",500,{"cu":2.1},"evropská etiketa (Open Food Facts)"],
+  ["Monster Assault",48,0,0,11,"napoje","plechovka",500,{"cu":11},"evropská etiketa (Open Food Facts)"],
+  ["Monster Nitro Cosmic Peach",46,0,0,11,"napoje","plechovka",500,{"cu":11},"evropská etiketa (Open Food Facts)"],
+  ["Monster Lewis Hamilton Zero Sugar",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Monster Espresso Vanilla",61,0,0,7.9,"napoje","plechovka",250,{"cu":7.9},"evropská etiketa (Open Food Facts)"],
+  ["Monster Absolutely Zero",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"]
+];
 const CIQ_ROWS = [
   ["Acerola džus čerstvý",23,0.4,0.3,4.5,"napoje","2040",[0.3,4.5,0.01,0.1,0.1,12.0,0.5,10.0]],
   ["Agar",28,0.5,0.0,6.2,"konzervy","11084",[0.5,0.3,0.02,0.0,0.58,67.0,1.86,54.0]],
@@ -4403,7 +4777,7 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 const slug = s => norm(s).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
-const num = v => { const x = parseFloat(String(v ?? "").replace(",", ".")); return isFinite(x) ? x : 0; };
+const num = v => { const x = parseFloat(String(v ?? "").replace(/[\s\u00a0]/g, "").replace(",", ".")); return isFinite(x) ? x : 0; };
 const r1 = v => Math.round(v * 10) / 10;
 const fmt = (v, d = 0) => (Math.round(v * 10 ** d) / 10 ** d).toLocaleString("cs-CZ");
 const rid = () => Math.random().toString(36).slice(2, 10);
@@ -4440,7 +4814,9 @@ function microSum(items) {
   return { tot, cov: all ? cov / all : 0 };
 }
 const withMi = (o, mi) => mi ? { ...o, mi } : o;
-const SEED = FOOD_ROWS.map(r => ({ id: slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0 })).concat(
+const OLD_HIDDEN = /^(McDonald's |KFC |Monster Energy$|Monster Ultra|Red Bull)/;
+const SEED = FOOD_ROWS.map(r => ({ id: slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(OLD_HIDDEN.test(r[0]) ? { skryte: true } : {}) })).concat(
+  BRAND_ROWS.map(r => ({ id: "zn-" + slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(r[8] && Object.keys(r[8]).length ? { mi: r[8] } : {}), zdroj: r[9] || "", znacka: true })),
   CIQ_ROWS.map(r => ({ id: "cq-" + r[6], nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: "", jednG: 0, ciq: true, ...(r[7] ? { mi: Object.fromEntries(MICRO.map((m, i) => [m[0], r[7][i]]).filter(x => x[1] != null)) } : {}) })));
 const SEED_MAP = new Map(SEED.map(f => [f.id, f]));
 const SWAP_OF = {}, SWAP_LABEL = {};
@@ -4505,6 +4881,7 @@ function searchFoods(q, limit = 40) {
   const used = new Set(S.recent);
   const out = [];
   for (const f of foods()) {
+    if (f.skryte && !f.upraveno && !used.has(f.id)) continue;
     const n = f._n || (f._n = norm(f.nazev)), toks = f._t || (f._t = n.split(/[^a-z0-9%]+/).filter(Boolean));
     let miss = 0, ok = true;
     for (const w of words) { const h = wordHit(w, n, toks); if (h < 0) { ok = false; break; } miss += h; }
@@ -4515,6 +4892,7 @@ function searchFoods(q, limit = 40) {
     if (used.has(f.id)) score -= 4;
     if (f.vlastni || f.upraveno) score -= 2;
     if (!f.ciq) score -= 1.2;
+    if (f.znacka) score -= 0.4;
     if (/prumer/.test(n)) score += 0.3;
     score += Math.min(n.length, 60) / 60;
     out.push({ f, score });
@@ -5173,15 +5551,31 @@ function renderPlusSheet(p) {
 }
 async function sayLog() {
   const q = $("#say-q")?.value.trim(); if (!q || !S.sample) return;
-  const out = $("#say-out"); out.innerHTML = `<span class="thinking">Počítám…</span>`;
+  const out = $("#say-out"); out.innerHTML = `<span class="thinking">Hledám v databázi…</span>`;
   const meal = S.sheet.meal;
+  // kandidáti z databáze pro každou část věty
+  const parts = q.split(/,|\+|\ba\b|\bs\b|\bse\b|\ba k tomu\b/i).map(s => s.replace(/^\s*\d+([.,]\d+)?\s*(ks|kusy?|g|gramů|ml|l|x|×)?\s*/i, "").trim()).filter(s => s.length > 1);
+  const cand = new Map();
+  parts.forEach(p => searchFoods(p, 6).forEach(f => cand.set(f.id, f)));
+  const list = [...cand.values()].slice(0, 40).map(f => `${f.id} | ${f.nazev} | ${fmt(f.kcal)} kcal/100 g${f.jednG ? ` | 1 ${f.jedn} = ${fmt(f.jednG)} g` : ""}`).join("\n");
   try {
-    const prompt = `Uživatelka napsala, co snědla: "${q}". Rozděl to na jednotlivé potraviny v běžném českém množství a odhadni hodnoty.
-Odpověz jen JSON polem: [{"nazev": "krátký český název s množstvím, např. Rohlík 2 ks", "g": gramy celkem, "kcal": číslo, "b": bílkoviny g, "t": tuky g, "s": sacharidy g}]`;
+    const prompt = `Uživatelka napsala, co snědla: "${q}".
+Tady jsou potraviny z její databáze s přesnými hodnotami (id | název | kcal na 100 g | velikost kusu):
+${list || "(nic)"}
+Rozděl zápis na jednotlivé položky. Ke každé vyber nejlépe odpovídající id ze seznamu a urči, kolik gramů snědla (když uvádí kusy, použij velikost kusu). Hodnoty nepočítej, spočítá je aplikace.
+Jen když pro položku v seznamu opravdu nic nesedí, dej id null a odhadni realistické hodnoty pro celé snědené množství.
+Odpověz jen JSON polem: [{"id": "id ze seznamu nebo null", "g": gramy, "nazev": "krátký název, jen když id je null", "kcal": 0, "b": 0, "t": 0, "s": 0}]`;
     const res = await S.sample.json(prompt, { cache: false });
-    const list = (Array.isArray(res) ? res : []).filter(x => x && x.nazev).slice(0, 12).map(x => ({ id: rid(), jidlo: meal, nazev: String(x.nazev).slice(0, 80), g: Math.round(num(x.g)) || undefined, kcal: r1(num(x.kcal)), b: r1(num(x.b)), t: r1(num(x.t)), s: r1(num(x.s)) }));
-    if (!list.length) throw { code: "invalid_json" };
-    appendToDay(S.date, list); closeSheet(); toast(`Zapsáno: ${list.length} ${plural(list.length, "položka", "položky", "položek")} · ${fmt(sum(list).kcal)} kcal`);
+    const items = (Array.isArray(res) ? res : []).slice(0, 12).map(x => {
+      const f = x && x.id && foodById(String(x.id)), g = Math.round(num(x?.g));
+      if (f && g > 0) return withMi({ id: rid(), jidlo: meal, potravinaId: f.id, nazev: f.nazev, g, ...macroFor(f, g) }, microFor(f, g));
+      if (x && x.nazev && num(x.kcal) > 0) return { id: rid(), jidlo: meal, nazev: String(x.nazev).slice(0, 80) + " (odhad)", g: g || undefined, kcal: r1(num(x.kcal)), b: r1(num(x.b)), t: r1(num(x.t)), s: r1(num(x.s)) };
+      return null;
+    }).filter(Boolean);
+    if (!items.length) throw { code: "invalid_json" };
+    appendToDay(S.date, items); closeSheet();
+    const est = items.filter(x => !x.potravinaId).length;
+    toast(`Zapsáno: ${items.length} ${plural(items.length, "položka", "položky", "položek")} · ${fmt(sum(items).kcal)} kcal${est ? ` · ${est} odhadem` : ""}`);
   } catch (e) { out.innerHTML = `<p class="est">${esc(aiError(e) || "Nepovedlo se. Zkus to napsat jinak.")}</p>`; }
 }
 /* ---------- vision board z Pinterestu ---------- */
@@ -5440,7 +5834,7 @@ function budgetHtml() {
     <div class="row"><h2 class="h2">Útrata za jídlo</h2><span style="font-weight:800">${fmt(spent)} / ${fmt(limit)} Kč</span></div>
     <div class="budget-bar ${spent > limit ? "over" : ""}"><span style="width:${pct(spent, limit)}%"></span></div>
     <p class="hint">${spent > limit ? `<b class="red">O ${fmt(spent - limit)} Kč přes rozpočet.</b>` : `Zbývá ${fmt(limit - spent)} Kč na tento týden.`}</p>
-    <div class="grid2"><div class="unit" data-u="Kč"><input class="input" id="sp-kc" type="number" inputmode="decimal" placeholder="Kolik"></div><input class="input" id="sp-note" placeholder="Kde (nepovinné)"></div>
+    <div class="grid2"><div class="unit" data-u="Kč"><input class="input" id="sp-kc" type="text" inputmode="decimal" placeholder="Kolik"></div><input class="input" id="sp-note" placeholder="Kde (nepovinné)"></div>
     <button class="btn black" data-a="spend-add">Zapsat útratu</button>
     ${S.spend.length ? `<ul class="spend">${S.spend.map(x => `<li><span>${dm(x.datum)}${x.pozn ? " · " + esc(x.pozn) : ""}</span><b>${fmt(x.kc)} Kč</b><button data-a="spend-del" data-id="${esc(x.id)}" aria-label="Smazat útratu">×</button></li>`).join("")}</ul>` : ""}
   </section>`;
@@ -5640,7 +6034,7 @@ function renderPokrok() {
     <h1 class="title">Pokrok</h1>
     <section class="card">
       <div class="row"><h2 class="h2">Váha</h2><span class="label">ráno, nalačno</span></div>
-      <div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="kg" style="flex:1"><input class="input" id="w-kg" type="number" inputmode="decimal" step="0.1" placeholder="Dnešní váha"></div><button class="btn black" data-a="w-add">Zapsat</button></div>
+      <div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="kg" style="flex:1"><input class="input" id="w-kg" type="text" inputmode="decimal" step="0.1" placeholder="Dnešní váha"></div><button class="btn black" data-a="w-add">Zapsat</button></div>
       ${weightHtml}
     </section>
     <section class="card">
@@ -5725,7 +6119,7 @@ function shellJa() {
     <div class="row" style="flex-wrap:nowrap"><input class="input" id="pot-q" type="search" placeholder="Hledat…" autocomplete="off"><button class="btn black" data-a="food-new">+ Nová</button></div>
     ${S.sampleImages ? `<button class="btn redb block" data-a="photo" data-kind="obal">Vyfotit obal</button>` : ""}
     <div id="pot-list" class="stack" style="gap:6px"></div>`;
-  const inp = (id, label, unit) => `<div class="field"><label for="${id}">${label}</label>${unit ? `<div class="unit" data-u="${unit}">` : ""}<input class="input" id="${id}" type="number" inputmode="decimal" step="any">${unit ? "</div>" : ""}</div>`;
+  const inp = (id, label, unit) => `<div class="field"><label for="${id}">${label}</label>${unit ? `<div class="unit" data-u="${unit}">` : ""}<input class="input" id="${id}" type="text" inputmode="decimal" step="any">${unit ? "</div>" : ""}</div>`;
   const chipBox = (key, title, hint) => `<div class="stack"><div><h3 class="h2">${title}</h3><p class="hint">${hint}</p></div><div class="pick" id="chips-${key}"></div><div class="row" style="flex-wrap:nowrap"><input class="input" id="add-${key}" placeholder="Přidat…" autocomplete="off"><button class="btn" data-a="chip-add" data-key="${key}">Přidat</button></div></div>`;
   return `<h1 class="title">Já</h1>${seg}
     ${modeCard()}
@@ -5864,8 +6258,8 @@ function renderSheet() {
       ${f.mi ? `<p class="per100">${MICRO.filter(m => f.mi[m[0]] != null).map(([k, l, u]) => `${l} ${fmt(f.mi[k], u === "g" ? 1 : 1)} ${u}`).join(" · ")}</p>` : ""}
       ${f.baleniG ? `<div class="pick">${f.baleniG ? `<button data-a="s-amount" data-g="${f.baleniG}" aria-pressed="false">Celé balení ${fmt(f.baleniG)} g</button>` : ""}</div>` : ""}
       ${macroOdd(f) ? `<p class="est">Tyhle hodnoty si navzájem úplně nesedí (kalorie neodpovídají bílkovinám, tukům a sacharidům). Mrkni na obal a oprav je.</p>` : ""}
-      ${sh.editId ? "" : `<div class="row" style="justify-content:space-between"><span class="small" style="color:var(--muted)">${f.ciq && !f.upraveno ? "Obecná hodnota (Ciqual)" : f.vlastni ? "Tvoje potravina" : f.upraveno ? "Tebou opravené" : "Základní databáze"}</span><button class="btn ghost sm" data-a="food-fix">Opravit hodnoty</button></div>`}
-      <div class="field"><label for="s-g">Kolik gramů</label><div class="unit" data-u="g"><input class="input" id="s-g" type="number" inputmode="decimal" min="0" step="any" value="${sh.g}"></div></div>
+      ${sh.editId ? "" : `<div class="row" style="justify-content:space-between"><span class="small" style="color:var(--muted)">${f.upraveno ? "Tebou opravené" : f.zdroj ? "Zdroj: " + esc(f.zdroj) : f.ciq ? "Obecná hodnota (Ciqual)" : f.vlastni ? "Tvoje potravina" : "Základní databáze"}</span><button class="btn ghost sm" data-a="food-fix">Opravit hodnoty</button></div>`}
+      <div class="field"><label for="s-g">Kolik gramů</label><div class="unit" data-u="g"><input class="input" id="s-g" type="text" inputmode="decimal" min="0" step="any" value="${sh.g}"></div></div>
       <div class="pick">${units.map(([l, g]) => `<button data-a="s-amount" data-g="${g}" aria-pressed="false">${esc(l)}</button>`).join("")}</div>
       <div id="s-preview"></div>
       ${mealPick(sh.meal)}
@@ -5881,10 +6275,10 @@ function renderSheet() {
       ${sh.note ? `<p class="est">${esc(sh.note)}</p>` : `<p class="hint">Na jídla, kde znáš jen kalorie, třeba v restauraci.</p>`}
       <div class="field"><label for="q-name">Co to bylo</label><input class="input" id="q-name" value="${esc(v.nazev || "")}" placeholder="Např. oběd v menze"></div>
       <div class="grid4">
-        <div class="field"><label for="q-kcal">Kalorie</label><input class="input" id="q-kcal" type="number" inputmode="decimal" value="${v.kcal ?? ""}"></div>
-        <div class="field"><label for="q-b">Bílk. g</label><input class="input" id="q-b" type="number" inputmode="decimal" value="${v.b ?? ""}"></div>
-        <div class="field"><label for="q-t">Tuky g</label><input class="input" id="q-t" type="number" inputmode="decimal" value="${v.t ?? ""}"></div>
-        <div class="field"><label for="q-s">Sach. g</label><input class="input" id="q-s" type="number" inputmode="decimal" value="${v.s ?? ""}"></div>
+        <div class="field"><label for="q-kcal">Kalorie</label><input class="input" id="q-kcal" type="text" inputmode="decimal" value="${v.kcal ?? ""}"></div>
+        <div class="field"><label for="q-b">Bílk. g</label><input class="input" id="q-b" type="text" inputmode="decimal" value="${v.b ?? ""}"></div>
+        <div class="field"><label for="q-t">Tuky g</label><input class="input" id="q-t" type="text" inputmode="decimal" value="${v.t ?? ""}"></div>
+        <div class="field"><label for="q-s">Sach. g</label><input class="input" id="q-s" type="text" inputmode="decimal" value="${v.s ?? ""}"></div>
       </div>
       <button class="btn black block" data-a="q-submit" id="s-submit">${submitLabel()}</button>
       ${sh.editId ? deleteBlock("s-del", "Odebrat z deníku") : ""}</div>`;
@@ -5895,17 +6289,17 @@ function renderSheet() {
       ${sh.note ? `<p class="est">${esc(sh.note)}</p>` : `<p class="hint">Opiš hodnoty z obalu, z části „výživové údaje na 100 g“.</p>`}
       <div class="field"><label for="f-name">Název</label><input class="input" id="f-name" value="${esc(f.nazev || "")}" placeholder="Např. Skyr vanilka Lidl"></div>
       <div class="grid4">
-        <div class="field"><label for="f-kcal">Kalorie</label><input class="input" id="f-kcal" type="number" inputmode="decimal" value="${f.kcal ?? ""}"></div>
-        <div class="field"><label for="f-b">Bílk. g</label><input class="input" id="f-b" type="number" inputmode="decimal" value="${f.b ?? ""}"></div>
-        <div class="field"><label for="f-t">Tuky g</label><input class="input" id="f-t" type="number" inputmode="decimal" value="${f.t ?? ""}"></div>
-        <div class="field"><label for="f-s">Sach. g</label><input class="input" id="f-s" type="number" inputmode="decimal" value="${f.s ?? ""}"></div>
+        <div class="field"><label for="f-kcal">Kalorie</label><input class="input" id="f-kcal" type="text" inputmode="decimal" value="${f.kcal ?? ""}"></div>
+        <div class="field"><label for="f-b">Bílk. g</label><input class="input" id="f-b" type="text" inputmode="decimal" value="${f.b ?? ""}"></div>
+        <div class="field"><label for="f-t">Tuky g</label><input class="input" id="f-t" type="text" inputmode="decimal" value="${f.t ?? ""}"></div>
+        <div class="field"><label for="f-s">Sach. g</label><input class="input" id="f-s" type="text" inputmode="decimal" value="${f.s ?? ""}"></div>
       </div>
       <div class="field"><label for="f-odd">Oddělení v obchodě</label><select class="input" id="f-odd">${Object.entries(DEPTS).map(([k, l]) => `<option value="${k}" ${k === (f.odd || "trvanlive") ? "selected" : ""}>${l}</option>`).join("")}</select></div>
       <div class="grid2">
         <div class="field"><label for="f-jedn">Kus se jmenuje</label><input class="input" id="f-jedn" value="${esc(f.jedn || "")}" placeholder="ks, plátek…"></div>
-        <div class="field"><label for="f-jg">1 kus váží</label><div class="unit" data-u="g"><input class="input" id="f-jg" type="number" inputmode="decimal" value="${f.jednG || ""}"></div></div>
+        <div class="field"><label for="f-jg">1 kus váží</label><div class="unit" data-u="g"><input class="input" id="f-jg" type="text" inputmode="decimal" value="${f.jednG || ""}"></div></div>
       </div>
-      <div class="field"><label for="f-cena">Cena za 1 kg</label><div class="unit" data-u="Kč"><input class="input" id="f-cena" type="number" inputmode="decimal" value="${f.cena || ""}" placeholder="${f.id ? "teď počítám s " + fmt(Math.round(priceOf(f.id))) : "nepovinné"}"></div></div>
+      <div class="field"><label for="f-cena">Cena za 1 kg</label><div class="unit" data-u="Kč"><input class="input" id="f-cena" type="text" inputmode="decimal" value="${f.cena || ""}" placeholder="${f.id ? "teď počítám s " + fmt(Math.round(priceOf(f.id))) : "nepovinné"}"></div></div>
       <button class="btn black block" data-a="f-save">${isNew ? "Uložit potravinu" : "Uložit změny"}</button>
       ${isNew && S.sampleImages && !sh.note ? `<button class="btn redb block" data-a="photo" data-kind="obal">Vyfotit obal</button>` : ""}
       ${f.upraveno ? `<button class="btn block" data-a="f-reset">Vrátit původní hodnoty</button>` : ""}
@@ -5924,7 +6318,7 @@ function renderOnline() {
   const q = (S.sheet.q || "").trim();
   clearTimeout(onlineTimer);
   if (q.length < 3 || typeof onlineSearch !== "function") { box.innerHTML = ""; return; }
-  const ai = S.sample ? `<button class="btn ghost sm" data-a="ai-estimate">Nenašla jsi? Odhadni „${esc(q)}“ s Claudem</button>` : "";
+  const ai = `<button class="btn ghost sm" data-a="ai-estimate">Nenašla jsi? Dohledat „${esc(q)}“ na webu</button>`;
   box.innerHTML = `<p class="grp">Online databáze výrobků</p><p class="hint">Hledám…</p>${ai}`;
   const seq = ++onlineSeq;
   onlineTimer = setTimeout(async () => {
@@ -6039,7 +6433,7 @@ function renderRecipeSheet(p) {
       ${mealPick(sh.meal)}
       <button class="btn black block" data-a="rec-log" id="s-submit">${submitLabel()}</button>
       ${r.hotovaG ? `<p class="hint">Hotové jídlo váží ${fmt(r.hotovaG)} g, 1 porce je asi ${fmt(r.hotovaG / r.porce)} g. Nebo zapiš přesně, kolik jsi snědla:</p>
-      <div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="g" style="flex:1"><input class="input" id="rl-g" type="number" inputmode="decimal" placeholder="Snědla jsem gramů"></div><button class="btn" data-a="rec-log-g">Zapsat</button></div>
+      <div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="g" style="flex:1"><input class="input" id="rl-g" type="text" inputmode="decimal" placeholder="Snědla jsem gramů"></div><button class="btn" data-a="rec-log-g">Zapsat</button></div>
       <div id="rl-prev"></div>` : ""}
     </section>
     <button class="btn block" data-a="b-edit">Upravit recept</button>
@@ -6095,7 +6489,7 @@ function refreshBuilderCalc() {
 }
 function renderBuilderSheet(p) {
   const b = S.sheet.builder;
-  const rows = b.suroviny.map((x, i) => x.bez ? "" : `<div class="bing"><span class="nm">${esc(x.nazev)}</span><div class="unit" data-u="g"><input class="input" id="b-g-${i}" type="number" inputmode="decimal" value="${x.g || ""}" aria-label="Gramy ${esc(x.nazev)}"></div><span class="kc" id="b-k-${i}">${fmt(ingMacros(x).kcal)} kcal</span><button class="x" data-a="b-del" data-i="${i}" aria-label="Odebrat ${esc(x.nazev)}">×</button></div>`).join("");
+  const rows = b.suroviny.map((x, i) => x.bez ? "" : `<div class="bing"><span class="nm">${esc(x.nazev)}</span><div class="unit" data-u="g"><input class="input" id="b-g-${i}" type="text" inputmode="decimal" value="${x.g || ""}" aria-label="Gramy ${esc(x.nazev)}"></div><span class="kc" id="b-k-${i}">${fmt(ingMacros(x).kcal)} kcal</span><button class="x" data-a="b-del" data-i="${i}" aria-label="Odebrat ${esc(x.nazev)}">×</button></div>`).join("");
   const vk = b.varka;
   p.innerHTML = head(vk ? "Vařím" : b.id ? "Upravit recept" : "Můj recept") + `<div class="sheet-body">
     ${vk ? `<p class="est">Zapiš, kolik čeho opravdu dáváš do hrnce a kolik porcí z toho bude. Rozpočítám to na porci a dám to do plánu i do „Snědla jsem“.</p>` : ""}
@@ -6110,13 +6504,13 @@ function renderBuilderSheet(p) {
       <h3 class="h2">Porce</h3>
       <div class="seg" role="group" aria-label="Dělení"><button data-a="b-mode" data-v="porce" aria-pressed="${b.mode === "porce"}">Počet porcí</button><button data-a="b-mode" data-v="vaha" aria-pressed="${b.mode === "vaha"}">Podle váhy</button></div>
       <div class="grid2">
-        <div class="field"><label for="b-porce">Kolik porcí z toho bude</label><input class="input" id="b-porce" type="number" inputmode="numeric" min="1" value="${b.porce}"></div>
-        ${b.mode === "vaha" ? `<div class="field"><label for="b-hot">Hotové jídlo váží</label><div class="unit" data-u="g"><input class="input" id="b-hot" type="number" inputmode="decimal" value="${b.hotovaG || ""}" placeholder="zvaž hrnec bez hrnce"></div></div>` : ""}
+        <div class="field"><label for="b-porce">Kolik porcí z toho bude</label><input class="input" id="b-porce" type="text" inputmode="numeric" min="1" value="${b.porce}"></div>
+        ${b.mode === "vaha" ? `<div class="field"><label for="b-hot">Hotové jídlo váží</label><div class="unit" data-u="g"><input class="input" id="b-hot" type="text" inputmode="decimal" value="${b.hotovaG || ""}" placeholder="zvaž hrnec bez hrnce"></div></div>` : ""}
       </div>
       ${b.mode === "vaha" ? `<p class="hint">Zvaž hotové jídlo (bez nádoby). Do deníku pak můžeš zapsat přesně tolik gramů, kolik sníš.</p>` : ""}
     </section>
     <div id="b-calc" class="stack">${builderCalc()}</div>
-    <div class="grid2" ${vk ? "hidden" : ""}><div class="field"><label for="b-cas">Příprava</label><div class="unit" data-u="min"><input class="input" id="b-cas" type="number" inputmode="numeric" value="${b.cas}"></div></div></div>
+    <div class="grid2" ${vk ? "hidden" : ""}><div class="field"><label for="b-cas">Příprava</label><div class="unit" data-u="min"><input class="input" id="b-cas" type="text" inputmode="numeric" value="${b.cas}"></div></div></div>
     <div class="field" ${vk ? "hidden" : ""}><label for="b-postup">Postup (nepovinné, každý krok na nový řádek)</label><textarea class="input" id="b-postup" rows="4">${esc(b.postup)}</textarea></div>
     <button class="btn black block" data-a="b-save">${vk ? "Uložit várku" : "Uložit recept"}</button>
     ${vk ? `<label class="chk"><input type="checkbox" id="b-asrec" ${vk.asRec ? "checked" : ""}> Uložit i jako můj recept na příště</label>` : ""}
@@ -6149,7 +6543,7 @@ function renderSlotSheet(p) {
     const o = day[sh.meal]?.vlastni || {};
     body = `<p class="hint">Třeba jídlo v menze, u mámy nebo cokoliv mimo recepty.</p>
       <div class="field"><label for="o-name">Co to bude</label><input class="input" id="o-name" value="${esc(o.nazev || "")}" placeholder="Např. oběd v menze"></div>
-      <div class="grid4">${[["kcal", "Kalorie"], ["b", "Bílk. g"], ["t", "Tuky g"], ["s", "Sach. g"]].map(([k, l]) => `<div class="field"><label for="o-${k}">${l}</label><input class="input" id="o-${k}" type="number" inputmode="decimal" value="${o[k] ?? ""}"></div>`).join("")}</div>
+      <div class="grid4">${[["kcal", "Kalorie"], ["b", "Bílk. g"], ["t", "Tuky g"], ["s", "Sach. g"]].map(([k, l]) => `<div class="field"><label for="o-${k}">${l}</label><input class="input" id="o-${k}" type="text" inputmode="decimal" value="${o[k] ?? ""}"></div>`).join("")}</div>
       <button class="btn black block" data-a="slot-own-save">Uložit do plánu</button>
       <button class="btn ghost block" data-a="slot-mode" data-v="${i ? "" : "pick"}">Zpět</button>`;
   } else if (i) {
@@ -6159,7 +6553,7 @@ function renderSlotSheet(p) {
         ${slotCost(i) ? `<p class="hint">Porce vyjde zhruba na ${kc(slotCost(i))}.</p>` : ""}
         ${i.v?.hotovaG ? `<p class="hint">1 porce je asi ${fmt(i.v.hotovaG / i.v.porce)} g hotového jídla.</p>` : ""}</section>
       ${eaten ? `<span class="done-note">Už zapsáno v deníku.</span>` : `<div class="row" style="flex-wrap:nowrap"><button class="btn black" style="flex:1" data-a="slot-eat">Snědla jsem${sh.date === today() ? "" : ` (${dayTitle(sh.date).toLowerCase()})`}</button></div>
-        ${i.v?.hotovaG ? `<div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="g" style="flex:1"><input class="input" id="slot-g" type="number" inputmode="decimal" placeholder="nebo přesně gramů"></div><button class="btn" data-a="slot-eat-g">Zapsat</button></div>` : ""}`}
+        ${i.v?.hotovaG ? `<div class="row" style="flex-wrap:nowrap"><div class="unit" data-u="g" style="flex:1"><input class="input" id="slot-g" type="text" inputmode="decimal" placeholder="nebo přesně gramů"></div><button class="btn" data-a="slot-eat-g">Zapsat</button></div>` : ""}`}
       <div class="grid2">
         <button class="btn" data-a="slot-mode" data-v="pick">Vyměnit</button>
         <button class="btn" data-a="slot-mode" data-v="move">Přesunout</button>
@@ -6281,7 +6675,7 @@ function renderScanQueue() {
       <div class="x-acts">${S.sampleImages ? `<button class="btn sm" data-a="photo" data-kind="obal">Vyfotit tabulku</button>` : ""}<button class="btn sm" data-a="food-new-code" data-code="${esc(x.code)}" data-name="${esc(x.partial || "")}">Zadat ručně</button></div></div><button class="x-qx" data-a="scan-del" data-i="${i}" aria-label="Odebrat">×</button></div>`;
     const f = x.food, opts = amountOpts(f), m = macroFor(f, x.g), mi = microFor(f, x.g);
     return `<div class="x-qrow"><div class="x-qn"><b>${esc(f.nazev)}</b><small>${f.baleniG ? `balení ${fmt(f.baleniG)} g · ` : ""}${esc(f.zdroj || "tvoje potraviny")}${f.url ? ` · <a href="${esc(f.url)}" target="_blank" rel="noopener">zdroj</a>` : ""}</small>
-      <div class="pick x-amt">${opts.map(([k, l, g]) => `<button data-a="scan-amt" data-i="${i}" data-g="${g}" aria-pressed="${Math.abs(x.g - g) < .5}">${l}</button>`).join("")}<span class="unit" data-u="g"><input class="input" id="scan-g-${i}" data-scang="${i}" type="number" inputmode="decimal" value="${r1(x.g)}" aria-label="Gramy"></span></div>
+      <div class="pick x-amt">${opts.map(([k, l, g]) => `<button data-a="scan-amt" data-i="${i}" data-g="${g}" aria-pressed="${Math.abs(x.g - g) < .5}">${l}</button>`).join("")}<span class="unit" data-u="g"><input class="input" id="scan-g-${i}" data-scang="${i}" type="text" inputmode="decimal" value="${r1(x.g)}" aria-label="Gramy"></span></div>
       <small class="x-qm">B ${fmt(m.b, 1)} · T ${fmt(m.t, 1)} · S ${fmt(m.s, 1)}${mi ? " · " + MICRO.filter(z => mi[z[0]] != null).slice(0, 4).map(([k, l, u]) => `${l.toLowerCase()} ${fmt(mi[k], 1)} ${u}`).join(" · ") : ""}${macroOdd(f) ? ` · <b>⚠ hodnoty si odporují</b>` : ""}</small></div>
       <div class="x-qk"><b>${fmt(m.kcal)}</b><small>kcal</small><button class="x-qx" data-a="scan-del" data-i="${i}" aria-label="Odebrat ${esc(f.nazev)}">×</button></div></div>`;
   }).join("") : "";
@@ -6595,14 +6989,15 @@ const actions = {
   "pick-off": b => { const x = S.offResults?.[+b.dataset.i]; if (!x) return; const f = saveOffFood(x); pickedFood(S.sheet, f); renderSheet(); },
   "food-new-code": b => { const sh = S.sheet; openSheet({ view: "food", food: { nazev: b.dataset.name || "", kod: b.dataset.code }, returnTo: { view: "search", meal: sh?.meal || guessMeal(), q: "" } }); },
   "ai-estimate": async b => {
-    const sh = S.sheet, q = (sh?.q || "").trim(); if (!q || !S.sample) return;
-    b.disabled = true; b.textContent = "Claude odhaduje…";
-    try {
-      const res = await S.sample.json(`Uživatelka chce zapsat do deníku: „${q}“ (Česko, běžný obchod nebo restaurace). Odhadni výživové hodnoty na 100 g a typickou velikost jednoho kusu nebo porce.
-Odpověz jen JSON: {"nazev": "krátký český název", "kcal": číslo, "b": bílkoviny g, "t": tuky g, "s": sacharidy g, "jedn": "ks" nebo "porce" nebo "plechovka" apod., "jednG": gramy jednoho kusu nebo porce, "odd": jedno z ${JSON.stringify(Object.keys(DEPTS))}}`);
-      if (!res || !(num(res.kcal) >= 0)) throw { code: "invalid_json" };
-      openSheet({ view: "food", food: { nazev: String(res.nazev || q), kcal: Math.round(num(res.kcal)), b: r1(num(res.b)), t: r1(num(res.t)), s: r1(num(res.s)), odd: DEPTS[res.odd] ? res.odd : "trvanlive", jedn: String(res.jedn || ""), jednG: Math.round(num(res.jednG)) }, note: `Odhad od Clauda pro „${q}“. Zkontroluj čísla a ulož, příště už to najdeš hned.`, returnTo: { view: "search", meal: sh.meal, q: "" } });
-    } catch (e) { toast(aiError(e) || "Odhad se nepovedl."); b.disabled = false; b.textContent = "Zkusit znovu s Claudem"; }
+    const sh = S.sheet, q = (sh?.q || "").trim(); if (!q) return;
+    b.disabled = true; b.textContent = "Hledám oficiální hodnoty na webu…";
+    const h = await authHeaders();
+    let res = null;
+    try { const rr = await fetch(SB_URL + "/functions/v1/ean", { method: "POST", headers: h, body: JSON.stringify({ name: q }) }); res = await rr.json(); } catch (e) { res = { error: "offline" }; }
+    if (res?.found && res.item) {
+      const f = offToFood({ ...res.item, code: "" }); delete f.kod;
+      openSheet({ view: "food", food: f, note: `Dohledáno na webu${res.item.url ? ": " + res.item.url : ""}. Zkontroluj čísla a ulož, příště to najdeš hned.`, returnTo: { view: "search", meal: sh.meal, q: "" } });
+    } else { toast(res?.error === "daily_limit" ? "Dnešní limit dotazů je vyčerpaný." : res?.error === "offline" ? "Bez internetu to nejde." : "Spolehlivé hodnoty jsem nenašla. Zadej je podle obalu."); b.disabled = false; b.textContent = "Zkusit znovu"; }
   },
   "tab": b => switchTab(b.dataset.tab),
   "day": b => { if (!S.db) return; S.date = addDays(S.date, +b.dataset.k); subscribeDay(); refresh(); },
