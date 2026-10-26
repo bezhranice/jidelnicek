@@ -1155,7 +1155,7 @@ const FOOD_ROWS = [
 ];
 /* Rozšířená databáze: Anses. Ciqual 2025 (licence Etalab 2.0), názvy přeložené do češtiny.
    [název, kcal, bílkoviny, tuky, sacharidy, oddělení, kód Ciqual, [vláknina g, cukr g, sůl g, nasycené tuky g, zinek mg, hořčík mg, železo mg, vápník mg]] */
-/* Značky a řetězce z oficiálních zdrojů: McDonald's (mcdonalds.cz), KFC (tabulka 10/2026), Bageterie Boulevard (bageterie.com), nápoje podle etiket.
+/* Značky a řetězce z oficiálních zdrojů: McDonald's (mcdonalds.cz), KFC (tabulka 10/2026), Bageterie Boulevard (bageterie.com), Burger King (burgerking.cz), Starbucks (nutriční tabulka 2026), nápoje podle etiket.
    [název, kcal, bílkoviny, tuky, sacharidy, oddělení, jednotka, g v jednotce, {mikroživiny}, zdroj] */
 const BRAND_ROWS = [
   ["McDonald's Jablečná taštička",285,2.9,15.0,35.0,"hotove","porce",80,{"cu":11.0,"sul":0.28,"nas":3.5,"vl":1.9},"mcdonalds.cz"],
@@ -1527,7 +1527,111 @@ const BRAND_ROWS = [
   ["Monster Nitro Cosmic Peach",46,0,0,11,"napoje","plechovka",500,{"cu":11},"evropská etiketa (Open Food Facts)"],
   ["Monster Lewis Hamilton Zero Sugar",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
   ["Monster Espresso Vanilla",61,0,0,7.9,"napoje","plechovka",250,{"cu":7.9},"evropská etiketa (Open Food Facts)"],
-  ["Monster Absolutely Zero",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"]
+  ["Monster Absolutely Zero",3,0,0,0.2,"napoje","plechovka",500,{"cu":0},"evropská etiketa (Open Food Facts)"],
+  ["Burger King Ledový čaj střední",21,0.0,0.0,4.8,"napoje","kelímek",455,{},"burgerking.cz"],
+  ["Burger King Mini King Fusion Nutella",233,3.8,9.7,32.1,"hotove","porce",82,{},"burgerking.cz"],
+  ["Burger King Hranolky střední",238,3.1,10.7,29.9,"hotove","porce",116,{},"burgerking.cz"],
+  ["Burger King Nuggets dětské",258,14.0,14.6,17.1,"hotove","porce",64,{},"burgerking.cz"],
+  ["Burger King Nuggets 20 ks",258,14.0,14.6,17.2,"hotove","porce",321,{},"burgerking.cz"],
+  ["Burger King Hamburger",279,16.2,11.0,28.3,"hotove","porce",84,{},"burgerking.cz"],
+  ["Burger King Whopper",294,15.3,15.9,21.6,"hotove","porce",195,{},"burgerking.cz"],
+  ["Burger King Cheeseburger",284,16.4,12.6,25.7,"hotove","porce",96,{},"burgerking.cz"],
+  ["Burger King Bacon Double Cheeseburger",213,14.5,10.0,15.2,"hotove","porce",149,{},"burgerking.cz"],
+  ["Burger King Nuggets 6 ks",257,13.9,14.5,17.3,"hotove","porce",97,{},"burgerking.cz"],
+  ["Burger King Hranolky velké",239,3.1,10.6,29.9,"hotove","porce",159,{},"burgerking.cz"],
+  ["Burger King Double Cheeseburger",289,18.8,15.5,18.1,"hotove","porce",140,{},"burgerking.cz"],
+  ["Burger King Nuggets 9 ks",257,13.9,14.5,17.2,"hotove","porce",145,{},"burgerking.cz"],
+  ["Burger King Chilli Cheese Bites 20 ks",285,9.0,15.0,27.9,"hotove","porce",372,{},"burgerking.cz"],
+  ["Burger King Chilli Cheese Bites 6 ks",285,9.0,15.0,27.9,"hotove","porce",112,{},"burgerking.cz"],
+  ["Burger King Coca-Cola střední",42,0.0,0.0,10.6,"napoje","kelímek",455,{},"burgerking.cz"],
+  ["Burger King Coca-Cola velká",42,0.0,0.0,10.6,"napoje","kelímek",625,{},"burgerking.cz"],
+  ["Burger King Coca-Cola Zero střední",1,0.0,0.0,0.0,"napoje","kelímek",455,{},"burgerking.cz"],
+  ["Burger King Coca-Cola Zero velká",0,0.0,0.0,0.0,"napoje","kelímek",625,{},"burgerking.cz"],
+  ["Burger King Fanta střední",19,0.0,0.0,4.5,"napoje","kelímek",455,{},"burgerking.cz"],
+  ["Burger King Fanta velká",19,0.0,0.0,4.5,"napoje","kelímek",625,{},"burgerking.cz"],
+  ["Burger King Bacon King Double",292,18.3,17.9,13.8,"hotove","porce",358,{},"burgerking.cz"],
+  ["Burger King Jablečné plátky",55,0.2,0.1,12.0,"hotove","porce",60,{},"burgerking.cz"],
+  ["Burger King King Fusion Oreo",174,3.1,5.3,28.5,"hotove","porce",140,{},"burgerking.cz"],
+  ["Burger King Mini King Fusion Oreo",182,3.2,5.5,29.6,"hotove","porce",90,{},"burgerking.cz"],
+  ["Burger King Sprite Zero střední",1,0.0,0.0,0.0,"napoje","kelímek",455,{},"burgerking.cz"],
+  ["Burger King Chilli Cheese Bites 9 ks",285,9.0,15.0,27.9,"hotove","porce",167,{},"burgerking.cz"],
+  ["Burger King Cibulové kroužky 6 ks",250,5.1,10.9,31.1,"hotove","porce",90,{},"burgerking.cz"],
+  ["Burger King Cibulové kroužky 9 ks",250,5.1,10.9,31.1,"hotove","porce",135,{},"burgerking.cz"],
+  ["Burger King Cibulové kroužky 20 ks",250,5.1,10.9,31.1,"hotove","porce",300,{},"burgerking.cz"],
+  ["Burger King Vegan Royale",313,6.7,15.6,35.6,"hotove","porce",107,{},"burgerking.cz"],
+  ["Burger King Hranolky malé",243,3.0,12.2,27.8,"hotove","porce",90,{},"burgerking.cz"],
+  ["Burger King Vegan Nuggets 6 ks",225,7.3,11.9,19.9,"hotove","porce",108,{},"burgerking.cz"],
+  ["Burger King Vegan Nuggets 9 ks",225,7.3,11.9,19.9,"hotove","porce",162,{},"burgerking.cz"],
+  ["Burger King Vegan Nuggets 20 ks",225,7.3,11.9,19.9,"hotove","porce",360,{},"burgerking.cz"],
+  ["Burger King Ben & Jerry's Chocolate Fudge Brownie malý",245,4.2,13.0,29.0,"hotove","porce",72,{},"burgerking.cz"],
+  ["Burger King Farmhouse Angus",298,16.8,19.2,14.0,"hotove","porce",257,{},"burgerking.cz"],
+  ["Burger King Loaded hranolky se slaninou a sýrem",246,5.2,12.6,25.7,"hotove","porce",199,{},"burgerking.cz"],
+  ["Burger King Loaded hranolky se sýrem",238,4.1,11.8,26.6,"hotove","porce",189,{},"burgerking.cz"],
+  ["Starbucks Muffin double chocolate low calories",402,5.5,22.0,45.0,"hotove","kus",110,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Muffin pistachio",391,7.4,19.0,46.0,"hotove","kus",115,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pancakes / lívance",235,5.2,4.8,41.9,"hotove","kus",70,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Skořicová rolka",296,5.6,12.7,40.0,"hotove","kus",120,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Blueberry roll",271,5.9,9.4,48.8,"hotove","kus",120,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Lemon loaf cake",446,4.7,25.4,49.5,"hotove","kus",90,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Croissant",437,8.8,25.0,43.0,"hotove","kus",51,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Croissant Raspberry vegan",376,6.7,16.0,50.0,"hotove","kus",79,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Croissant Pistachio",475,7.6,28.1,47.3,"hotove","kus",73,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Croissant Nocciola",476,8.0,28.7,45.1,"hotove","kus",73,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Mini croissant White Chocolate",421,7.1,24.6,42.2,"hotove","kus",36,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Mini croissant Apple and Cinnamon",332,5.8,13.9,45.4,"hotove","kus",36,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Mini croissant Milk Hazelnut",419,7.5,24.6,41.5,"hotove","kus",36,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Mini croissant Peach Vanilla",330,5.9,13.9,45.0,"hotove","kus",36,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Mrkvový dort low calories",369,5.0,25.0,30.0,"hotove","kus",93,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Carrot cake",407,3.8,26.0,40.0,"hotove","kus",110,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Carrot cake Reserve",391,4.6,24.0,38.0,"hotove","kus",140,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cheesecake jahodový",231,4.9,11.5,26.7,"hotove","kus",157,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks NY Cheesecake",273,6.5,15.5,26.7,"hotove","kus",136,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Jablečný koláč vegan",167,1.5,5.0,28.1,"hotove","kus",188,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pastel de Nata",269,5.5,10.0,38.0,"hotove","kus",50,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Makronka vanilka",447,8.5,23.0,50.0,"hotove","kus",20,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Makronka čokoláda",418,7.8,20.0,50.0,"hotove","kus",20,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Makronka malina",436,8.0,13.5,70.5,"hotove","kus",20,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Makronka pistácie",564,11.0,28.0,65.0,"hotove","kus",20,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cookie double chocolate",430,6.7,18.4,57.1,"hotove","kus",75,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cookie chocolate chunk",431,5.0,17.1,62.5,"hotove","kus",75,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Almond caramel cake",487,6.1,32.7,41.3,"hotove","kus",79,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cherry cream slice",190,2.4,9.6,23.0,"hotove","kus",113,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Caramel choco cheesecake",384,4.9,23.5,37.6,"hotove","kus",140,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Chocolate and raspberry tart",280,3.1,12.7,36.9,"hotove","kus",100,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Spring dream cake",303,4.3,20.0,26.0,"hotove","kus",125,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Strawberry matcha lover cake",388,6.6,21.0,43.0,"hotove","kus",143,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Ube roll",286,6.0,14.0,42.4,"hotove","kus",120,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Matcha and cherry muffin",363,3.9,17.0,48.0,"hotove","kus",130,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Matcha brownie",442,6.9,24.0,49.0,"hotove","kus",58,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Kalamansi mango poppy-seed cake",441,7.6,25.0,46.0,"hotove","kus",144,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Strawberry lemon roll",323,5.6,13.0,44.4,"hotove","kus",120,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Banana ricotta muffin",355,6.2,18.0,42.0,"hotove","kus",115,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pink velvet",384,3.8,22.0,43.0,"hotove","kus",135,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Blueberry vanilla loaf cake",436,5.8,27.0,40.0,"hotove","kus",100,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cake pop Pink Strawberry Flamingo",485,3.7,29.0,53.0,"hotove","kus",35,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Apple crumble pie",229,2.6,7.8,38.0,"hotove","kus",200,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pumpkin spiced marbled loaf cake",434,5.2,24.0,49.0,"hotove","kus",95,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pumpkin shaped brownie",548,6.3,39.0,43.0,"hotove","kus",65,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pumpkin cake pop",289,2.8,16.0,34.0,"hotove","kus",35,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cookie Starbucks cup",467,5.7,20.0,65.0,"hotove","kus",60,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Birthday cake pop",501,4.9,29.0,55.0,"hotove","kus",34,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Chocolate cake pop",494,6.2,30.0,49.0,"hotove","kus",34,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks High-protein jogurt pistácie",110,8.2,2.3,14.1,"hotove","kus",170,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks High-protein jogurt stracciatella",81,7.9,0.8,10.5,"hotove","kus",170,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Sendvič s kozím sýrem",325,9.4,17.8,31.1,"hotove","kus",107,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Pastrami melted sandwich",263,11.1,11.6,27.3,"hotove","kus",200,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Caesar chicken bagel",247,13.0,10.2,25.1,"hotove","kus",175,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks BBQ chicken bagel",217,13.4,5.1,28.9,"hotove","kus",179,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Fossette Caesar",242,12.1,11.6,21.7,"hotove","kus",219,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Brioche burger",246,13.6,9.4,26.3,"hotove","kus",197,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Fossette Parma",242,10.1,11.1,24.8,"hotove","kus",197,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Focaccia Roma",258,10.6,14.3,20.4,"hotove","kus",180,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Cheese croissant",321,14.5,22.2,14.3,"hotove","kus",190,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Focaccia Verde",236,4.0,15.2,19.6,"hotove","kus",207,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Rhombig Parma",250,12.6,10.0,26.2,"hotove","kus",158,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Rhombig Verde",211,5.9,8.5,26.1,"hotove","kus",158,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Croissant šunka a sýr",235,11.6,13.7,15.2,"hotove","kus",160,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Starbucks Egg bagel",283,9.8,17.3,21.5,"hotove","kus",202,{},"starbucks.cz (nutriční tabulka 2026)"]
 ];
 const CIQ_ROWS = [
   ["Acerola džus čerstvý",23,0.4,0.3,4.5,"napoje","2040",[0.3,4.5,0.01,0.1,0.1,12.0,0.5,10.0]],
@@ -4814,11 +4918,20 @@ function microSum(items) {
   return { tot, cov: all ? cov / all : 0 };
 }
 const withMi = (o, mi) => mi ? { ...o, mi } : o;
-const OLD_HIDDEN = /^(McDonald's |KFC |Monster Energy$|Monster Ultra|Red Bull)/;
+const OLD_HIDDEN = /^(McDonald's |KFC |Burger King |Monster Energy$|Monster Ultra|Red Bull)/;
 const SEED = FOOD_ROWS.map(r => ({ id: slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(OLD_HIDDEN.test(r[0]) ? { skryte: true } : {}) })).concat(
   BRAND_ROWS.map(r => ({ id: "zn-" + slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(r[8] && Object.keys(r[8]).length ? { mi: r[8] } : {}), zdroj: r[9] || "", znacka: true })),
   CIQ_ROWS.map(r => ({ id: "cq-" + r[6], nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: "", jednG: 0, ciq: true, ...(r[7] ? { mi: Object.fromEntries(MICRO.map((m, i) => [m[0], r[7][i]]).filter(x => x[1] != null)) } : {}) })));
 const SEED_MAP = new Map(SEED.map(f => [f.id, f]));
+/* Balené potraviny podle etiket (Rohlík): [id, název, kcal, b, t, s, oddělení, jednotka, g v jednotce, {mikroživiny}, celé balení g] */
+const packedFood = r => ({ id: "rk-" + r[0], nazev: r[1], kcal: r[2], b: r[3], t: r[4], s: r[5], odd: r[6], jedn: r[7] || "", jednG: r[8] || 0, ...(r[9] && Object.keys(r[9]).length ? { mi: r[9] } : {}), ...(r[10] ? { baleniG: r[10] } : {}), zdroj: "etiketa výrobku (rohlik.cz)", baleny: true });
+function loadPacked() {
+  fetch("potraviny.json").then(x => x.json()).then(rows => {
+    S.packed = rows.map(packedFood); S.packedMap = new Map(S.packed.map(f => [f.id, f])); S.foodsCache = null;
+    if (S.sheet?.view === "search") renderResults();
+  }).catch(e => console.error(e));
+}
+const baseFood = id => SEED_MAP.get(id) || S.packedMap?.get(id);
 const SWAP_OF = {}, SWAP_LABEL = {};
 SWAPS.forEach(([rep, label, ...rest]) => { SWAP_LABEL[rep] = label; [rep, ...rest].forEach(id => SWAP_OF[id] = rep); });
 
@@ -4844,8 +4957,9 @@ const S = {
 function foods() {
   if (S.foodsCache) return S.foodsCache;
   const m = new Map(SEED.map(f => [f.id, { ...f, zaklad: true }]));
+  for (const f of S.packed || []) m.set(f.id, { ...f, zaklad: true });
   for (const [id, f] of Object.entries(S.custom)) {
-    const base = SEED_MAP.get(id);
+    const base = baseFood(id);
     m.set(id, { ...(base || {}), ...f, id, zaklad: !!base, upraveno: !!base, vlastni: !base });
   }
   S.foodsCache = [...m.values()].sort((a, b) => a.nazev.localeCompare(b.nazev, "cs"));
@@ -4893,6 +5007,9 @@ function searchFoods(q, limit = 40) {
     if (f.vlastni || f.upraveno) score -= 2;
     if (!f.ciq) score -= 1.2;
     if (f.znacka) score -= 0.4;
+    if (f.baleny) score += 0.2;
+    // značka nebo řetězec bez jejich jména v dotazu: obecná potravina má přednost
+    if ((f.znacka || f.baleny) && !words.some(w => n.startsWith(stem(w)) || toks.slice(0, 2).some(x => x.startsWith(stem(w))))) score += 1;
     if (/prumer/.test(n)) score += 0.3;
     score += Math.min(n.length, 60) / 60;
     out.push({ f, score });
@@ -5329,6 +5446,7 @@ function start(session) {
   S.sample = makeSample(); S.sampleImages = true;
   switchTab("dnes");
   setStatus("saving", "Načítám");
+  loadPacked();
   fetch("recepty.json", { cache: "no-cache" }).then(r => r.json()).then(list => {
     S.baseRecipes = Object.fromEntries(list.map(r => [r.id, r])); S.baseLoaded = true; mergeRecipes();
   }).catch(e => { console.error(e); S.baseLoaded = true; mergeRecipes(); });
