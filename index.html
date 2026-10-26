@@ -5701,7 +5701,8 @@ async function loadVision(force) {
   const boards = S.visionCfg?.boards || [];
   const cacheK = "kj-vision-" + (S.uid || "x");
   const cached = LS.get(cacheK, null);
-  if (cached && JSON.stringify(cached.boards) === JSON.stringify(boards)) { S.vision = cached; if (!force && Date.now() - (cached.at || 0) < 6 * 3600e3) return cached; }
+  const failed = (cached?.info || []).some(x => x.error || !x.count);
+  if (cached && JSON.stringify(cached.boards) === JSON.stringify(boards)) { S.vision = cached; if (!force && !failed && Date.now() - (cached.at || 0) < 6 * 3600e3) return cached; }
   if (!boards.length) { S.vision = { items: [], boards: [] }; return S.vision; }
   try {
     const h = await authHeaders(); if (!h) return S.vision;
@@ -5716,10 +5717,10 @@ async function loadVision(force) {
 }
 function visionCard() {
   const boards = S.visionCfg?.boards || [], info = S.vision?.info || [];
-  const err = { not_pinterest: "tohle není odkaz na Pinterest", not_found: "nástěnka nejde načíst (je tajná nebo má jiný odkaz)", fetch: "teď se nepodařilo načíst" };
+  const err = { not_pinterest: "tohle není odkaz na Pinterest", pin: "tohle je odkaz na jeden pin, vlož odkaz na celou nástěnku", not_board: "tohle není odkaz na nástěnku", not_found: "nástěnka nejde načíst (je tajná nebo má jiný odkaz)", fetch: "teď se nepodařilo načíst" };
   return `<section class="card" id="vision-card">
     <h2 class="h2">Vision board</h2>
-    <p class="hint">V Pinterestu otevři nástěnku, ťukni na Sdílet → Kopírovat odkaz a vlož ho sem. Nástěnka musí být veřejná. Můžeš přidat víc nástěnek, fotky se na Dnes promíchají.</p>
+    <p class="hint">V Pinterestu otevři nástěnku (ne jednotlivý pin), ťukni na Sdílet → Kopírovat odkaz a vlož ho sem. Nástěnka musí být veřejná. Můžeš přidat víc nástěnek, fotky se na Dnes promíchají.</p>
     ${boards.map((b, i) => { const x = info.find(y => y.url === b); return `<div class="row" style="flex-wrap:nowrap"><span class="small" style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(b)}<br><span style="color:var(--muted)">${x ? (x.error ? err[x.error] || "chyba" : `${x.count} fotek`) : "načítám…"}</span></span><button class="btn ghost sm" data-a="vision-del" data-i="${i}" aria-label="Odebrat nástěnku">×</button></div>`; }).join("")}
     <div class="row" style="flex-wrap:nowrap"><input class="input" id="vision-url" placeholder="https://pin.it/… nebo pinterest.com/…" autocomplete="off"><button class="btn black" data-a="vision-add">Přidat</button></div>
   </section>`;
