@@ -773,7 +773,116 @@ select.input option { background: var(--paper); color: var(--ink); }
 @keyframes lxSpin { to { transform: rotate(360deg); } }
 /* oslava */
 canvas.x-fx { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
-@media (prefers-reduced-motion: reduce) { body::before, .x-ring::before, .x-view > * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { body::before, .x-ring::before, .x-view > *, .x-grp > * { animation: none !important; } }
+/* ================= Mac a široká okna (od 900 px): boční panel, obsah do šířky, dialogy uprostřed ================= */
+.tabbar .side-brand, .tabbar .side-ja, .x-meals-h { display: none; }
+.x-grp { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.x-view > .x-grp { animation: none; }
+.x-grp > * { animation: lxRise .55s cubic-bezier(.2,.8,.2,1) both; }
+.x-g-sum > *:nth-child(2) { animation-delay: .05s; } .x-g-sum > *:nth-child(3) { animation-delay: .1s; } .x-g-sum > *:nth-child(4) { animation-delay: .15s; } .x-g-sum > *:nth-child(5) { animation-delay: .2s; } .x-g-sum > *:nth-child(n+6), .x-g-vis > *, .x-g-meals > * { animation-delay: .25s; }
+
+@media (min-width: 900px) {
+  :root { --side: 236px; }
+  body { font-size: 15px; }
+  #app { max-width: none; margin: 0 0 0 var(--side); padding: 26px clamp(28px, 4vw, 56px) 56px; }
+  #main { max-width: 1180px; width: 100%; margin: 0 auto; }
+  .top { max-width: 1180px; width: 100%; margin: 0 auto; justify-content: flex-end; min-height: 28px; margin-bottom: -10px; }
+  .top .brand, .top .avatar { display: none; }
+
+  /* boční panel místo spodní lišty */
+  .tabbar { top: 0; bottom: 0; right: auto; width: var(--side); border-top: 0; border-right: 1px solid var(--edge); padding: 22px 16px 22px; background: color-mix(in srgb, var(--paper) 72%, transparent); }
+  .tabbar-inner { max-width: none; height: 100%; display: flex !important; flex-direction: column; align-items: stretch; gap: 2px; }
+  .tabbar .side-brand { display: block; font-family: var(--f-head); font-weight: 800; font-size: 1.7rem; line-height: 1; padding: 6px 14px 22px; color: var(--ink); }
+  .tabbar .side-brand .mk { color: var(--dim); }
+  .tabbar button { flex-direction: row; justify-content: flex-start; padding: 9px 14px !important; border-radius: 999px; font-size: 1.12rem !important; color: var(--muted); transition: background .15s, color .15s; }
+  .tabbar button:hover { background: var(--glass); color: var(--ink); }
+  .tabbar button[aria-current="page"] { background: var(--glass-2); color: var(--ink); }
+  .tabbar button[aria-current="page"]::before { left: auto; right: 14px; top: 50%; bottom: auto; margin: -2.5px 0 0; }
+  .tabbar .plus { order: -1; width: auto; height: 46px; margin: 0 0 16px; border-radius: 999px; justify-self: stretch; display: flex; justify-content: center; font-size: 1rem !important; font-weight: 600 !important; gap: 8px; box-shadow: 0 10px 30px var(--glow); }
+  .tabbar .plus::after { content: "Přidat jídlo"; font-family: var(--f-body); }
+  .tabbar .plus[aria-expanded="true"] { transform: none; }
+  .tabbar .side-brand { order: -2; }
+  .side-ja { display: flex !important; margin-top: auto; }
+  .side-ja::after { content: "⌘,"; margin-left: auto; font-family: var(--f-body); font-size: .74rem; color: var(--dim); }
+
+  /* dialogy uprostřed okna místo vysouvacího panelu */
+  .sheet { justify-content: center; align-items: center; padding: 40px; }
+  .sheet-panel { width: min(640px, 100%); max-width: 640px; max-height: min(860px, calc(100vh - 80px)); border: 1px solid var(--edge); border-radius: 28px; box-shadow: 0 40px 120px rgba(0,0,0,.45), 0 0 0 1px var(--edge); animation: macPop .28s cubic-bezier(.2,.9,.3,1.15) both; }
+  .sheet-head { padding: 18px 24px 14px; }
+  .sheet-body { padding: 18px 24px 26px; }
+  .sheet-bg { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  @keyframes macPop { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+  .toast { bottom: 28px; left: calc(50% + var(--side) / 2); }
+
+  /* Dnes: souhrn vlevo, jídla vpravo, vision board přes celou šířku */
+  .x-dnes { display: grid !important; grid-template-columns: minmax(330px, 400px) minmax(0, 1fr); grid-template-areas: "sum meals" "vis vis"; column-gap: clamp(32px, 4vw, 64px); row-gap: 34px; align-items: start; }
+  .x-g-sum { grid-area: sum; }
+  .x-g-meals { grid-area: meals; gap: 14px; }
+  .x-g-vis { grid-area: vis; }
+  .x-g-meals > .x-hair:first-child { display: none; }
+  .x-meals-h { display: flex; }
+  .x-meals-h h2 { font-size: 2.1rem; }
+  .x-g-meals .x-meal { border: 1px solid var(--edge); border-radius: 24px; padding: 14px 20px 16px; background: var(--glass); transition: border-color .2s; }
+  .x-g-meals .x-meal:hover { border-color: var(--edge-2); }
+  .x-g-meals > .x-hair { display: none; }
+  .x-top .title { font-size: 3.4rem; }
+  .x-vision { display: block; columns: 170px; column-gap: 14px; overflow: visible; margin: 0; padding: 0; }
+  .x-vision a { width: auto; height: auto; margin: 0 0 14px; break-inside: avoid; border-radius: 20px; }
+  .x-vision img { height: auto; }
+  .x-vision a:hover img { transform: scale(1.04); }
+  .x-micro { flex-wrap: wrap; overflow: visible; margin: 0; padding: 0; }
+
+  /* obecně: víc místa, čtení do šířky */
+  .grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .btn:hover, .x-chip:hover, .x-act:hover { filter: brightness(1.08); }
+  .item:hover, .x-planrow:hover { background: var(--glass); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--edge-2); border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+}
+
+
+@media (max-width: 899px) { .x-bar-top, .x-cols, .x-weekgrid { display: contents; } }
+@media (min-width: 900px) {
+  /* hlavička s nástroji v jednom řádku */
+  .x-bar-top { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .x-bar-top .title { margin-right: auto; }
+  .x-bar-top .seg { width: 320px; }
+  .x-bar-top .btn.block { width: auto; min-height: 44px; padding-inline: 22px; }
+  .weeknav { max-width: 520px; }
+  /* sloupce vedle sebe (vaření, cena, nákupní seznamy, útrata) */
+  .x-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px 40px; align-items: start; }
+  /* týden v plánu */
+  .x-weekgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 12px; }
+  .x-weekgrid .day { border: 1px solid var(--edge); border-radius: 24px; padding: 14px 16px 12px; background: var(--glass); display: flex; flex-direction: column; gap: 6px; }
+  .x-weekgrid .day.today { border-color: var(--edge-2); box-shadow: 0 0 0 1px var(--edge-2), 0 12px 40px var(--glow); }
+  .x-weekgrid .day-head { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .x-weekgrid .day-head span { font-size: .74rem; }
+  .x-weekgrid .slot { grid-template-columns: minmax(0, 1fr) auto; }
+  .x-weekgrid .slot { padding: 8px 0; gap: 2px 6px; }
+  .x-weekgrid .slot .sl { grid-column: 1 / -1; }
+  .x-weekgrid .slot .sn { font-size: .88rem; line-height: 1.3; }
+  .x-weekgrid .slot .sn .boxd { display: none; }
+  .x-weekgrid .slot .sw { width: 28px; height: 28px; opacity: 0; transition: opacity .15s; }
+  .x-weekgrid .day:hover .slot .sw, .x-weekgrid .slot .sw:focus-visible { opacity: 1; }
+  .x-weekgrid .day-head h3 { font-size: 1.25rem; }
+  .x-weekgrid .day-foot { font-size: .74rem; }
+  /* recepty v mřížce */
+  .rec-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .rec { border: 1px solid var(--edge); border-radius: 24px; padding: 18px 20px; background: var(--glass); transition: border-color .2s, transform .2s, background .2s; }
+  .rec:hover { border-color: var(--edge-2); background: var(--glass-2); transform: translateY(-2px); }
+  #rec-q { max-width: 520px; }
+  /* pokrok: váha a týden vedle sebe */
+  #pokrok-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px 48px; align-items: start; }
+  #pokrok-body > .title { grid-column: 1 / -1; }
+  /* trénink: karty ve dvou sloupcích, nadpisy a ovládání přes celou šířku */
+  #tr-body { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 48px !important; align-items: start; }
+  #tr-body > :not(.card) { grid-column: 1 / -1; }
+  /* nastavení: formuláře se lépe čtou užší */
+  html[data-tab="ja"] #main { max-width: 760px; }
+  .side-ja[aria-current="page"]::after { display: none; }
+  /* nákup */
+  .x-cols .card.shop, .x-cols > .card { border: 1px solid var(--edge); border-radius: 24px; padding: 18px 20px; background: var(--glass); }
+}
 </style>
 </head>
 <body>
@@ -787,6 +896,7 @@ canvas.x-fx { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
 
 <nav class="tabbar" aria-label="Záložky">
   <div class="tabbar-inner">
+    <div class="side-brand">Lock <span class="mk">In</span></div>
     <button data-a="tab" data-tab="dnes" aria-current="page">Dnes</button>
     <button data-a="tab" data-tab="plan">Plán</button>
     <button data-a="tab" data-tab="nakup">Nákup</button>
@@ -794,6 +904,7 @@ canvas.x-fx { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
     <button data-a="tab" data-tab="recepty">Recepty</button>
     <button data-a="tab" data-tab="trenink">Trénink</button>
     <button data-a="tab" data-tab="pokrok">Pokrok</button>
+    <button class="side-ja" data-a="tab" data-tab="ja">Nastavení</button>
   </div>
 </nav>
 
@@ -5484,8 +5595,9 @@ function start(session) {
 }
 
 /* ---------- záložky ---------- */
+document.addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key === "," && S.ready) { e.preventDefault(); switchTab("ja"); } });
 function switchTab(tab) {
-  S.tab = tab;
+  S.tab = tab; document.documentElement.dataset.tab = tab;
   document.querySelectorAll(".tabbar button[data-tab], .avatar").forEach(b => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
   const main = $("#main");
   if (tab === "dnes") main.innerHTML = `<div id="dnes-body" class="stack" style="gap:16px"></div>`;
@@ -5563,6 +5675,9 @@ function snackIdeas(left, protLeft) {
   const nejim = (S.profile?.nejim || []).map(norm);
   return list.filter(x => !nejim.some(n => n && norm(x.nazev).includes(n))).slice(0, 3);
 }
+const WIDE = () => matchMedia("(min-width: 900px)").matches;
+// při přechodu mezi úzkým a širokým oknem překreslit (jiný počet fotek apod.)
+matchMedia("(min-width: 900px)").addEventListener("change", () => { if (S.ready) refresh(); });
 function renderDnes() {
   const el = $("#dnes-body"); if (!el) return;
   const g = goalFor(S.date), items = S.day?.polozky || [], tot = sum(items);
@@ -5581,7 +5696,8 @@ function renderDnes() {
       ${pl ? `<button class="x-planrow" data-a="eat" data-m="${pl.m}"><span>Snědla jsem: <b>${esc(pl.i.nazev)}</b></span><span>${fmt(pl.i.m.kcal)} kcal</span></button>` : ""}
       <div class="x-acts"><button class="btn sm" data-a="add" data-meal="${m.id}">+ Přidat</button><button class="btn ghost sm" data-a="copy-meal" data-meal="${m.id}">Jako včera</button>${list.length ? `<button class="btn ghost sm" data-a="fav-new" data-meal="${m.id}">★ Oblíbit</button>` : ""}</div></div>`;
   }).join(`<div class="x-hair"></div>`);
-  el.innerHTML = `<div class="stack x-view" style="gap:18px">
+  el.innerHTML = `<div class="stack x-view x-dnes" style="gap:18px">
+    <div class="x-grp x-g-sum">
     <div class="x-top"><h1 class="title">${dayTitle(S.date)}<small>${dmy(S.date)}${S.date !== today() ? ` · <button class="x-back" data-a="day-today">zpět na dnešek</button>` : ""}</small></h1>
       <div class="daynav2"><button data-a="day" data-k="-1" aria-label="Předchozí den">‹</button><button data-a="day" data-k="1" aria-label="Další den">›</button></div></div>
     <div class="x-ring"><div class="rg ${left < 0 ? "over" : ""}"><svg viewBox="0 0 240 240" aria-hidden="true">
@@ -5599,13 +5715,19 @@ function renderDnes() {
       <button data-a="voda"><span class="k">Voda</span><span class="v">${fmt(voda / 1000, 1)} l</span><span class="d">ťukni +250 ml</span></button>
       <button data-a="tab" data-tab="trenink"><span class="k">Trénink</span><span class="v">${training ? "Dnes" : "Volno"}</span><span class="d">${training ? "otevřít trénink" : "den volna"}</span></button>
     </div>
+    </div>
+    <div class="x-grp x-g-vis">
     <div class="x-hair"></div>
     <div class="x-sec"><h2>Vision board</h2><button data-a="tab" data-tab="ja">${vis.length ? "upravit" : ""}</button></div>
-    ${vis.length ? `<div class="x-vision">${vis.slice(0, 30).map(v => `<a href="${esc(v.link || "#")}" target="_blank" rel="noopener"><img src="${esc(v.img)}" alt="" loading="lazy"></a>`).join("")}</div>`
+    ${vis.length ? `<div class="x-vision">${vis.slice(0, WIDE() ? 48 : 30).map(v => `<a href="${esc(v.link || "#")}" target="_blank" rel="noopener"><img src="${esc(v.img)}" alt="" loading="lazy"></a>`).join("")}</div>`
       : `<div class="x-empty"><span class="hint">Vlož odkaz na svou Pinterest nástěnku a budou se tu střídat tvoje fotky.</span><button class="btn sm" data-a="vision-setup">Přidat Pinterest</button></div>`}
+    </div>
+    <div class="x-grp x-g-meals">
     <div class="x-hair"></div>
+    <div class="x-sec x-meals-h"><h2>Jídla</h2><span>${items.length ? fmt(tot.kcal) + " kcal" : ""}</span></div>
     ${meals}
     <div class="row" style="justify-content:center"><button class="btn ghost sm" data-a="copyday-open">Zkopírovat celý den z jiného dne</button></div>
+    </div>
   </div>`;
   requestAnimationFrame(() => requestAnimationFrame(() => {
     el.querySelectorAll(".x-bar i[data-w]").forEach(i => i.style.width = i.dataset.w + "%");
@@ -5699,7 +5821,7 @@ Odpověz jen JSON polem: [{"id": "id ze seznamu nebo null", "g": gramy, "nazev":
 /* ---------- vision board z Pinterestu ---------- */
 async function loadVision(force) {
   const boards = S.visionCfg?.boards || [];
-  const cacheK = "kj-vision-" + (S.uid || "x");
+  const cacheK = "kj-vision2-" + (S.uid || "x");
   const cached = LS.get(cacheK, null);
   const failed = (cached?.info || []).some(x => x.error || !x.count);
   if (cached && JSON.stringify(cached.boards) === JSON.stringify(boards)) { S.vision = cached; if (!force && !failed && Date.now() - (cached.at || 0) < 6 * 3600e3) return cached; }
@@ -5708,8 +5830,8 @@ async function loadVision(force) {
     const h = await authHeaders(); if (!h) return S.vision;
     const r = await fetch(SB_URL + "/functions/v1/pinterest", { method: "POST", headers: h, body: JSON.stringify({ boards }) });
     const j = await r.json();
-    const items = (j.items || []).sort(() => Math.random() - .5);
-    S.vision = { items, boards, info: j.boards || [], at: Date.now() };
+    const info = j.boards || [], items = [...(j.items || [])].sort(() => Math.random() - .5);
+    S.vision = { items, boards, info, at: Date.now() };
     LS.set(cacheK, S.vision);
     if (S.tab === "dnes") renderDnes();
     return S.vision;
@@ -5741,7 +5863,7 @@ applyMode();
 matchMedia("(prefers-color-scheme: light)").addEventListener?.("change", applyMode);
 function modeCard() {
   const m = LS.get(modeKey, "auto");
-  return `<section class="card"><h2 class="h2">Vzhled</h2><div class="seg" role="group" aria-label="Režim">${[["auto", "Podle iPhonu"], ["dark", "Tmavý"], ["light", "Světlý"]].map(([k, l]) => `<button data-a="mode" data-v="${k}" aria-pressed="${m === k}">${l}</button>`).join("")}</div></section>`;
+  return `<section class="card"><h2 class="h2">Vzhled</h2><div class="seg" role="group" aria-label="Režim">${[["auto", document.documentElement.classList.contains("mac-app") ? "Podle Macu" : "Podle iPhonu"], ["dark", "Tmavý"], ["light", "Světlý"]].map(([k, l]) => `<button data-a="mode" data-v="${k}" aria-pressed="${m === k}">${l}</button>`).join("")}</div></section>`;
 }
 async function copyMeal(meal) {
   if (!S.db) return;
@@ -5898,7 +6020,7 @@ function renderPlan(mode = "plan") {
     </section>`;
   }).join("");
   const strip = `<div class="x-week" role="group" aria-label="Den">${days.map((d, i) => { const has = PLAN_MEALS.some(m => plan.dny?.[d]?.[m]); return `<button data-a="plan-day" data-date="${d}" aria-pressed="${d === S.planDay}">${WD_SHORT[i]}<b>${parseDs(d).getDate()}</b><i class="${has ? "" : "no"}"></i></button>`; }).join("")}</div>`;
-  const dayHtml = days.map((d, i) => d !== S.planDay ? "" : (() => {
+  const dayHtml = days.map((d, i) => !WIDE() && d !== S.planDay ? "" : (() => {
     const day = plan.dny?.[d] || {};
     const tot = { kcal: 0, b: 0, kc: 0 };
     const rows = PLAN_MEALS.map(m => {
@@ -5940,8 +6062,8 @@ function renderPlan(mode = "plan") {
   const costHtml = `<section class="card"><span class="label">Kolik tě plán vyjde</span>
       <div class="row"><span class="meal" style="font-size:1.6rem">≈ ${kc(weekKc)}</span><span class="small" style="font-weight:700;color:${weekKc > limit ? "var(--red-hi)" : "var(--muted)"}">${weekKc > limit ? `o ${kc(weekKc - limit)} nad rozpočtem` : `rozpočet ${kc(limit)}`}</span></div>
       <p class="hint">${nSlots ? `Průměrně ${kc(weekKc / nSlots)} za jídlo.` : ""} Ceny jsou orientační, u každé potraviny si v Já → Potraviny můžeš zadat svoji.</p></section>`;
-  if (mode === "nakup") { el.innerHTML = nav + `<p class="hint">Odškrtni, co koupíš nebo už máš doma. Seznam se počítá z plánu a z várek.</p>` + shopHtml + budget; return; }
-  el.innerHTML = nav + strip + dayHtml + costHtml + cookHtml +
+  if (mode === "nakup") { el.innerHTML = nav + `<p class="hint">Odškrtni, co koupíš nebo už máš doma. Seznam se počítá z plánu a z várek.</p>` + `<div class="x-cols">${shopHtml}${budget}</div>`; return; }
+  el.innerHTML = nav + (WIDE() ? `<div class="x-weekgrid">${dayHtml}</div><div class="x-cols">${cookHtml}${costHtml}</div>` : strip + dayHtml + costHtml + cookHtml) +
     `<div id="regen-zone">${S.planConfirm
       ? `<div class="confirm"><p>Navrhnout celý týden znovu? Současný plán i odškrtnutý nákup zmizí.</p><button class="btn" data-a="plan-regen-no">Ne</button><button class="btn redb" data-a="plan-gen">Ano, znovu</button></div>`
       : `<button class="btn block" data-a="plan-regen-ask">Navrhnout celý týden znovu</button>`}</div>`;
@@ -5989,9 +6111,9 @@ function shellRecepty() {
     <div id="doma-list" class="stack"></div>
     ${S.sample ? `<button class="btn redb block" data-a="ai-open" data-mode="doma">Vymysli recept z toho, co mám</button>` : ""}`;
   return `
-    <h1 class="title">Recepty</h1>
+    <div class="x-bar-top"><h1 class="title">Recepty</h1>
     ${seg}
-    <button class="btn black block" data-a="b-new">+ Můj recept</button>
+    <button class="btn black block" data-a="b-new">+ Můj recept</button></div>
     ${ai}
     <input class="input" id="rec-q" type="search" placeholder="Hledat recept nebo surovinu…" autocomplete="off">
     <div class="stack" style="gap:8px" id="rec-filters"></div>
