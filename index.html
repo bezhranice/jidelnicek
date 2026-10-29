@@ -8776,7 +8776,18 @@ const TR = (() => {
 })();
 </script>
 <script>
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(console.error));
+// Nová verze se načte sama: při každém otevření appky se zeptáme na sw.js a když je jiný, stránka se obnoví.
+if ("serviceWorker" in navigator) window.addEventListener("load", () => {
+  // první instalace jen převezme stránku; až každá další verze ji obnoví
+  let hadSW = !!navigator.serviceWorker.controller, reloaded = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadSW) { hadSW = true; return; }
+    if (!reloaded) { reloaded = true; location.reload(); }
+  });
+  navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(reg => {
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") reg.update().catch(() => {}); });
+  }).catch(console.error);
+});
 </script>
 </body>
 </html>
