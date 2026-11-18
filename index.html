@@ -1098,6 +1098,7 @@ const FOOD_ROWS = [
 /* Rozšířená databáze: Anses. Ciqual 2025 (licence Etalab 2.0), názvy přeložené do češtiny.
    [název, kcal, bílkoviny, tuky, sacharidy, oddělení, kód Ciqual, [vláknina g, cukr g, sůl g, nasycené tuky g, zinek mg, hořčík mg, železo mg, vápník mg]] */
 /* Značky a řetězce z oficiálních zdrojů: McDonald's (mcdonalds.cz), KFC (tabulka 10/2026), Bageterie Boulevard (bageterie.com), Burger King (burgerking.cz), Starbucks (nutriční tabulka 2026), nápoje podle etiket.
+   Pečivo z pekáren supermarketů: řetězce hodnoty na webu nezveřejňují, proto orientačně podle podobného pečiva s etiketou (Rohlík).
    [název, kcal, bílkoviny, tuky, sacharidy, oddělení, jednotka, g v jednotce, {mikroživiny}, zdroj] */
 const BRAND_ROWS = [
   ["McDonald's Jablečná taštička",285,2.9,15.0,35.0,"hotove","porce",80,{"cu":11.0,"sul":0.28,"nas":3.5,"vl":1.9},"mcdonalds.cz"],
@@ -1573,7 +1574,53 @@ const BRAND_ROWS = [
   ["Starbucks Rhombig Parma",250,12.6,10.0,26.2,"hotove","kus",158,{},"starbucks.cz (nutriční tabulka 2026)"],
   ["Starbucks Rhombig Verde",211,5.9,8.5,26.1,"hotove","kus",158,{},"starbucks.cz (nutriční tabulka 2026)"],
   ["Starbucks Croissant šunka a sýr",235,11.6,13.7,15.2,"hotove","kus",160,{},"starbucks.cz (nutriční tabulka 2026)"],
-  ["Starbucks Egg bagel",283,9.8,17.3,21.5,"hotove","kus",202,{},"starbucks.cz (nutriční tabulka 2026)"]
+  ["Starbucks Egg bagel",283,9.8,17.3,21.5,"hotove","kus",202,{},"starbucks.cz (nutriční tabulka 2026)"],
+  ["Rohlík tukový (pekárna v obchodě)",300,9.5,5.0,53.5,"pecivo","ks",43,{"vl":2.5,"cu":2.5,"sul":1.4,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Rohlík cibulák, s cibulí (pekárna v obchodě)",305,9.5,6.0,52.0,"pecivo","ks",60,{"vl":2.8,"cu":3.5,"sul":1.5,"nas":1.2},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Rohlík sýrový, sypaný sýrem (pekárna v obchodě)",315,12.0,8.0,47.0,"pecivo","ks",60,{"vl":2.3,"cu":2.5,"sul":1.6,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Rohlík se slaninou, slaninový rohlík (pekárna v obchodě)",285,11.0,10.0,37.0,"pecivo","ks",80,{"vl":2.0,"cu":2.5,"sul":1.8,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Rohlík vícezrnný / cereální (pekárna v obchodě)",290,10.0,7.0,45.0,"pecivo","ks",60,{"vl":5.0,"cu":3.0,"sul":1.4,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Rohlík pivec (pekárna v obchodě)",300,9.5,5.0,53.5,"pecivo","ks",55,{"vl":2.5,"cu":2.5,"sul":1.6,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Houska, žemle (pekárna v obchodě)",290,9.5,4.5,52.0,"pecivo","ks",50,{"vl":2.5,"cu":2.0,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Kaiserka (pekárna v obchodě)",290,9.5,4.5,52.0,"pecivo","ks",60,{"vl":2.5,"cu":2.0,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Kaiserka cereální se semínky (pekárna v obchodě)",290,10.5,8.0,42.0,"pecivo","ks",70,{"vl":5.5,"cu":2.5,"sul":1.3,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Bulka sýrová (pekárna v obchodě)",315,12.0,8.0,47.0,"pecivo","ks",70,{"vl":2.3,"cu":2.5,"sul":1.6,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Bramborová bulka / želva (pekárna v obchodě)",275,8.0,4.5,49.0,"pecivo","ks",70,{"vl":2.8,"cu":2.5,"sul":1.5,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Dalamánek (pekárna v obchodě)",270,9.0,2.5,51.0,"pecivo","ks",70,{"vl":4.0,"cu":1.6,"sul":1.6,"nas":0.4},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Bageta světlá malá, bagetka (pekárna v obchodě)",265,9.0,2.5,51.0,"pecivo","ks",70,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Bageta francouzská velká (pekárna v obchodě)",265,9.0,2.5,51.0,"pecivo","ks",250,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Bageta cereální / vícezrnná (pekárna v obchodě)",270,10.0,5.5,44.0,"pecivo","ks",120,{"vl":5.5,"cu":2.5,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Česneková bagetka (pekárna v obchodě)",330,8.5,13.0,44.0,"pecivo","ks",70,{"vl":2.5,"cu":2.5,"sul":1.6,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Pletýnka (pekárna v obchodě)",320,10.0,8.0,51.0,"pecivo","ks",55,{"vl":2.3,"cu":3.5,"sul":1.5,"nas":3.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Pletýnka sýrová (pekárna v obchodě)",330,12.5,10.0,46.0,"pecivo","ks",70,{"vl":2.0,"cu":3.0,"sul":1.6,"nas":5.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Tyčinka s čedarem, čedarová sýrová tyčinka (pekárna v obchodě)",335,13.5,11.0,44.0,"pecivo","ks",70,{"vl":2.2,"cu":2.5,"sul":1.6,"nas":5.5},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Tyčinka sýrová, sypaná sýrem (pekárna v obchodě)",320,12.5,9.0,46.0,"pecivo","ks",60,{"vl":2.0,"cu":2.5,"sul":1.6,"nas":4.5},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Tyčinka se šunkou a sýrem (pekárna v obchodě)",300,12.5,9.5,40.0,"pecivo","ks",80,{"vl":2.0,"cu":2.5,"sul":1.8,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Pizza tyčinka / pizza rohlík (pekárna v obchodě)",280,10.5,8.5,40.0,"pecivo","ks",80,{"vl":2.0,"cu":3.5,"sul":1.6,"nas":3.5},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Preclík louhovaný (pekárna v obchodě)",285,8.0,3.5,54.0,"pecivo","ks",80,{"vl":2.5,"cu":2.0,"sul":2.0,"nas":0.6},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Preclíková tyčinka, laugen (pekárna v obchodě)",285,8.0,3.5,54.0,"pecivo","ks",70,{"vl":2.5,"cu":2.0,"sul":2.0,"nas":0.6},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Hot dog v listovém těstě (pekárna v obchodě)",310,9.5,19.0,25.0,"pecivo","ks",110,{"vl":1.2,"cu":2.5,"sul":1.6,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Šáteček s párkem (pekárna v obchodě)",280,10.0,13.0,30.0,"pecivo","ks",100,{"vl":1.5,"cu":2.5,"sul":1.6,"nas":5.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Croissant se šunkou a sýrem (pekárna v obchodě)",300,11.0,17.0,26.0,"pecivo","ks",100,{"vl":1.5,"cu":3.0,"sul":1.5,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Croissant máslový (pekárna v obchodě)",385,8.0,21.0,40.0,"pecivo","ks",60,{"vl":2.0,"cu":7.0,"sul":0.9,"nas":12.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Croissant s oříškovou / čokoládovou náplní (pekárna v obchodě)",415,7.0,24.0,43.0,"pecivo","ks",85,{"vl":1.5,"cu":18.0,"sul":0.7,"nas":11.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Croissant s vanilkovou / ovocnou náplní (pekárna v obchodě)",360,6.5,18.0,43.0,"pecivo","ks",85,{"vl":1.0,"cu":16.0,"sul":0.7,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Donut s polevou (pekárna v obchodě)",420,6.0,23.0,47.0,"pecivo","ks",60,{"vl":1.5,"cu":18.0,"sul":0.8,"nas":12.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Donut plněný, s náplní (pekárna v obchodě)",390,6.0,20.0,46.0,"pecivo","ks",75,{"vl":1.0,"cu":20.0,"sul":0.7,"nas":10.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Kobliha s náplní (pekárna v obchodě)",350,6.5,15.0,47.0,"pecivo","ks",70,{"vl":1.0,"cu":18.0,"sul":0.5,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Loupák (pekárna v obchodě)",340,9.0,9.0,55.0,"pecivo","ks",50,{"vl":1.5,"cu":12.0,"sul":0.8,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Šáteček tvarohový (pekárna v obchodě)",340,7.0,17.0,39.0,"pecivo","ks",90,{"vl":1.0,"cu":15.0,"sul":0.6,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Šáteček s ovocnou náplní, jablečný / višňový / povidlový (pekárna v obchodě)",350,5.0,17.0,44.0,"pecivo","ks",90,{"vl":1.5,"cu":18.0,"sul":0.5,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Koláč tvarohový (pekárna v obchodě)",310,8.5,10.0,46.0,"pecivo","ks",70,{"vl":1.0,"cu":20.0,"sul":0.3,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Koláč makový (pekárna v obchodě)",330,8.0,12.0,46.0,"pecivo","ks",70,{"vl":2.5,"cu":20.0,"sul":0.3,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Koláč ovocný / povidlový (pekárna v obchodě)",300,6.5,8.5,49.0,"pecivo","ks",70,{"vl":1.5,"cu":22.0,"sul":0.3,"nas":3.5},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Šnek se skořicí / rozinkový (pekárna v obchodě)",350,6.0,14.0,49.0,"pecivo","ks",90,{"vl":1.5,"cu":20.0,"sul":0.6,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Hřeben makový / tvarohový (pekárna v obchodě)",380,6.0,19.0,45.0,"pecivo","ks",90,{"vl":1.0,"cu":18.0,"sul":0.6,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Twister / pletenec máslový (pekárna v obchodě)",420,6.5,24.0,44.0,"pecivo","ks",80,{"vl":1.0,"cu":14.0,"sul":0.7,"nas":13.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Muffin čokoládový (pekárna v obchodě)",400,5.5,21.0,46.0,"pecivo","ks",100,{"vl":2.0,"cu":28.0,"sul":0.6,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Muffin borůvkový / ovocný (pekárna v obchodě)",370,5.0,18.0,46.0,"pecivo","ks",100,{"vl":1.0,"cu":25.0,"sul":0.6,"nas":3.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Trdelník (pekárna v obchodě)",380,7.0,12.0,60.0,"pecivo","ks",120,{"vl":1.0,"cu":25.0,"sul":0.5,"nas":5.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
+  ["Albert Pizza smetana slanina",273,9.5,11.0,34.0,"pecivo","ks",75,{"cu":3.2,"sul":1.5,"nas":6.5},"etiketa (Albert, wolt.com)"]
 ];
 const CIQ_ROWS = [
   ["Acerola džus čerstvý",23,0.4,0.3,4.5,"napoje","2040",[0.3,4.5,0.01,0.1,0.1,12.0,0.5,10.0]],
@@ -4931,6 +4978,7 @@ function wordHit(w, n, toks) {
   if (w.length >= 4 && toks.some(x => lev1(w, x) || (x.length > w.length && lev1(w, x.slice(0, w.length))))) return 1;
   return -1;
 }
+const CHAIN_WORD = /^(lidl|tesc|albert|bill|kaufland|penn|globus)/;
 function searchFoods(q, limit = 40) {
   const words = norm(q).split(/[\s,]+/).filter(Boolean);
   if (!words.length) return [];
@@ -4940,7 +4988,13 @@ function searchFoods(q, limit = 40) {
     if (f.skryte && !f.upraveno && !used.has(f.id)) continue;
     const n = f._n || (f._n = norm(f.nazev)), toks = f._t || (f._t = n.split(/[^a-z0-9%]+/).filter(Boolean));
     let miss = 0, ok = true;
-    for (const w of words) { const h = wordHit(w, n, toks); if (h < 0) { ok = false; break; } miss += h; }
+    for (const w of words) {
+      const h = wordHit(w, n, toks);
+      // „tyčinka čedar lidl“: pečivo z pekárny v obchodě platí pro všechny řetězce
+      if (h < 0 && CHAIN_WORD.test(w) && n.includes("pekarna v obchode")) continue;
+      if (h < 0) { ok = false; break; }
+      miss += h;
+    }
     if (!ok) continue;
     let score = miss * 2;
     if (toks[0] && toks[0].startsWith(stem(words[0]))) score -= 1.5;
