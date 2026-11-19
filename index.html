@@ -349,6 +349,21 @@ button { -webkit-user-select: none; user-select: none; }
 .tabbar button { letter-spacing: .04em; font-size: .72rem; }
 
 
+/* fotky potravin */
+.ph { position: relative; width: 44px; height: 44px; border-radius: 12px; overflow: hidden; background: var(--glass-2); display: grid; place-items: center; flex: none; font-size: 21px; line-height: 1; }
+.ph::before { content: attr(data-i); opacity: .85; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph-rk img, .ph-own img { object-fit: contain; background: #fff; }
+.ph.sm { width: 36px; height: 36px; border-radius: 10px; font-size: 17px; }
+.ph.lg { width: 100%; height: 190px; border-radius: 20px; font-size: 64px; }
+.ph-credit { margin: -4px 0 0; font-size: .7rem; color: var(--dim); }
+.ph-credit a { color: inherit; }
+.lrow.wp, .item.wp { grid-template-columns: auto 1fr auto; align-items: center; }
+.lrow.wp .ph, .item.wp .ph { grid-row: 1 / span 2; }
+.lrow.wp .c, .item.wp .c { grid-column: 2 / -1; }
+.f-photo { display: flex; gap: 14px; align-items: center; }
+.f-photo .ph { width: 76px; height: 76px; font-size: 32px; }
+
 /* ================= Lock In 2.0: vínová tma / světlý režim ================= */
 :root, html[data-mode="dark"] {
   --paper: #1b0a0f; --card: transparent; --glass: rgba(255,235,240,.045); --glass-2: rgba(255,235,240,.08);
@@ -1620,7 +1635,65 @@ const BRAND_ROWS = [
   ["Muffin čokoládový (pekárna v obchodě)",400,5.5,21.0,46.0,"pecivo","ks",100,{"vl":2.0,"cu":28.0,"sul":0.6,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
   ["Muffin borůvkový / ovocný (pekárna v obchodě)",370,5.0,18.0,46.0,"pecivo","ks",100,{"vl":1.0,"cu":25.0,"sul":0.6,"nas":3.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
   ["Trdelník (pekárna v obchodě)",380,7.0,12.0,60.0,"pecivo","ks",120,{"vl":1.0,"cu":25.0,"sul":0.5,"nas":5.0},"orientační hodnota podle podobného pečiva s etiketou – podle cedulky v obchodě ji oprav"],
-  ["Albert Pizza smetana slanina",273,9.5,11.0,34.0,"pecivo","ks",75,{"cu":3.2,"sul":1.5,"nas":6.5},"etiketa (Albert, wolt.com)"]
+  ["Albert Pizza smetana slanina",273,9.5,11.0,34.0,"pecivo","ks",75,{"cu":3.2,"sul":1.5,"nas":6.5},"etiketa (Albert, wolt.com)"],
+  ["Albert Bageta malá světlá",265,9.0,2.5,51.0,"pecivo","ks",50,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Rohlík",300,9.5,5.0,53.5,"pecivo","ks",43,{"vl":2.5,"cu":2.5,"sul":1.4,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Dalamánek",270,9.0,2.5,51.0,"pecivo","ks",82,{"vl":4.0,"cu":1.6,"sul":1.6,"nas":0.4},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Kaiserka cereální",290,10.5,8.0,42.0,"pecivo","ks",55,{"vl":5.5,"cu":2.5,"sul":1.3,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Kornbageta s kváskem",270,10.0,5.5,44.0,"pecivo","ks",115,{"vl":5.5,"cu":2.5,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bageta francouzská",265,9.0,2.5,51.0,"pecivo","ks",110,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bramborová želva",275,8.0,4.5,49.0,"pecivo","ks",60,{"vl":2.8,"cu":2.5,"sul":1.5,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Hot Dog s vepřovým párkem",310,9.5,19.0,25.0,"pecivo","ks",99,{"vl":1.2,"cu":2.5,"sul":1.6,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Česneková bagetka grahamová",330,8.5,13.0,44.0,"pecivo","ks",67,{"vl":2.5,"cu":2.5,"sul":1.6,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Snack smetana - slanina s pažitkou",285,11.0,10.0,37.0,"pecivo","ks",115,{"vl":2.0,"cu":2.5,"sul":1.8,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bageta sedmizrnná",270,10.0,5.5,44.0,"pecivo","ks",120,{"vl":5.5,"cu":2.5,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Rohlík sedmizrnný",290,10.0,7.0,45.0,"pecivo","ks",60,{"vl":5.0,"cu":3.0,"sul":1.4,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Rohlík anglický",285,11.0,10.0,37.0,"pecivo","ks",100,{"vl":2.0,"cu":2.5,"sul":1.8,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Rohlík mlynářský žitný",290,10.0,7.0,45.0,"pecivo","ks",60,{"vl":5.0,"cu":3.0,"sul":1.4,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bulka sýrová",315,12.0,8.0,47.0,"pecivo","ks",65,{"vl":2.3,"cu":2.5,"sul":1.6,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Raženka",290,9.5,4.5,52.0,"pecivo","ks",80,{"vl":2.5,"cu":2.0,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bageta",265,9.0,2.5,51.0,"pecivo","ks",250,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Česneková bageta",330,8.5,13.0,44.0,"pecivo","ks",165,{"vl":2.5,"cu":2.5,"sul":1.6,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bulka se slunečnicovým semínkem",290,10.5,8.0,42.0,"pecivo","ks",63,{"vl":5.5,"cu":2.5,"sul":1.3,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Twist se špenátem",320,10.0,8.0,51.0,"pecivo","ks",75,{"vl":2.3,"cu":3.5,"sul":1.5,"nas":3.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bageta rustikální s kvasem",265,9.0,2.5,51.0,"pecivo","ks",255,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Šáteček s párkem",280,10.0,13.0,30.0,"pecivo","ks",130,{"vl":1.5,"cu":2.5,"sul":1.6,"nas":5.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Pletýnka",320,10.0,8.0,51.0,"pecivo","ks",220,{"vl":2.3,"cu":3.5,"sul":1.5,"nas":3.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Řemeslná bageta maxi",265,9.0,2.5,51.0,"pecivo","ks",300,{"vl":2.5,"cu":2.0,"sul":1.5,"nas":0.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bramborová bulka pikant",275,8.0,4.5,49.0,"pecivo","ks",105,{"vl":2.8,"cu":2.5,"sul":1.5,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Rohlík klasik",300,9.5,5.0,53.5,"pecivo","ks",60,{"vl":2.5,"cu":2.5,"sul":1.4,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Rohlík pivec",300,9.5,5.0,53.5,"pecivo","ks",59,{"vl":2.5,"cu":2.5,"sul":1.6,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Croissant máslový",385,8.0,21.0,40.0,"pecivo","ks",52,{"vl":2.0,"cu":7.0,"sul":0.9,"nas":12.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Croissant s lískooříškovou náplní",415,7.0,24.0,43.0,"pecivo","ks",85,{"vl":1.5,"cu":18.0,"sul":0.7,"nas":11.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Kostka s pudinkem a čokoládovým posypem",360,6.5,18.0,43.0,"pecivo","ks",98,{"vl":1.0,"cu":16.0,"sul":0.7,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Pletenec s pekanovými ořechy",420,6.5,24.0,44.0,"pecivo","ks",78,{"vl":1.0,"cu":14.0,"sul":0.7,"nas":13.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Šnek se skořicí",350,6.0,14.0,49.0,"pecivo","ks",80,{"vl":1.5,"cu":20.0,"sul":0.6,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s čokoládovou náplní",390,6.0,20.0,46.0,"pecivo","ks",71,{"vl":1.0,"cu":20.0,"sul":0.7,"nas":10.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s oříškovou náplní",390,6.0,20.0,46.0,"pecivo","ks",71,{"vl":1.0,"cu":20.0,"sul":0.7,"nas":10.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s polevou čokoládovou",420,6.0,23.0,47.0,"pecivo","ks",55,{"vl":1.5,"cu":18.0,"sul":0.8,"nas":12.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s polevou s jahodovou příchutí",420,6.0,23.0,47.0,"pecivo","ks",56,{"vl":1.5,"cu":18.0,"sul":0.8,"nas":12.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Vlčnovský vdoleček",300,6.5,8.5,49.0,"pecivo","ks",25,{"vl":1.5,"cu":22.0,"sul":0.3,"nas":3.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Čokorolka",415,7.0,24.0,43.0,"pecivo","ks",65,{"vl":1.5,"cu":18.0,"sul":0.7,"nas":11.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Mistrovský koláč s tvarohem",310,8.5,10.0,46.0,"pecivo","ks",80,{"vl":1.0,"cu":20.0,"sul":0.3,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Mistrovský koláč s mákem",330,8.0,12.0,46.0,"pecivo","ks",80,{"vl":2.5,"cu":20.0,"sul":0.3,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Bulka řemeslná tmavá",290,10.5,8.0,42.0,"pecivo","ks",80,{"vl":5.5,"cu":2.5,"sul":1.3,"nas":1.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Pizza večka",280,10.5,8.5,40.0,"pecivo","ks",70,{"vl":2.0,"cu":3.5,"sul":1.6,"nas":3.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Kaiserka natural",290,9.5,4.5,52.0,"pecivo","ks",55,{"vl":2.5,"cu":2.0,"sul":1.4,"nas":0.8},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s drcenými bonbonky",420,6.0,23.0,47.0,"pecivo","ks",57,{"vl":1.5,"cu":18.0,"sul":0.8,"nas":12.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Mini koblížek s nugátem",350,6.5,15.0,47.0,"pecivo","ks",25,{"vl":1.0,"cu":18.0,"sul":0.5,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Šáteček s višňovou náplní",350,5.0,17.0,44.0,"pecivo","ks",120,{"vl":1.5,"cu":18.0,"sul":0.5,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Mistrovský koláč s jablky",300,6.5,8.5,49.0,"pecivo","ks",80,{"vl":1.5,"cu":22.0,"sul":0.3,"nas":3.5},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s náplní s jahodovou příchutí",390,6.0,20.0,46.0,"pecivo","ks",69,{"vl":1.0,"cu":20.0,"sul":0.7,"nas":10.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Šnek rozinkový",350,6.0,14.0,49.0,"pecivo","ks",80,{"vl":1.5,"cu":20.0,"sul":0.6,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Croissant dvoubarevný lesní směs",360,6.5,18.0,43.0,"pecivo","ks",73,{"vl":1.0,"cu":16.0,"sul":0.7,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Kobliha s příchutí vanilkovou",350,6.5,15.0,47.0,"pecivo","ks",75,{"vl":1.0,"cu":18.0,"sul":0.5,"nas":6.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Muffin s čokoládou",400,5.5,21.0,46.0,"pecivo","ks",100,{"vl":2.0,"cu":28.0,"sul":0.6,"nas":4.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Jablečno-skořicová kapsa",350,5.0,17.0,44.0,"pecivo","ks",100,{"vl":1.5,"cu":18.0,"sul":0.5,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Muffin borůvkový",370,5.0,18.0,46.0,"pecivo","ks",100,{"vl":1.0,"cu":25.0,"sul":0.6,"nas":3.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Makový hřeben",380,6.0,19.0,45.0,"pecivo","ks",105,{"vl":1.0,"cu":18.0,"sul":0.6,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Donut s náplní meruňkovou",390,6.0,20.0,46.0,"pecivo","ks",71,{"vl":1.0,"cu":20.0,"sul":0.7,"nas":10.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Taštička s náplní meruňkovou",350,5.0,17.0,44.0,"pecivo","ks",85,{"vl":1.5,"cu":18.0,"sul":0.5,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Albert Tvarohový hřeben",380,6.0,19.0,45.0,"pecivo","ks",105,{"vl":1.0,"cu":18.0,"sul":0.6,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"]
 ];
 const CIQ_ROWS = [
   ["Acerola džus čerstvý",23,0.4,0.3,4.5,"napoje","2040",[0.3,4.5,0.01,0.1,0.1,12.0,0.5,10.0]],
@@ -4912,8 +4985,8 @@ const SEED = FOOD_ROWS.map(r => ({ id: slug(r[0]), nazev: r[0], kcal: r[1], b: r
   BRAND_ROWS.map(r => ({ id: "zn-" + slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(r[8] && Object.keys(r[8]).length ? { mi: r[8] } : {}), zdroj: r[9] || "", znacka: true })),
   CIQ_ROWS.map(r => ({ id: "cq-" + r[6], nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: "", jednG: 0, ciq: true, ...(r[7] ? { mi: Object.fromEntries(MICRO.map((m, i) => [m[0], r[7][i]]).filter(x => x[1] != null)) } : {}) })));
 const SEED_MAP = new Map(SEED.map(f => [f.id, f]));
-/* Balené potraviny podle etiket (Rohlík): [id, název, kcal, b, t, s, oddělení, jednotka, g v jednotce, {mikroživiny}, celé balení g] */
-const packedFood = r => ({ id: "rk-" + r[0], nazev: r[1], kcal: r[2], b: r[3], t: r[4], s: r[5], odd: r[6], jedn: r[7] || "", jednG: r[8] || 0, ...(r[9] && Object.keys(r[9]).length ? { mi: r[9] } : {}), ...(r[10] ? { baleniG: r[10] } : {}), zdroj: "etiketa výrobku (rohlik.cz)", baleny: true });
+/* Balené potraviny podle etiket (Rohlík): [id, název, kcal, b, t, s, oddělení, jednotka, g v jednotce, {mikroživiny}, celé balení g, fotka] */
+const packedFood = r => ({ ...(r[11] ? { rkFoto: r[11] } : {}), id: "rk-" + r[0], nazev: r[1], kcal: r[2], b: r[3], t: r[4], s: r[5], odd: r[6], jedn: r[7] || "", jednG: r[8] || 0, ...(r[9] && Object.keys(r[9]).length ? { mi: r[9] } : {}), ...(r[10] ? { baleniG: r[10] } : {}), zdroj: "etiketa výrobku (rohlik.cz)", baleny: true });
 function loadPacked() {
   fetch("potraviny.json").then(x => x.json()).then(rows => {
     S.packed = rows.map(packedFood); S.packedMap = new Map(S.packed.map(f => [f.id, f])); S.foodsCache = null;
@@ -4921,6 +4994,254 @@ function loadPacked() {
   }).catch(e => console.error(e));
 }
 const baseFood = id => SEED_MAP.get(id) || S.packedMap?.get(id);
+
+/* ---------- Fotky potravin ----------
+   Balené výrobky: fotka z Rohlíku (zmenšená jeho službou). Obecné potraviny: volná fotka z Wikimedia Commons
+   podle druhu potraviny. Vlastní potraviny: fotka, kterou si Kačí přidá. Jinak ikonka oddělení. */
+const FOTO_DRUH = [
+  [/tycink\w*.*(syr|cedar|sunk)|syrov\w* tycink|cedarov/, "Cheese_straws_-_Skipton,_North_Yorkshire,_England_-_DSC01040.jpg"],
+  [/nugget|strips|wings|kridel|kridla/, "Crispy_Chicken_Strips_-_FotoosVanRobin.jpg"],
+  [/big mac|mcchicken|twister|whopper|double cheese/, "RedDot_Burger.jpg"],
+  [/horalk|tatrank|fidork|margot|bueno|snickers|twix|\bmars\b|bounty|kitkat|kit kat|milky way|banany v cokolade/, "Three_Bars_(1).jpg"],
+  [/pringles/, "Potato-Chips.jpg"],
+  [/slane tycink|tycinky slane/, "BrezelnSalz02_(cropped).JPG"],
+  [/lentilk|gumov|haribo/, "Oursons_gélatine_marché_Rouffignac.jpg"],
+  [/sprite|kofol|red bull|monster|fanta|mirinda|7up/, "Tumbler_of_cola_with_ice.jpg"],
+  [/prosecco|aperol|spritz|sekt/, "Red_and_white_wine_in_glass.jpg"],
+  [/radler/, "Jeju_beer_09_(cropped).jpg"],
+  [/mineralk|mineraln/, "Water_Bottle_(51308317077).jpg"],
+  [/\bniva\b/, "Camembert_de_Normandie_(AOP)_11.jpg"],
+  [/tvaruz/, "Cheese_platter.jpg"],
+  [/prsut|debrecin|pecene\b/, "Ham_(4).jpg"],
+  [/gnocch/, "(Pasta)_by_David_Adam_Kess_(pic.2).jpg"],
+  [/passat/, "Tomato_je.jpg"],
+  [/bagel/, "Bread_rolls_at_a_bakery_(cropped).jpg"],
+  [/livan|vafl/, "Crepes_dsc07085.jpg"],
+  [/vetrnik|kremrol|indianek|laskonk/, "Pound_layer_cake.jpg"],
+  [/\bpizz/, "Pizza-3007395.jpg"],
+  [/lasagn/, "Lasagne_-_stonesoup.jpg"],
+  [/ravioli/, "Flickr_-_cyclonebill_-_Ravioli_med_skinke_og_asparges_i_mascarponecreme.jpg"],
+  [/palacink/, "Crepes_dsc07085.jpg"],
+  [/polevka|vyvar|bujon/, "Asparagus_soup_(spargelsuppe).jpg"],
+  [/burger|hamburger|cheeseburger/, "RedDot_Burger.jpg"],
+  [/kebab|gyros/, "Döner_kebab_slicing.jpg"],
+  [/sendvic|toust se/, "Bacon,_lettuce,_tomato,_and_avocado.jpg"],
+  [/wrap|tortill/, "Stacks_of_corn_tortillas_and_flour_tortillas,_with_the_top_one_rolled,_side_view_(2).jpg"],
+  [/hranolk/, "French_Fries.JPG"],
+  [/chips|brambur/, "Potato-Chips.jpg"],
+  [/krupk/, "Puffcorn_Example_Frito_Lay.jpg"],
+  [/popcorn/, "Popcorn_-_Studio_-_2011.jpg"],
+  [/croissant|kroasan/, "Croissant-Petr_Kratochvil.jpg"],
+  [/bageta|bagetk/, "Baguettes,_Paris,_France_-_panoramio.jpg"],
+  [/preclik|pretzel/, "BrezelnSalz02_(cropped).JPG"],
+  [/donut|kobliha|kobliz/, "Glazed-Donut.jpg"],
+  [/muffin/, "NCI_Visuals_Food_Muffins.jpg"],
+  [/bab[oe]vk/, "Bundt_Cake_with_Grapes_001.jpg"],
+  [/kolac|kolacek/, "Koláček.jpg"],
+  [/sate[cč]ek|tasti[cč]k/, "Mönichwald_-_Krapfenkirtag_-_Schmerkrapfen.jpg"],
+  [/snek se skorici|skoricov/, "Cinnamon_roll_in_Stockholm.jpg"],
+  [/briosk/, "Brioche.jpg"],
+  [/vanock|pletenec/, "Challah_Bread_Six_Braid_1.JPG"],
+  [/loupak|rohlik|rohlic/, "Kifli.jpg"],
+  [/housk|zeml|kaiserk|bulk/, "Bread_rolls_at_a_bakery_(cropped).jpg"],
+  [/toustov/, "Fresh_made_bread_05.jpg"],
+  [/knackebrot|krehke platky|krekr|suchar/, "Knaeckebroed.jpg"],
+  [/chleb|veka/, "Market_Bread,_Riga,_Latvia.jpg"],
+  [/susen|cookies|lineck|keks|piskot|oreo|bebe/, "2ChocolateChipCookies.jpg"],
+  [/oplatk|wafer/, "Akbar_Mashti.JPG"],
+  [/dort|zakusek|cheesecake/, "Pound_layer_cake.jpg"],
+  [/tiramisu/, "Tiramisu_-_Raffaele_Diomede.jpg"],
+  [/zmrzlin|nanuk/, "Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg"],
+  [/pudink|krem dezert/, "Custard.jpg"],
+  [/cokolad/, "Three_Bars_(1).jpg"],
+  [/bonbon|lizat|zelatin/, "Oursons_gélatine_marché_Rouffignac.jpg"],
+  [/musli|granola/, "Dorset_Cereals_muesli.jpg"],
+  [/cornflak|kukuricne lupin|snidanove cereal|cerealn/, "NCI_Visuals_Food_Meal_Breakfast.jpg"],
+  [/ovesn\w* vlock|ovesna kase|porridge/, "Oatmeal_(1).jpg"],
+  [/spaget|testovin|penne|makaron|nudle|fusill/, "(Pasta)_by_David_Adam_Kess_(pic.2).jpg"],
+  [/kuskus/, "Moroccan_cuscus,_from_Casablanca,_September_2018.jpg"],
+  [/bulgur/, "Bulgur.jpg"],
+  [/quinoa|kinoa/, "Quinoa 2.jpg"],
+  [/ryz/, "JP 日本 Japan 沖繩 OKINAWA 那霸 Naha 魚屋海鮮 Izakaya 居酒屋食堂 Japanese seafood restaurant soup white rice bowl February 2026 N13P 01.jpg"],
+  [/knedlik/, "Knödelschneemänner_1.jpg"],
+  [/bramborov\w* kase|pyre/, "Sous_vide_mashed_potatoes.jpg"],
+  [/bramb/, "Patates.jpg"],
+  [/batat/, "Ipomoea_batatas_006.JPG"],
+  [/pohank/, "Japanese_Buckwheat_Flower.JPG"],
+  [/jahl/, "Millet - grains unmilled milled.jpg"],
+  [/mouk/, "Soy_powder.jpg"],
+  [/skyr/, "Skyr.is_með_vanillu.jpg"],
+  [/jogurt/, "Joghurt.jpg"],
+  [/kefir/, "Kefir_in_a_glass.JPG"],
+  [/tvaroh|cottage/, "Skimmed_milk_quark_on_spoon.jpg"],
+  [/mozzarell/, "Mozzarella_di_bufala3.jpg"],
+  [/parmaz|grana/, "Parmigiano_Reggiano,_Italien,_Europäische_Union.jpg"],
+  [/eidam|gouda|edam/, "SmallEdamCheese.jpg"],
+  [/emental/, "Emmentaler_Premier_Cru.jpg"],
+  [/cedar|cheddar/, "Somerset-Cheddar.jpg"],
+  [/feta|balkan/, "Feta_Cheese.jpg"],
+  [/hermelin|camembert|brie|plisnov|roquefort|gorgonzol/, "Camembert_de_Normandie_(AOP)_11.jpg"],
+  [/tavene|taveny syr|lucin/, "Eru_goudkuipje_sambal.jpg"],
+  [/cottage/, "Cottagecheese200px.jpg"],
+  [/kozi syr|ovci syr|syr/, "Cheese_platter.jpg"],
+  [/smetan|slehack/, "01_Mmm..._Apple_Crisp_with_Whipped_Cream.jpg"],
+  [/maslo\b|maslo /, "Švédský_koláč_naruby_904_(cropped).JPG"],
+  [/margarin/, "Margarine.jpg"],
+  [/mleko|mlecny napoj|kakao napoj/, "Glass_of_Milk_(33657535532).jpg"],
+  [/vejc|omelet|vajec/, "Huevo_frito.jpg"],
+  [/slanin|anglick/, "Made20bacon.png"],
+  [/sunk|praska/, "Ham_(4).jpg"],
+  [/salam|mortadel|chorizo|kabanos/, "Salame_di_Sauris.jpg"],
+  [/parek|parky|frankfurt/, "Hot_dog_with_mustard.png"],
+  [/klobas|buřt|burt|spekac/, "Wurstplatte.jpg"],
+  [/pastik|pastet|rillettes|foie/, "Pates_p1150435.jpg"],
+  [/kure|kureci|drubez|kur /, "Max's_Roasted_Chicken_-_Evan_Swigart.jpg"],
+  [/krut/, "Thanksgiving_Turkey.jpg"],
+  [/kach/, "And_(24559569447).jpg"],
+  [/hus[ai]/, "Weihnachtsgans_2H1A5069WI.jpg"],
+  [/kralik|kralici/, "Jumbo rabbit meat.jpg"],
+  [/teleci/, "Standing-rib-roast.jpg"],
+  [/jehneci|skopov/, "Lamb_meat_(1).jpg"],
+  [/veprov|vepr/, "Schweinebauch-2.jpg"],
+  [/hovezi|steak|roastbeef/, "Standing-rib-roast.jpg"],
+  [/koňsk|konsk/, "Paardenrookvlees.JPG"],
+  [/zverin|jelen|srnc/, "Venison_Steaks.jpg"],
+  [/jatr|jazyk|ledvin|srdce/, "Pates_p1150435.jpg"],
+  [/losos/, "Sashimi_-_Maguro_Restaurant,_Bangna,_Bangkok_(44856596864).jpg"],
+  [/tunak/, "Ahi tuna steak on green peas - Massachusetts.jpg"],
+  [/tresk|stikozub|mnik|treskovit|aljas/, "Sous vide cod 2018.jpg"],
+  [/pstruh/, "Geräucherte Forelle Blecksteinhaus.jpg"],
+  [/makrel|kranas/, "Maquereaux_etal.jpg"],
+  [/sled|sardink|ancovic|sardel/, "Canned sardines with lemon.jpg"],
+  [/kapr/, "Karpfenfilet Braumeister Art 3 Kronen Memmelsdorf.jpg"],
+  [/krevet|garnat/, "Cooked shrimp on a plate.jpg"],
+  [/slavk|musl/, "CornishMussels.JPG"],
+  [/kalamar|chobotn|sepi/, "Babbo-_Squid_Ink_pasta_with_green_chilis,_rock_shrimp_and_guanciale.jpg"],
+  [/ustri|hrebenatk|hlemyzd/, "Crassostrea_gigas_p1040848.jpg"],
+  [/ryb|platys|kambal|prazm|candat|stika|tilapi|pangas|halibut|okoun/, "Fish_stuffed_with_Thai_herbs.jpg"],
+  [/tofu/, "Japanese_SilkyTofu_(Kinugoshi_Tofu).JPG"],
+  [/tempeh/, "Tempeh_(8681605421).jpg"],
+  [/seitan/, "Seitan_Platter_(4139727246).jpg"],
+  [/cizrn|hummus/, "Chickpea_BNC.jpg"],
+  [/cock/, "3_types_of_lentil.png"],
+  [/fazol|bob\b|boby/, "Kidney beans 2.jpg"],
+  [/hrach|hrasek/, "Doperwt_rijserwt_peulen_Pisum_sativum.jpg"],
+  [/soj/, "Dried soybeans.jpg"],
+  [/arasid/, "Roasted Peanuts with shell.jpg"],
+  [/mandl/, "Almonds_-_in_shell,_shell_cracked_open,_shelled,_blanched.jpg"],
+  [/vlassk/, "Walnuts_-_whole_and_open_with_halved_kernel.jpg"],
+  [/liskov|liskoorisk/, "Hazelnuts_(Corylus_avellana)_-_whole_with_kernels_(cropped2).jpg"],
+  [/kesu/, "Roasted Cashew Nuts (52746470588).jpg"],
+  [/pistac/, "Pistachio_vera.jpg"],
+  [/para orech|brazil/, "Liat Portal for Foodie Disorder - Mixed nuts and dried fruit.jpg"],
+  [/kokos/, "Kokosnuss-Coconut.jpg"],
+  [/chia/, "Seed_of_chia_(Salvia_hispanica)Salvia_hispanica_group.jpg"],
+  [/len\b|lnene|lnen/, "Linum usitatissimum (linseed) in jar.jpg"],
+  [/slunecnic/, "Sunflower_Seeds_Kaldari.jpg"],
+  [/dyn\w* semin/, "Pepita_de_calabaza.jpg"],
+  [/sezam/, "Sa white sesame seeds.jpg"],
+  [/orech|orisk/, "Liat Portal for Foodie Disorder - Mixed nuts and dried fruit.jpg"],
+  [/rajc|protlak|kecup/, "Tomato_je.jpg"],
+  [/okurk/, "ARS_cucumber.jpg"],
+  [/paprik/, "Green-Yellow-Red-Pepper-2009.jpg"],
+  [/mrkev|mrkv/, "Vegetable-Carrot-Bundle-wStalks.jpg"],
+  [/brokolic/, "Broccoli_and_cross_section_edit.jpg"],
+  [/kvetak/, "Chou-fleur_02.jpg"],
+  [/spenat/, "Spinacia_oleracea_Spinazie_bloeiend.jpg"],
+  [/salat|locika|rukol|polnicek|cekank/, "Lettuce stack wide.jpg"],
+  [/zeli|kapust|kapusta/, "Cabbage_and_cross_section_on_white.jpg"],
+  [/cibul|salotk/, "Mixed_onions.jpg"],
+  [/cesnek/, "Single clove garlic.jpg"],
+  [/celer/, "Celery_1.jpg"],
+  [/cuket/, "CSA-Striped-Zucchini.jpg"],
+  [/lilek/, "Solanum_melongena_24_08_2012_(1).JPG"],
+  [/dyn/, "FrenchMarketPumpkinsB.jpg"],
+  [/chrest/, "Asparagus-Bundle.jpg"],
+  [/kukuric/, "Liat Portal for Foodie Disorder - Cooked Corn on the Cob.jpg"],
+  [/zampion|houb|hliv|liska obecna|hrib/, "ChampignonMushroom.jpg"],
+  [/repa|cervena repa/, "Detroitdarkredbeets.png"],
+  [/redkv/, "Radish_3371103037_4ab07db0bf_o.jpg"],
+  [/fenykl/, "Fennel bulb.jpg"],
+  [/artycok/, "Artichoke_J1.jpg"],
+  [/olivy|oliv\b/, "Olivesfromjordan.jpg"],
+  [/avokad/, "Persea_americana_fruit_2.JPG"],
+  [/zelenin/, "Marketvegetables.jpg"],
+  [/banan/, "Bananavarieties.jpg"],
+  [/jablk|jablec/, "Pink_lady_and_cross_section.jpg"],
+  [/hrusk/, "Pears.jpg"],
+  [/pomeranc/, "Oranges_-_whole-halved-segment.jpg"],
+  [/mandarin|klementin/, "Oranges_-_whole-halved-segment.jpg"],
+  [/citron|limet/, "Lemon.jpg"],
+  [/grep/, "Grapefruits_-_whole-halved-segments.jpg"],
+  [/jahod/, "Garden_strawberry_(Fragaria_×_ananassa)_single2.jpg"],
+  [/malin/, "Raspberries_(Rubus_idaeus).jpg"],
+  [/borůvk|boruvk/, "Blueberries.jpg"],
+  [/tresn|visn/, "Cherry_season_(48216568227).jpg"],
+  [/svestk|povidl/, "Plums_African_Rose_-_whole,_halved_and_slice.jpg"],
+  [/merunk/, "Apricot_and_cross_section.jpg"],
+  [/brosk|nektarin/, "Silver ring with chalcedony and peaches by ASQ.jpg"],
+  [/hrozn|rozink/, "Grapes,_Rostov-on-Don,_Russia.jpg"],
+  [/ananas/, "കൈതച്ചക്ക.jpg"],
+  [/mang/, "Mangos_-_single_and_halved.jpg"],
+  [/kiwi/, "Actinidia_fruits.jpg"],
+  [/meloun/, "Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg"],
+  [/granatov/, "Pomegranate_Juice_(2019).jpg"],
+  [/datl/, "Dates 10-8-09-101309 copy.jpg"],
+  [/rybiz|angrest|brusink/, "Red currant berries in bucket.jpg"],
+  [/ovoc/, "Fruit_Platter-_Seasonal_Fruits.jpg"],
+  [/pivo/, "Jeju_beer_09_(cropped).jpg"],
+  [/vino/, "Red_and_white_wine_in_glass.jpg"],
+  [/cider/, "Midwest_hard_cider.jpg"],
+  [/kava|espresso|cappuccin|latte/, "Latte_and_dark_coffee.jpg"],
+  [/caj/, "Longjing_tea_steeping_in_gaiwan.jpg"],
+  [/cola|limonad|tonik|soda|energet/, "Tumbler_of_cola_with_ice.jpg"],
+  [/dzus|nektar|smoothie/, "Orange_juice_1.jpg"],
+  [/vod[ay]/, "Water_Bottle_(51308317077).jpg"],
+  [/med\b|medu/, "Runny_hunny.jpg"],
+  [/dzem|marmelad/, "Fruits_jam_variants.jpg"],
+  [/nutell|pomazank|cokoladov\w* krem/, "Buttered_crumpet.jpg"],
+  [/cukr|sirup/, "Sucre_blanc_cassonade_complet_rapadura.jpg"],
+  [/olej/, "Olive_oil_from_Oneglia.jpg"],
+  [/majonez|aioli|tatark|dresink|omack/, "Mayonnaise_(1).jpg"],
+  [/horcic/, "Mustard.JPG"],
+  [/sul\b/, "Rock_salt_(halitite)_(Billianwala_Salt_Member,_Salt_Range_Formation,_Ediacaran_to_Lower_Cambrian;_Khewra_Salt_Mine,_Salt_Range,_Pakistan)_14.jpg"],
+  [/protein/, "Three_protein_bars.jpg"]
+];
+const ODD_IKONA = { zelenina: "🥦", pecivo: "🥐", mlecne: "🥛", maso: "🍗", uzeniny: "🥓", prilohy: "🍚", konzervy: "🥫", mrazene: "🧊", trvanlive: "🥜", napoje: "🥤", hotove: "🍽️" };
+function photoOf(f) {
+  if (!f) return null;
+  if (f.foto) return { kind: "own", url: () => f.foto };
+  if (f._ph !== undefined) return f._ph;
+  let ph = null;
+  if (f.rkFoto) {
+    const id = String(f.id).slice(3), file = f.rkFoto[0] === "/" ? f.rkFoto.slice(1) : id + "-" + f.rkFoto;
+    ph = { kind: "rk", url: w => `https://cdn.rohlik.cz/cdn-cgi/image/width=${w},f=auto/images/grocery/products/${id}/${file}`, link: "https://www.rohlik.cz/" + id };
+  } else {
+    const n = f._n || (f._n = norm(f.nazev)), hit = FOTO_DRUH.find(([re]) => re.test(n));
+    if (hit) ph = { kind: "wiki", url: w => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(hit[1])}?width=${w}`, link: "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(hit[1]) };
+  }
+  try { f._ph = ph; } catch (e) { /* zamražený objekt */ }
+  return ph;
+}
+/* Náhled: ikonka oddělení je pod fotkou, takže když se fotka nenačte, zůstane vidět ikonka. */
+function thumb(f, size = 44, cls = "") {
+  const ph = photoOf(f), ico = ODD_IKONA[f?.odd] || "🍽️";
+  return `<span class="ph ${ph ? "ph-" + ph.kind : ""} ${cls}" data-i="${ico}" aria-hidden="true">${ph ? `<img src="${esc(ph.url(size * 2))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ""}</span>`;
+}
+function photoCredit(f) {
+  const ph = photoOf(f); if (!ph || ph.kind === "own") return "";
+  return `<p class="ph-credit">Foto: <a href="${esc(ph.link)}" target="_blank" rel="noopener">${ph.kind === "rk" ? "Rohlík.cz" : "Wikimedia Commons"}</a>${ph.kind === "wiki" ? " · ilustrační" : ""}</p>`;
+}
+/* Vlastní fotka: zmenší se na 360 px, aby se vešla k potravině do databáze. */
+function shrinkPhoto(file) {
+  return new Promise((ok, no) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => { const k = Math.min(1, 360 / Math.max(img.width, img.height)), c = document.createElement("canvas"); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); ok(c.toDataURL("image/jpeg", 0.78)); };
+    img.onerror = () => { URL.revokeObjectURL(url); no(new Error("img")); };
+    img.src = url;
+  });
+}
+
 const SWAP_OF = {}, SWAP_LABEL = {};
 SWAPS.forEach(([rep, label, ...rest]) => { SWAP_LABEL[rep] = label; [rep, ...rest].forEach(id => SWAP_OF[id] = rep); });
 
@@ -5575,7 +5896,7 @@ function renderDnes() {
   const meals = MEALS.map(m => {
     const list = items.filter(p => p.jidlo === m.id), pl = planned.find(x => x.m === m.id && !x.eaten);
     return `<div class="x-meal"><div class="x-meal-h"><b>${m.label}</b><span>${list.length ? fmt(sum(list).kcal) + " kcal" : pl ? "z plánu" : ""}</span></div>
-      ${list.length ? `<ul class="items">${list.map(p => `<li><button class="item" data-a="edit-item" data-id="${esc(p.id)}"><span class="a">${esc(p.nazev)}</span><span class="b">${fmt(p.kcal)}</span><span class="c">${p.g ? fmt(p.g) + " g · " : ""}${p.porce ? porceTxt(p.porce) + " · " : ""}B ${fmt(p.b, 1)} · T ${fmt(p.t, 1)} · S ${fmt(p.s, 1)}</span></button></li>`).join("")}</ul>` : ""}
+      ${list.length ? `<ul class="items">${list.map(p => `<li><button class="item wp" data-a="edit-item" data-id="${esc(p.id)}">${thumb(p.potravinaId && foodById(p.potravinaId) || { odd: p.receptId ? "hotove" : "" }, 36, "sm")}<span class="a">${esc(p.nazev)}</span><span class="b">${fmt(p.kcal)}</span><span class="c">${p.g ? fmt(p.g) + " g · " : ""}${p.porce ? porceTxt(p.porce) + " · " : ""}B ${fmt(p.b, 1)} · T ${fmt(p.t, 1)} · S ${fmt(p.s, 1)}</span></button></li>`).join("")}</ul>` : ""}
       ${pl ? `<button class="x-planrow" data-a="eat" data-m="${pl.m}"><span>Snědla jsem: <b>${esc(pl.i.nazev)}</b></span><span>${fmt(pl.i.m.kcal)} kcal</span></button>` : ""}
       <div class="x-acts"><button class="btn sm" data-a="add" data-meal="${m.id}">+ Přidat</button><button class="btn ghost sm" data-a="copy-meal" data-meal="${m.id}">Jako včera</button>${list.length ? `<button class="btn ghost sm" data-a="fav-new" data-meal="${m.id}">★ Oblíbit</button>` : ""}</div></div>`;
   }).join(`<div class="x-hair"></div>`);
@@ -6427,6 +6748,7 @@ function renderSheet() {
     if (f.jednG) [1, 2, 3].forEach(k => units.push([`${k} ${f.jedn}`, k * f.jednG]));
     [50, 100, 150, 200].forEach(g => units.push([`${g} g`, g]));
     p.innerHTML = head(f.nazev, sh.editId ? null : "s-back") + `<div class="sheet-body">
+      ${thumb(f, 380, "lg")}${photoCredit(f)}
       <p class="per100">Na 100 g: ${fmt(f.kcal)} kcal · B ${fmt(f.b, 1)} · T ${fmt(f.t, 1)} · S ${fmt(f.s, 1)}${f.jednG ? ` · 1 ${esc(f.jedn)} ≈ ${fmt(f.jednG)} g` : ""}</p>
       ${f.mi ? `<p class="per100">${MICRO.filter(m => f.mi[m[0]] != null).map(([k, l, u]) => `${l} ${fmt(f.mi[k], u === "g" ? 1 : 1)} ${u}`).join(" · ")}</p>` : ""}
       ${f.baleniG ? `<div class="pick">${f.baleniG ? `<button data-a="s-amount" data-g="${f.baleniG}" aria-pressed="false">Celé balení ${fmt(f.baleniG)} g</button>` : ""}</div>` : ""}
@@ -6461,6 +6783,7 @@ function renderSheet() {
     p.innerHTML = head(isNew ? "Nová potravina" : "Upravit potravinu") + `<div class="sheet-body">
       ${sh.note ? `<p class="est">${esc(sh.note)}</p>` : `<p class="hint">Opiš hodnoty z obalu, z části „výživové údaje na 100 g“.</p>`}
       <div class="field"><label for="f-name">Název</label><input class="input" id="f-name" value="${esc(f.nazev || "")}" placeholder="Např. Skyr vanilka Lidl"></div>
+      <div class="f-photo">${thumb({ ...f, foto: sh.foto ?? f.foto }, 76)}<label class="btn" style="cursor:pointer">${(sh.foto ?? f.foto) ? "Změnit fotku" : "Přidat fotku"}<input id="f-foto" type="file" accept="image/*" capture="environment" hidden></label>${(sh.foto ?? f.foto) ? `<button class="btn ghost" data-a="f-foto-del">Bez fotky</button>` : ""}</div>
       <div class="grid4">
         <div class="field"><label for="f-kcal">Kalorie</label><input class="input" id="f-kcal" type="text" inputmode="decimal" value="${f.kcal ?? ""}"></div>
         <div class="field"><label for="f-b">Bílk. g</label><input class="input" id="f-b" type="text" inputmode="decimal" value="${f.b ?? ""}"></div>
@@ -6536,7 +6859,7 @@ function renderResults() {
     box.innerHTML = favs + (q.trim() ? `<p class="hint">„${esc(q)}“ jsem nenašel. Přidej ji podle obalu.</p><button class="btn" data-a="food-new-from-search">+ Nová potravina</button>` : `<p class="hint">Začni psát, co jsi jedla. Funguje to i bez háčků a čárek a zvládne to i překlep.</p><p class="small" style="color:var(--muted)">Přes ${fmt(SEED.length)} potravin. Obecné hodnoty: Anses. Ciqual 2025 (Etalab 2.0), výrobky: Open Food Facts.</p>`);
     return;
   }
-  box.innerHTML = favs + `${label ? `<p class="grp">${label}</p>` : ""}<ul class="list">${list.map(f => `<li><button class="lrow" data-a="pick-food" data-id="${esc(f.id)}"><span class="a">${esc(f.nazev)}${f.vlastni ? `<span class="tag">moje</span>` : ""}</span><span class="b">${fmt(f.kcal)} kcal</span><span class="c">na 100 g · B ${fmt(f.b, 1)} · T ${fmt(f.t, 1)} · S ${fmt(f.s, 1)}</span></button></li>`).join("")}</ul>`;
+  box.innerHTML = favs + `${label ? `<p class="grp">${label}</p>` : ""}<ul class="list">${list.map(f => `<li><button class="lrow wp" data-a="pick-food" data-id="${esc(f.id)}">${thumb(f)}<span class="a">${esc(f.nazev)}${f.vlastni ? `<span class="tag">moje</span>` : ""}</span><span class="b">${fmt(f.kcal)} kcal</span><span class="c">na 100 g · B ${fmt(f.b, 1)} · T ${fmt(f.t, 1)} · S ${fmt(f.s, 1)}</span></button></li>`).join("")}</ul>`;
 }
 /* Oblíbená jídla: uložené kombinace, které zapíšeš jedním ťuknutím. */
 function favHtml() {
@@ -7145,7 +7468,8 @@ function saveFood() {
   const id = old.id || ("v-" + slug(nazev).slice(0, 40) + "-" + rid().slice(0, 4));
   const food = { nazev, kcal: num($("#f-kcal").value), b: num($("#f-b").value), t: num($("#f-t").value), s: num($("#f-s").value), odd: $("#f-odd").value, jedn: $("#f-jedn").value.trim(), jednG: num($("#f-jg").value) };
   if (old.kod) food.kod = old.kod;
-  for (const k of ["mi", "baleniG", "kusG", "zdroj", "url"]) if (old[k]) food[k] = old[k];
+  for (const k of ["mi", "baleniG", "kusG", "zdroj", "url", "foto"]) if (old[k]) food[k] = old[k];
+  if (S.sheet.foto !== undefined) { if (S.sheet.foto) food.foto = S.sheet.foto; else delete food.foto; }
   const cena = num($("#f-cena")?.value); if (cena > 0) food.cena = cena;
   if (food.jednG && !food.jedn) food.jedn = "ks";
   S.custom = { ...S.custom, [id]: food }; S.foodsCache = null;
@@ -7299,6 +7623,7 @@ const actions = {
     const sb = $("#s-submit"); if (sb) sb.textContent = submitLabel();
   },
   "s-view": b => { S.sheet.view = b.dataset.v; renderSheet(); },
+  "f-foto-del": () => { if (!S.sheet) return; keepFoodForm(); S.sheet.foto = ""; renderSheet(); },
   "s-back": () => { S.sheet.view = "search"; S.sheet.food = null; renderSheet(); },
   "food-fix": () => { const sh = S.sheet, f = sh.food; if (!f) return; openSheet({ view: "food", food: f, note: "Oprav čísla podle obalu (na 100 g). Oprava se uloží jen tobě a příště se použije automaticky.", returnTo: { view: "search", meal: sh.meal, q: sh.q || "", builder: sh.builder, logDate: sh.logDate } }); },
   "pick-food": b => { const f = foodById(b.dataset.id); if (!f) return; pickedFood(S.sheet, f); renderSheet(); },
@@ -7553,7 +7878,18 @@ document.addEventListener("input", e => {
   if (id === "ai-q" && S.ai) S.ai.q = e.target.value;
   if (e.target.closest("#profil-form")) { S.profileDirty = true; renderEstimate(); }
 });
-document.addEventListener("change", e => {
+/* Formulář potraviny se kvůli fotce překreslí: nejdřív si zapamatuj, co je rozepsané. */
+function keepFoodForm() {
+  const f = S.sheet?.food; if (!f || !$("#f-name")) return;
+  const v = id => $(id)?.value;
+  S.sheet.food = Object.assign({ ...f }, { nazev: v("#f-name"), kcal: v("#f-kcal"), b: v("#f-b"), t: v("#f-t"), s: v("#f-s"), odd: v("#f-odd"), jedn: v("#f-jedn"), jednG: v("#f-jg"), cena: v("#f-cena") });
+}
+document.addEventListener("change", async e => {
+  if (e.target.id === "f-foto" && e.target.files?.[0] && S.sheet) {
+    try { const data = await shrinkPhoto(e.target.files[0]); keepFoodForm(); S.sheet.foto = data; renderSheet(); }
+    catch (err) { toast("Tuhle fotku se nepodařilo načíst."); }
+    return;
+  }
   if (e.target.id === "ph-file" && e.target.files?.[0]) { runPhoto(e.target.files[0]); return; }
   if (e.target.id === "imp-file" && e.target.files?.[0]) { importBackup(e.target.files[0]); return; }
   if (e.target.closest("#profil-form")) { S.profileDirty = true; renderEstimate(); }
