@@ -353,7 +353,7 @@ button { -webkit-user-select: none; user-select: none; }
 .ph { position: relative; width: 44px; height: 44px; border-radius: 12px; overflow: hidden; background: var(--glass-2); display: grid; place-items: center; flex: none; font-size: 21px; line-height: 1; }
 .ph::before { content: attr(data-i); opacity: .85; }
 .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.ph-rk img, .ph-own img { object-fit: contain; background: #fff; }
+.ph-rk img, .ph-own img, .ph-web img { object-fit: contain; background: #fff; }
 .ph.sm { width: 36px; height: 36px; border-radius: 10px; font-size: 17px; }
 .ph.lg { width: 100%; height: 190px; border-radius: 20px; font-size: 64px; }
 .ph-credit { margin: -4px 0 0; font-size: .7rem; color: var(--dim); }
@@ -1112,9 +1112,9 @@ const FOOD_ROWS = [
 ];
 /* Rozšířená databáze: Anses. Ciqual 2025 (licence Etalab 2.0), názvy přeložené do češtiny.
    [název, kcal, bílkoviny, tuky, sacharidy, oddělení, kód Ciqual, [vláknina g, cukr g, sůl g, nasycené tuky g, zinek mg, hořčík mg, železo mg, vápník mg]] */
-/* Značky a řetězce z oficiálních zdrojů: McDonald's (mcdonalds.cz), KFC (tabulka 10/2026), Bageterie Boulevard (bageterie.com), Burger King (burgerking.cz), Starbucks (nutriční tabulka 2026), nápoje podle etiket.
+/* Značky a řetězce z oficiálních zdrojů: Veiny Galaxy (veinygalaxy.shop), McDonald's (mcdonalds.cz), KFC (tabulka 10/2026), Bageterie Boulevard (bageterie.com), Burger King (burgerking.cz), Starbucks (nutriční tabulka 2026), nápoje podle etiket.
    Pečivo z pekáren supermarketů: řetězce hodnoty na webu nezveřejňují, proto orientačně podle podobného pečiva s etiketou (Rohlík).
-   [název, kcal, bílkoviny, tuky, sacharidy, oddělení, jednotka, g v jednotce, {mikroživiny}, zdroj] */
+   [název, kcal, bílkoviny, tuky, sacharidy, oddělení, jednotka, g v jednotce, {mikroživiny}, zdroj, fotka] */
 const BRAND_ROWS = [
   ["McDonald's Jablečná taštička",285,2.9,15.0,35.0,"hotove","porce",80,{"cu":11.0,"sul":0.28,"nas":3.5,"vl":1.9},"mcdonalds.cz"],
   ["McDonald's McFlurry Biscoff",202,3.7,6.0,32.0,"hotove","porce",158,{"cu":24.0,"sul":0.3,"nas":4.0,"vl":0.2},"mcdonalds.cz"],
@@ -1693,7 +1693,44 @@ const BRAND_ROWS = [
   ["Albert Makový hřeben",380,6.0,19.0,45.0,"pecivo","ks",105,{"vl":1.0,"cu":18.0,"sul":0.6,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
   ["Albert Donut s náplní meruňkovou",390,6.0,20.0,46.0,"pecivo","ks",71,{"vl":1.0,"cu":20.0,"sul":0.7,"nas":10.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
   ["Albert Taštička s náplní meruňkovou",350,5.0,17.0,44.0,"pecivo","ks",85,{"vl":1.5,"cu":18.0,"sul":0.5,"nas":8.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
-  ["Albert Tvarohový hřeben",380,6.0,19.0,45.0,"pecivo","ks",105,{"vl":1.0,"cu":18.0,"sul":0.6,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"]
+  ["Albert Tvarohový hřeben",380,6.0,19.0,45.0,"pecivo","ks",105,{"vl":1.0,"cu":18.0,"sul":0.6,"nas":9.0},"orientační hodnota podle podobného pečiva s etiketou (název a váha: Albert) – podle cedulky v obchodě ji oprav"],
+  ["Veiny Galaxy Protein WPC 80 – Chocolate wafer bar",395,73.7,6.1,11.4,"trvanlive","odměrka",25,{"cu":4.4,"sul":0.35,"nas":4.1},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/protein_chocolate_wafer_bar.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Cappuccino Creme",404,76.2,6.9,9.3,"trvanlive","odměrka",25,{"cu":6.4,"sul":0.33,"nas":4.3},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/protein_cappuchino.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Choco-banana",406,77.5,6.8,8.6,"trvanlive","odměrka",25,{"cu":5.8,"sul":0.33,"nas":4.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/protein_cokobanan.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Caramel biscuit",395,73.0,5.8,12.7,"trvanlive","odměrka",25,{"cu":5.2,"sul":0.35,"nas":3.8},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/protein_caramel_biscuit.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Nutty cream",394,72.8,5.7,12.9,"trvanlive","odměrka",25,{"cu":5.5,"sul":0.31,"nas":3.8},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/protein_nutty_cream.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Blueberry smoothie",403,74.5,5.3,14.4,"trvanlive","odměrka",25,{"cu":5.7,"sul":0.36,"nas":3.3},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/protein_blueberry_smoothie.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Melted Chocolate",409,76.5,7.3,9.5,"trvanlive","odměrka",25,{"cu":4.8,"sul":0.44,"nas":4.6},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/new_protein_chocolate.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Vanilka",402,77.3,6.4,8.8,"trvanlive","odměrka",25,{"cu":4.8,"sul":0.36,"nas":4.1},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2025/10/new_protein_vanilla-300x300.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Jahoda",402,78.2,6.6,7.5,"trvanlive","odměrka",25,{"cu":4.9,"sul":0.38,"nas":4.1},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2025/10/new_protein_strawberry-300x300.webp"],
+  ["Veiny Galaxy Protein WPC 80 – Karamel",397,75.0,5.8,11.2,"trvanlive","odměrka",25,{"cu":2.1,"sul":0.38,"nas":3.7},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2025/10/new_protein_karamel-300x300.webp"],
+  ["Veiny Galaxy Protein Lactofree WPC 80 bez laktózy – Blueberry smoothie",408,78.8,6.0,8.3,"trvanlive","odměrka",25,{"cu":4.5,"sul":0.44,"nas":4.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/lactofree_protein_blueberry_v2.webp"],
+  ["Veiny Galaxy Protein Lactofree WPC 80 bez laktózy – Nutty cream",418,75.4,7.6,12.0,"trvanlive","odměrka",25,{"cu":7.8,"sul":0.39,"nas":4.8},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/lactofree_protein_nuttycream_v2.webp"],
+  ["Veiny Galaxy Protein Lactofree WPC 80 bez laktózy – Melted Chocolate",411,77.9,7.0,9.0,"trvanlive","odměrka",25,{"cu":4.9,"sul":0.35,"nas":4.5},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/lactofree_protein_chocolate_v2.webp"],
+  ["Veiny Galaxy Beef Protein HydroBeef – Malina",400,88.0,2.8,6.3,"trvanlive","odměrka",25,{"vl":1.1,"cu":0.8,"sul":2.0,"nas":0.8},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/beef_protein_raspberry_cream.webp"],
+  ["Veiny Galaxy Beef Protein HydroBeef – Čokoláda-karamel",385,86.0,3.7,3.7,"trvanlive","odměrka",25,{"vl":3.7,"cu":0,"sul":1.8,"nas":1.3},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/beef_protein_chocolate_caramel.webp"],
+  ["Veiny Galaxy Beef Protein HydroBeef – Cookies&Cream",395,86.0,3.2,6.7,"trvanlive","odměrka",25,{"vl":2.1,"cu":0,"sul":1.8,"nas":1.0},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/beef_protein_cookies_cream.webp"],
+  ["Veiny Galaxy Protein limitovaná edice Choco-Coconut",438,78.1,8.5,11.4,"trvanlive","odměrka",25,{"vl":0.1,"cu":8.1,"sul":0.39,"nas":5.6},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"],
+  ["Veiny Galaxy Protein limitovaná edice American fruity smoothie",392,69.5,6.8,11.6,"trvanlive","odměrka",25,{"vl":3.4,"cu":4.8,"sul":2.13,"nas":4.0},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"],
+  ["Veiny Galaxy Protein limitovaná edice Cinnamon cereal",392,76.4,6.9,4.5,"trvanlive","odměrka",25,{"vl":3.2,"cu":4.0,"sul":2.06,"nas":4.1},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"],
+  ["Veiny Galaxy Arašídové máslo 100 %",643,27.0,51.0,19.0,"trvanlive","lžíce",15,{},"veinygalaxy.shop (výživové údaje výrobce, 11/2026) – kalorie přepočtené z makroživin, na webu je chybně 386 kcal"],
+  ["Veiny Galaxy Peanut butter spread Lotus",542,19.8,36.5,35.0,"trvanlive","lžíce",15,{"cu":25.0,"nas":6.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2025/07/peanut_butter_spread_lotus-300x300.jpg"],
+  ["Veiny Galaxy Ovesná kaše – Nutty cream",377,12.1,8.6,57.3,"trvanlive","dávka",50,{"vl":10.1,"cu":1.6,"sul":0.52,"nas":1.4},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/cream_of_oats_nuttycream.webp"],
+  ["Veiny Galaxy Ovesná kaše – Black biscuit",383,12.2,8.7,58.4,"trvanlive","dávka",50,{"vl":10.1,"cu":1.9,"sul":0.68,"nas":1.4},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/cream_of_oats_black_biscuit.webp"],
+  ["Veiny Galaxy Ovesná kaše – Caramel biscuit",382,12.2,8.7,58.1,"trvanlive","dávka",50,{"vl":10.1,"cu":1.7,"sul":0.52,"nas":1.4},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/08/cream_of_oats_caramel_biscuit.webp"],
+  ["Veiny Galaxy Rýžová kaše – Čokoláda",379,6.3,2.2,82.1,"trvanlive","dávka",60,{"cu":0.9,"sul":0.01,"nas":0.6},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_cokolada.webp"],
+  ["Veiny Galaxy Rýžová kaše – Skořice",367,6.0,1.4,81.4,"trvanlive","dávka",60,{"cu":0.2,"sul":0.01,"nas":0.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_skorica.webp"],
+  ["Veiny Galaxy Rýžová kaše – Vanilka",370,6.0,1.4,82.1,"trvanlive","dávka",60,{"cu":0.2,"sul":0.01,"nas":0.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_vanilka.webp"],
+  ["Veiny Galaxy Rýžová kaše – Nutty cream",388,6.2,2.8,83.3,"trvanlive","dávka",60,{"cu":2.5,"sul":0.01,"nas":1.0},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_bueno.webp"],
+  ["Veiny Galaxy Rýžová kaše – Jahoda-jogurt",375,6.0,1.4,83.3,"trvanlive","dávka",60,{"cu":1.3,"sul":0.01,"nas":0.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_jahoda.webp"],
+  ["Veiny Galaxy Rýžová kaše – bez příchutě",365,6.0,1.4,81.7,"trvanlive","dávka",60,{"cu":0.2,"sul":0.01,"nas":0.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_neochutena.webp"],
+  ["Veiny Galaxy Rýžová kaše – Black biscuit",378,6.2,1.7,83.3,"trvanlive","dávka",60,{"cu":1.0,"sul":0.01,"nas":0.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_oreo.webp"],
+  ["Veiny Galaxy Rýžová kaše – Caramel biscuit",397,6.0,1.5,83.3,"trvanlive","dávka",60,{"cu":0.4,"sul":0.01,"nas":0.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_lotus.webp"],
+  ["Veiny Galaxy Rýžová kaše – Čoko-banán",390,6.5,2.8,83.3,"trvanlive","dávka",60,{"cu":1.7,"sul":0.01,"nas":1.2},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)","https://veinygalaxy.shop/wp-content/uploads/2026/01/ryzova_kasa_cokolada_banan.webp"],
+  ["Veiny Galaxy Zero sweet chilli omáčka",14,0.4,0.1,2.3,"trvanlive","lžička",5,{"vl":1.1,"cu":0.9,"sul":1.2,"nas":0},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"],
+  ["Veiny Galaxy Zero topping bílá čokoláda",27,0.3,1.5,3.0,"trvanlive","lžička",5,{"vl":0,"cu":0.1,"sul":0.09,"nas":1.5},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"],
+  ["Veiny Galaxy Zero topping čokoláda-lískový ořech",11,0.3,0.1,2.2,"trvanlive","lžička",5,{"vl":0.3,"cu":0,"sul":0.14,"nas":0.1},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"],
+  ["Veiny Galaxy Zero topping skořice",12,0.1,0.0,2.7,"trvanlive","lžička",5,{"vl":0.2,"cu":0.1,"sul":0.5,"nas":0},"veinygalaxy.shop (výživové údaje výrobce, 11/2026)"]
 ];
 const CIQ_ROWS = [
   ["Acerola džus čerstvý",23,0.4,0.3,4.5,"napoje","2040",[0.3,4.5,0.01,0.1,0.1,12.0,0.5,10.0]],
@@ -4982,7 +5019,7 @@ function microSum(items) {
 const withMi = (o, mi) => mi ? { ...o, mi } : o;
 const OLD_HIDDEN = /^(McDonald's |KFC |Burger King |Monster Energy$|Monster Ultra|Red Bull)/;
 const SEED = FOOD_ROWS.map(r => ({ id: slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(OLD_HIDDEN.test(r[0]) ? { skryte: true } : {}) })).concat(
-  BRAND_ROWS.map(r => ({ id: "zn-" + slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(r[8] && Object.keys(r[8]).length ? { mi: r[8] } : {}), zdroj: r[9] || "", znacka: true })),
+  BRAND_ROWS.map(r => ({ id: "zn-" + slug(r[0]), nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: r[6] || "", jednG: r[7] || 0, ...(r[8] && Object.keys(r[8]).length ? { mi: r[8] } : {}), zdroj: r[9] || "", znacka: true, ...(r[10] ? { fotoUrl: r[10] } : {}) })),
   CIQ_ROWS.map(r => ({ id: "cq-" + r[6], nazev: r[0], kcal: r[1], b: r[2], t: r[3], s: r[4], odd: r[5], jedn: "", jednG: 0, ciq: true, ...(r[7] ? { mi: Object.fromEntries(MICRO.map((m, i) => [m[0], r[7][i]]).filter(x => x[1] != null)) } : {}) })));
 const SEED_MAP = new Map(SEED.map(f => [f.id, f]));
 /* Balené potraviny podle etiket (Rohlík): [id, název, kcal, b, t, s, oddělení, jednotka, g v jednotce, {mikroživiny}, celé balení g, fotka] */
@@ -5216,6 +5253,9 @@ function photoOf(f) {
   if (f.rkFoto) {
     const id = String(f.id).slice(3), file = f.rkFoto[0] === "/" ? f.rkFoto.slice(1) : id + "-" + f.rkFoto;
     ph = { kind: "rk", url: w => `https://cdn.rohlik.cz/cdn-cgi/image/width=${w},f=auto/images/grocery/products/${id}/${file}`, link: "https://www.rohlik.cz/" + id };
+  } else if (f.fotoUrl) {
+    // fotky z webu výrobce bývají obří: zmenší je veřejná služba wsrv.nl
+    ph = { kind: "web", url: w => `https://wsrv.nl/?url=${encodeURIComponent(f.fotoUrl)}&w=${w}&h=${w}&fit=contain&bg=white&output=webp`, link: f.fotoUrl };
   } else {
     const n = f._n || (f._n = norm(f.nazev)), hit = FOTO_DRUH.find(([re]) => re.test(n));
     if (hit) ph = { kind: "wiki", url: w => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(hit[1])}?width=${w}`, link: "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(hit[1]) };
@@ -5230,7 +5270,7 @@ function thumb(f, size = 44, cls = "") {
 }
 function photoCredit(f) {
   const ph = photoOf(f); if (!ph || ph.kind === "own") return "";
-  return `<p class="ph-credit">Foto: <a href="${esc(ph.link)}" target="_blank" rel="noopener">${ph.kind === "rk" ? "Rohlík.cz" : "Wikimedia Commons"}</a>${ph.kind === "wiki" ? " · ilustrační" : ""}</p>`;
+  return `<p class="ph-credit">Foto: <a href="${esc(ph.link)}" target="_blank" rel="noopener">${ph.kind === "rk" ? "Rohlík.cz" : ph.kind === "web" ? esc(new URL(ph.link).hostname.replace(/^www\./, "")) : "Wikimedia Commons"}</a>${ph.kind === "wiki" ? " · ilustrační" : ""}</p>`;
 }
 /* Vlastní fotka: zmenší se na 360 px, aby se vešla k potravině do databáze. */
 function shrinkPhoto(file) {
